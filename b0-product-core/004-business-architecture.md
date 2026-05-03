@@ -20,15 +20,17 @@ It describes:
 
 - business domains
 - business capabilities
-- business-level entities
+- business functions
+- business services
+- business entities and objects
 - responsibility zones
 - relationships between business elements
 
 It answers:
 
 - How is the product structured as a business system?
-- What capabilities does the product provide?
-- Which domains exist within the product?
+- What capabilities and services does the product provide?
+- Which domains and functions exist within the product?
 - How are responsibilities distributed?
 - What are the stable structural elements of the business?
 
@@ -47,10 +49,10 @@ Product Definition → Structure of Business Logic
 Other layers rely on it to:
 
 - define system architecture boundaries
-- map processes to capabilities
+- map processes to capabilities and services
 - connect value streams to business elements
 - define ownership and responsibility
-- ground requirements and controls
+- ground requirements, controls, and APIs
 
 This layer does NOT define:
 
@@ -69,7 +71,9 @@ The output is a structured model of:
 
 - business domains
 - business capabilities
-- core business entities
+- business functions
+- business services
+- business entities / objects
 - ownership zones
 - relationships between them
 
@@ -81,21 +85,7 @@ The output is a structured model of:
 
 A business domain is a logical area of responsibility within the product.
 
-A domain groups related capabilities and entities.
-
-Examples:
-
-```text
-domain.workflow_management
-domain.billing
-domain.user_management
-```
-
-Domains should be:
-
-- stable
-- meaningful
-- non-overlapping (as much as possible)
+It groups related capabilities, services, and entities.
 
 ---
 
@@ -103,202 +93,203 @@ Domains should be:
 
 A capability defines what the product can do at a business level.
 
-It is independent of implementation.
+Independent of implementation.
+
+---
+
+### 4.3 Business Function
+
+A business function represents a type of activity performed in the business.
+
+Examples:
+
+- registration
+- processing
+- validation
+- calculation
+- reporting
+- notification
+
+Functions are **stable categories of work**, not sequences.
+
+---
+
+### 4.4 Business Service
+
+A business service is a concrete business-level service provided by the product.
 
 Examples:
 
 ```text
-capability.execute_workflow
-capability.assign_task
-capability.calculate_billing
+service.create_account
+service.verify_identity
+service.calculate_invoice
 ```
 
-Capabilities should be:
+Services:
 
-- atomic enough to reason about
-- reusable across processes
-- mapped to domains
+- expose capabilities
+- are used by processes
+- are consumed by stakeholders or systems
 
 ---
 
-### 4.3 Business Entity
+### 4.5 Business Entity
 
-A business entity is a core concept used in the business logic.
+A conceptual object in business logic.
 
-It is not a database table, but a conceptual object.
-
-Examples:
-
-```text
-entity.workflow
-entity.task
-entity.invoice
-entity.subscription
-```
-
-Entities:
-
-- participate in capabilities
-- are used in processes
-- are referenced across layers
+Not a database table.
 
 ---
 
-### 4.4 Ownership Zone
+### 4.6 Business Role
 
-Defines responsibility for domains and capabilities.
-
-Examples:
-
-```text
-ownership.product_team
-ownership.billing_team
-ownership.external_provider
-```
+A role that interacts with business services and capabilities.
 
 ---
 
-### 4.5 Business Relationship
+### 4.7 Ownership Rule
 
-Defines relationships between business elements.
+Defines responsibility and ownership boundaries.
 
-Examples:
+---
+
+### 4.8 Business Relationship
+
+Defines relationships:
 
 - dependency
 - composition
 - usage
-- responsibility
+- ownership
 
 ---
 
 ## 5. Identifiable Entities
 
 | Entity Type | Identifier Prefix |
-|------------|------------------|
-| Domain | domain.* |
-| Capability | capability.* |
-| Entity | entity.* |
-| Ownership | ownership.* |
-| Relationship | relationship.* |
+|-------------|------------------|
+| Domain | `domain.*` |
+| Capability | `capability.*` |
+| Function | `business_function.*` |
+| Service | `business_service.*` |
+| Entity | `entity.*` |
+| Role | `business_role.*` |
+| Ownership | `ownership.*` |
+| Relationship | `relationship.*` |
 
 ---
 
 ## 6. Required Content Structure
 
----
-
-### 6.1 Business Domains
-
-For each domain:
+### 6.1 Domains
 
 - identifier
-- name
 - description
-- owned capabilities
-- related entities
+- capabilities
+- services
 - ownership
 
 ---
 
-### 6.2 Business Capabilities
-
-For each capability:
+### 6.2 Capabilities
 
 - identifier
-- name
 - description
 - domain
-- inputs / outputs (conceptual)
 - related entities
+- supported functions
 
 ---
 
-### 6.3 Business Entities
-
-For each entity:
+### 6.3 Business Functions
 
 - identifier
-- name
 - description
-- role in business logic
+- domain
 - related capabilities
 
 ---
 
-### 6.4 Ownership
+### 6.4 Business Services
 
-Define:
-
-- who owns domains
-- who owns capabilities
-- shared responsibilities
+- identifier
+- description
+- provided capability
+- inputs/outputs (conceptual)
+- consumers
 
 ---
 
-### 6.5 Relationships
+### 6.5 Business Entities
 
-Define relationships such as:
+- identifier
+- description
+- role in business logic
 
-- domain → contains → capability
-- capability → uses → entity
-- domain → depends_on → domain
-- capability → depends_on → capability
+---
+
+### 6.6 Roles
+
+- identifier
+- description
+- related services
+
+---
+
+### 6.7 Ownership
+
+- ownership zones
+- responsibilities
+- shared ownership rules
+
+---
+
+### 6.8 Relationships
+
+Define:
+
+```text
+domain → contains → capability
+domain → contains → service
+capability → supported_by → function
+service → exposes → capability
+service → uses → entity
+```
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
+Recommended:
 
-This layer defines **who the stakeholders are, what they want, and how they perceive value**, not how this information must be structured or stored.
-
-Due to the narrative and conceptual nature of this layer, the following representations are considered most suitable:
-
-- Markdown (`.md`) for structured descriptions of stakeholders, goals, motivations, and relationships  
-- Structured formats (JSON / YAML) for machine-readable stakeholder definitions and mappings  
-- Tables or simple diagrams for visualizing relationships, dependencies, and conflicts  
-
-These representations are **recommendations, not requirements**.
-
-Implementations:
-
-- SHOULD use Markdown as the primary format for clarity and human understanding  
-- MAY use structured formats when machine processing or integration is required  
-- MAY use visual representations to improve comprehension of relationships  
-- MUST NOT encode semantics in format-specific constructs  
-
-The correctness of this layer is determined by the completeness and consistency of its **semantic content**, not by the chosen representation format.
+- Markdown for structure
+- diagrams (C4 / capability maps)
+- structured JSON/YAML
 
 ---
-
 
 ## 8. Relationships Inside the Layer
 
 ```text
 domain → contains → capability
-capability → uses → entity
-entity → participates_in → capability
-domain → owned_by → ownership
-capability → owned_by → ownership
+domain → contains → service
+capability → supported_by → business_function
+service → exposes → capability
+entity → used_by → service
+role → uses → service
+ownership → governs → domain
 ```
 
 ---
 
 ## 9. Relationships With Other AISMM Layers
 
-### Product Definition & Context
-
-```text
-domain → maps_to → module.*
-```
-
----
-
 ### Value Streams
 
 ```text
-capability → implements → value transformation
-domain → groups → converters
+value_segment → supported_by → business_service
+value_segment → enabled_by → capability
 ```
 
 ---
@@ -306,24 +297,17 @@ domain → groups → converters
 ### Stakeholders
 
 ```text
-stakeholder → interacts_with → capability
+stakeholder → interacts_with → business_service
+stakeholder → performs → business_role
 ```
 
 ---
 
-### Critical Path
+### Processes
 
 ```text
-critical_step → uses → capability
-```
-
----
-
-### Product Behavior
-
-```text
-control → implements → capability
-requirement → targets → capability
+process → uses → business_service
+process_step → performs → business_function
 ```
 
 ---
@@ -331,18 +315,18 @@ requirement → targets → capability
 ### System Design
 
 ```text
+component → implements → business_service
 component → implements → capability
-service → maps_to → domain
 data_model → represents → entity
 ```
 
 ---
 
-### P&L Model
+### Product Behavior
 
 ```text
-capability → cost_driver
-capability → revenue_driver
+requirement → targets → capability
+control → implements → service
 ```
 
 ---
@@ -364,8 +348,8 @@ This layer must not include:
 - layer_document
 - domain_definition
 - capability_definition
-- entity_definition
-- ownership_definition
+- service_definition
+- function_definition
 
 ---
 
@@ -375,7 +359,7 @@ Must define:
 
 - at least one domain
 - at least one capability
-- at least one entity
+- at least one service
 
 ---
 
@@ -385,9 +369,9 @@ A mature model includes:
 
 - full domain map
 - capability map
+- service catalog
 - entity map
 - ownership structure
-- dependency graph
 
 ---
 
@@ -395,17 +379,11 @@ A mature model includes:
 
 ```text
 domain.workflow
-domain.billing
-
 capability.execute_workflow
-capability.calculate_charge
-
-entity.workflow
+business_function.processing
+business_service.execute_task
 entity.task
-entity.invoice
-
-ownership.product_team
-ownership.finance_team
+business_role.operator
 ```
 
 ---
@@ -414,7 +392,7 @@ ownership.finance_team
 
 This layer defines **the business structure of the product**.
 
-It provides a stable map of domains, capabilities, and entities that:
+It provides a stable map of domains, capabilities, functions, and services that:
 
 - supports architecture
 - grounds processes
