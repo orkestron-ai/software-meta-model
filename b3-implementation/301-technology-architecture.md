@@ -6,7 +6,7 @@ document_id: spec.technology.architecture
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Technology Architecture Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,23 +14,23 @@ title: Technology Architecture Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Technology Architecture** layer defines the **technological foundation and runtime environment** used to implement the system.
+The **Technology Architecture** layer defines the **technological foundation, constraints, and runtime context** used to implement the system.
 
 It describes:
 
-- programming languages and frameworks  
+- programming languages and ecosystems  
 - runtimes and execution environments  
-- databases and storage systems  
-- messaging systems  
-- infrastructure tools and platforms  
-- deployment technologies  
+- frameworks and libraries  
+- databases and storage technologies  
+- messaging and communication technologies  
+- infrastructure platforms and tools  
 
 It answers:
 
 - On which technologies is the system built?
-- Where and how does it run?
-- What infrastructure components are used?
-- What technical constraints affect the system?
+- What constraints do these technologies impose?
+- How do components map to runtime environments?
+- What technical capabilities and limitations exist?
 
 ---
 
@@ -38,287 +38,242 @@ It answers:
 
 This layer connects:
 
-```text
-System Design → Technology Execution
-```
+System Structure → Runtime Reality
 
-It transforms system components into **technology-backed runtime structures**.
+It transforms:
+
+- components → runtime environments  
+- data → storage technologies  
+- interactions → communication technologies  
 
 Other layers rely on it to:
 
-- understand runtime constraints  
-- validate implementation feasibility  
-- define deployment environments  
-- support operations and scaling  
+- validate architectural decisions (201)  
+- support data architecture (202)  
+- enable API execution (203)  
+- enable integrations (204)  
+- support implementation (302)  
+- support deployment (303)  
 
-This layer does NOT define:
-
-- business logic  
-- API contracts  
-- data semantics  
-- code structure  
-
-It defines **technology choices and runtime context**.
+This layer defines **technology choices and constraints**, not execution logic.
 
 ---
 
-## 3. Main Output of the Layer
+## 3. Main Output
 
-The output is a structured model of:
-
-- technologies  
-- runtimes  
-- frameworks  
-- databases  
-- infrastructure components  
-- deployment platforms  
+- technology stack
+- runtime environments
+- frameworks and libraries
+- databases and storage systems
+- messaging technologies
+- infrastructure platforms
+- constraints and limitations
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 Technology
-
-Represents a specific technology used in the system.
-
-Examples:
-
-```text
-technology.php
-technology.nodejs
-technology.postgresql
-```
+A concrete technology used in the system.
 
 ---
 
-### 4.2 Runtime
+### 4.2 Runtime (ENHANCED)
+Execution environment where code runs.
 
-Execution environment for components.
+Includes:
+- language runtime  
+- container runtime  
+- serverless runtime  
 
 ---
 
 ### 4.3 Framework
-
-Application framework used for development.
-
----
-
-### 4.4 Database / Storage
-
-Persistent data storage systems.
+Development framework used to implement logic.
 
 ---
 
-### 4.5 Message Broker
-
-System for asynchronous communication.
-
----
-
-### 4.6 Infrastructure Tool
-
-Tool used for provisioning or deployment.
+### 4.4 Library (NEW)
+Reusable code dependency.
 
 ---
 
-### 4.7 Deployment Platform
+### 4.5 Database / Storage
+Technology used for persistence.
 
-Environment where system is deployed.
+---
+
+### 4.6 Messaging Technology (ENHANCED)
+Technology enabling async communication.
+
+---
+
+### 4.7 Infrastructure Platform (ENHANCED)
+Execution platform:
+
+- cloud provider  
+- Kubernetes cluster  
+- on-prem infrastructure  
+
+---
+
+### 4.8 Technology Constraint (NEW)
+Defines limitations:
+
+- performance limits  
+- scalability limits  
+- compatibility constraints  
+- vendor lock-in  
+
+---
+
+### 4.9 Technology Capability (NEW)
+Defines strengths:
+
+- high throughput  
+- low latency  
+- distributed processing  
+- fault tolerance  
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type         | Identifier Prefix |
-| :------------------ | :---------------- |
-| Technology          | `technology.*`    |
-| Runtime             | `runtime.*`       |
-| Framework           | `framework.*`     |
-| Database            | `database.*`      |
-| Message Broker      | `broker.*`        |
-| Infrastructure Tool | `infra_tool.*`    |
-| Deployment Platform | `platform.*`      |
+| Entity | Prefix |
+|--------|--------|
+| Technology | technology.* |
+| Runtime | runtime.* |
+| Framework | framework.* |
+| Library | library.* |
+| Database | database.* |
+| Messaging | messaging.* |
+| Platform | platform.* |
+| Constraint | constraint.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
 ### 6.1 Technologies
-
-- identifier  
-- description  
-- type (language, tool, system)  
+- id
+- type
+- purpose
 
 ---
 
 ### 6.2 Runtimes
-
-- identifier  
-- supported technologies  
-- execution context  
-
----
-
-### 6.3 Frameworks
-
-- identifier  
-- associated language  
-- usage context  
+- id
+- supported technologies
+- execution model
 
 ---
 
-### 6.4 Databases / Storage
-
-- identifier  
-- data type (relational, NoSQL, etc.)  
-- usage  
+### 6.3 Frameworks & Libraries
+- language
+- usage context
 
 ---
 
-### 6.5 Message Brokers
-
-- identifier  
-- communication type  
-
----
-
-### 6.6 Infrastructure Tools
-
-- identifier  
-- purpose  
+### 6.4 Storage
+- type (relational / NoSQL / object / cache)
+- purpose
 
 ---
 
-### 6.7 Deployment Platforms
+### 6.5 Messaging
+- type (queue / pub-sub / streaming)
+- usage
 
-- identifier  
-- environment type (cloud, on-prem, hybrid)  
+---
+
+### 6.6 Platforms
+- environment type
+- hosting model
+
+---
+
+### 6.7 Constraints
+- limitation
+- affected components
+
+---
+
+### 6.8 Capabilities
+- strength
+- use cases
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of representation format.
-
-Recommended formats:
-
-- Markdown (`.md`) for description  
-- YAML / JSON for structured inventories  
-- Docker / Kubernetes / Terraform configs as references  
-
-Implementations:
-
-- SHOULD describe technologies abstractly  
-- SHOULD link to real config files  
-- MUST NOT depend on a specific vendor  
+- Markdown for overview  
+- JSON/YAML for inventory  
+- links to real configs (Docker, K8s, Terraform)  
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-technology → used_in → component
-runtime → runs → deployment_unit
-framework → built_on → technology
-database → stores → entity
-broker → transports → event
-platform → hosts → system
-```
+technology → used_by → component  
+runtime → executes → component  
+framework → built_on → technology  
+library → used_by → component  
+database → stores → entity  
+messaging → transports → event  
+platform → hosts → deployment_unit  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### System Architecture
-
-```text
+System Architecture:
 component → uses → technology.*
-deployment_unit → runs_on → runtime.*
-```
+
+Data:
+entity → stored_in → database.*
+
+API:
+operation → executed_by → runtime.*
+
+Integrations:
+event → transported_by → messaging.*
+
+Implementation:
+code → depends_on → library.*
 
 ---
 
-### Data Architecture
+## 10. Boundaries
 
-```text
-database → stores → entity.*
-```
+Does NOT include:
 
----
-
-### Integrations
-
-```text
-broker → transports → event.*
-```
-
----
-
-### Operations
-
-```text
-platform → supports → operation.*
-```
-
----
-
-## 10. Layer Boundaries
-
-This layer must not include:
-
-- business processes  
+- code structure (302)  
+- deployment artifacts (303)  
 - API definitions  
-- data semantics  
-- code logic  
+- business logic  
 
 ---
 
-## 11. Recommended Block Types
+## 11. Minimal Content
 
-- layer_document  
-- technology_definition  
-- runtime_definition  
-- infrastructure_definition  
-
----
-
-## 12. Minimal Valid Content
-
-Must define:
-
-- at least one technology  
 - at least one runtime  
+- at least one technology  
 
 ---
 
-## 13. Completeness Criteria
+## 12. Completeness
 
-A mature model includes:
-
-- full technology stack  
+- full tech stack  
 - runtime mapping  
-- deployment environments  
-- infrastructure tools  
+- storage + messaging defined  
+- constraints identified  
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-technology.php
-framework.laravel
-runtime.php_fpm
-database.postgresql
-broker.kafka
-platform.kubernetes
-```
+Defines the **technological foundation and constraints** of the system.
 
----
-
-## 15. Summary
-
-This layer defines **what technologies power the system and how it runs**.
-
-It provides the bridge between system design and real execution environment.
+It ensures that architecture is grounded in real execution capabilities.
 
 <!-- AISMM:END -->
