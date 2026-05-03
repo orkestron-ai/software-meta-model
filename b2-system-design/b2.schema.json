@@ -245,6 +245,18 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "responsibility_mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/responsibility_mapping"
+          }
+        },
+        "execution_ownerships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/execution_ownership"
+          }
         }
       }
     },
@@ -277,6 +289,12 @@
               "$ref": "#/$defs/references"
             },
             "connects_to_systems": {
+              "$ref": "#/$defs/references"
+            },
+            "boundary_type": {
+              "$ref": "#/$defs/boundary_type"
+            },
+            "implements_business_services": {
               "$ref": "#/$defs/references"
             }
           }
@@ -314,6 +332,12 @@
               "$ref": "#/$defs/references"
             },
             "contains_components": {
+              "$ref": "#/$defs/references"
+            },
+            "boundary_type": {
+              "$ref": "#/$defs/boundary_type"
+            },
+            "implements_business_services": {
               "$ref": "#/$defs/references"
             }
           }
@@ -369,6 +393,24 @@
             },
             "deployed_as": {
               "$ref": "#/$defs/references"
+            },
+            "boundary_type": {
+              "$ref": "#/$defs/boundary_type"
+            },
+            "implements_business_services": {
+              "$ref": "#/$defs/references"
+            },
+            "implements_business_functions": {
+              "$ref": "#/$defs/references"
+            },
+            "execution_ownership": {
+              "$ref": "#/$defs/reference"
+            },
+            "source_of_truth_executor_for": {
+              "$ref": "#/$defs/references"
+            },
+            "dependency_components": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -398,6 +440,15 @@
             },
             "implements_capabilities": {
               "$ref": "#/$defs/references"
+            },
+            "implements_business_services": {
+              "$ref": "#/$defs/references"
+            },
+            "executes_process_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "execution_ownership": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -539,6 +590,48 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "data_lifecycles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_lifecycle"
+          }
+        },
+        "data_states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_state"
+          }
+        },
+        "data_state_transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_state_transition"
+          }
+        },
+        "consistency_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_consistency_rule"
+          }
+        },
+        "data_contracts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_contract"
+          }
+        },
+        "crud_matrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/crud_matrix"
+          }
+        },
+        "data_quality_issues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_quality_issue"
+          }
         }
       }
     },
@@ -599,6 +692,33 @@
               "$ref": "#/$defs/references"
             },
             "used_in_responses": {
+              "$ref": "#/$defs/references"
+            },
+            "source_of_truth_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "lifecycle": {
+              "$ref": "#/$defs/reference"
+            },
+            "states": {
+              "$ref": "#/$defs/references"
+            },
+            "consistency_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "data_contracts": {
+              "$ref": "#/$defs/references"
+            },
+            "is_derived": {
+              "type": "boolean"
+            },
+            "derived_from": {
+              "$ref": "#/$defs/references"
+            },
+            "cached_by": {
+              "$ref": "#/$defs/references"
+            },
+            "replicated_to": {
               "$ref": "#/$defs/references"
             }
           }
@@ -756,6 +876,26 @@
             "directed",
             "bidirectional"
           ]
+        },
+        "flow_type": {
+          "type": "string",
+          "enum": [
+            "read",
+            "write",
+            "sync",
+            "replication",
+            "event_payload",
+            "api_payload",
+            "batch",
+            "cache_update",
+            "other"
+          ]
+        },
+        "consistency": {
+          "$ref": "#/$defs/reference"
+        },
+        "trigger": {
+          "$ref": "#/$defs/reference"
         }
       }
     },
@@ -779,6 +919,18 @@
         },
         "responsibilities": {
           "$ref": "#/$defs/references"
+        },
+        "source_of_truth": {
+          "type": "boolean"
+        },
+        "can_modify": {
+          "$ref": "#/$defs/references"
+        },
+        "can_read": {
+          "$ref": "#/$defs/references"
+        },
+        "authoritative_component": {
+          "$ref": "#/$defs/reference"
         }
       }
     },
@@ -843,6 +995,30 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_event"
+          }
+        },
+        "interaction_patterns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_interaction_pattern"
+          }
+        },
+        "api_sequences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_sequence"
+          }
+        },
+        "compatibility_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_compatibility_rule"
+          }
         }
       }
     },
@@ -884,6 +1060,12 @@
                 "command_interface",
                 "other"
               ]
+            },
+            "interaction_patterns": {
+              "$ref": "#/$defs/references"
+            },
+            "events": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -930,6 +1112,24 @@
             },
             "generates_revenue_driver": {
               "$ref": "#/$defs/reference"
+            },
+            "interaction_pattern": {
+              "$ref": "#/$defs/reference"
+            },
+            "uses_contract": {
+              "$ref": "#/$defs/reference"
+            },
+            "produces_events": {
+              "$ref": "#/$defs/references"
+            },
+            "idempotency_rule": {
+              "type": "string"
+            },
+            "compatibility_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "sequence_membership": {
+              "$ref": "#/$defs/references"
             }
           },
           "not": {
@@ -1082,6 +1282,12 @@
               "items": {
                 "type": "string"
               }
+            },
+            "intent": {
+              "type": "string"
+            },
+            "produces_events": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -1115,6 +1321,21 @@
             },
             "reference_specification": {
               "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "schema_reference": {
+              "type": "string"
+            },
+            "compatibility_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "idempotency_expectations": {
+              "type": "string"
+            },
+            "error_contracts": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -1187,6 +1408,36 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "reliability_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reliability_model"
+          }
+        },
+        "retry_policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/retry_policy"
+          }
+        },
+        "failure_handling_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_failure_handling_rule"
+          }
+        },
+        "integration_topologies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_topology"
+          }
+        },
+        "integration_scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_scenario"
+          }
         }
       }
     },
@@ -1239,6 +1490,36 @@
             },
             "affects_revenue": {
               "$ref": "#/$defs/reference"
+            },
+            "topology": {
+              "$ref": "#/$defs/reference"
+            },
+            "reliability_model": {
+              "$ref": "#/$defs/reference"
+            },
+            "retry_policy": {
+              "$ref": "#/$defs/reference"
+            },
+            "failure_handling": {
+              "$ref": "#/$defs/reference"
+            },
+            "delivery_guarantee": {
+              "$ref": "#/$defs/delivery_guarantee"
+            },
+            "initiator": {
+              "$ref": "#/$defs/reference"
+            },
+            "receiver": {
+              "$ref": "#/$defs/reference"
+            },
+            "frequency": {
+              "type": "string"
+            },
+            "affects_critical_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "executes_processes": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -1360,6 +1641,15 @@
             },
             "schema_reference": {
               "type": "string"
+            },
+            "lifecycle": {
+              "type": "string"
+            },
+            "meaning": {
+              "type": "string"
+            },
+            "maps_to_data_contract": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -1398,6 +1688,15 @@
             },
             "maps_to_event_contract": {
               "$ref": "#/$defs/reference"
+            },
+            "delivery_guarantee": {
+              "$ref": "#/$defs/delivery_guarantee"
+            },
+            "retry_policy": {
+              "$ref": "#/$defs/reference"
+            },
+            "failure_handling": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -1433,6 +1732,678 @@
             },
             "owned_by": {
               "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "boundary_type": {
+      "type": "string",
+      "enum": [
+        "internal",
+        "external",
+        "shared",
+        "infrastructure",
+        "third_party",
+        "partner",
+        "unknown",
+        "other"
+      ]
+    },
+    "interaction_pattern_type": {
+      "type": "string",
+      "enum": [
+        "synchronous",
+        "asynchronous",
+        "streaming",
+        "batch",
+        "webhook",
+        "polling",
+        "file_exchange",
+        "other"
+      ]
+    },
+    "delivery_guarantee": {
+      "type": "string",
+      "enum": [
+        "at_most_once",
+        "at_least_once",
+        "exactly_once",
+        "best_effort",
+        "unknown"
+      ]
+    },
+    "responsibility_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "component",
+        "responsibility_type",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "component": {
+          "$ref": "#/$defs/reference"
+        },
+        "responsibility_type": {
+          "type": "string",
+          "enum": [
+            "capability",
+            "business_service",
+            "business_function",
+            "process_step",
+            "critical_step",
+            "api",
+            "data_entity",
+            "other"
+          ]
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "ownership_level": {
+          "type": "string",
+          "enum": [
+            "source_of_truth",
+            "primary_executor",
+            "secondary_executor",
+            "consumer",
+            "observer",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "execution_ownership": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "owner_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "owned_execution_targets": {
+              "$ref": "#/$defs/references"
+            },
+            "ownership_type": {
+              "type": "string",
+              "enum": [
+                "source_of_truth_executor",
+                "orchestrator",
+                "worker",
+                "adapter",
+                "proxy",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "data_lifecycle": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "states": {
+              "$ref": "#/$defs/references"
+            },
+            "transitions": {
+              "$ref": "#/$defs/references"
+            },
+            "start_state": {
+              "$ref": "#/$defs/reference"
+            },
+            "terminal_states": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "data_state": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "state_type": {
+              "type": "string",
+              "enum": [
+                "created",
+                "active",
+                "pending",
+                "processing",
+                "completed",
+                "failed",
+                "archived",
+                "deleted",
+                "custom"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "data_state_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "entity",
+        "from_state",
+        "to_state"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "from_state": {
+          "$ref": "#/$defs/reference"
+        },
+        "to_state": {
+          "$ref": "#/$defs/reference"
+        },
+        "trigger": {
+          "$ref": "#/$defs/reference"
+        },
+        "performed_by": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "data_consistency_rule": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "consistency_type": {
+              "type": "string",
+              "enum": [
+                "strong",
+                "eventual",
+                "read_your_writes",
+                "causal",
+                "best_effort",
+                "manual_reconciliation",
+                "unknown"
+              ]
+            },
+            "applies_to_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "applies_to_flows": {
+              "$ref": "#/$defs/references"
+            },
+            "synchronization_rule": {
+              "type": "string"
+            },
+            "reconciliation_rule": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "data_contract": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "contract_type": {
+              "type": "string",
+              "enum": [
+                "api_payload",
+                "event_payload",
+                "file_schema",
+                "database_view",
+                "message_schema",
+                "other"
+              ]
+            },
+            "entities": {
+              "$ref": "#/$defs/references"
+            },
+            "schema_reference": {
+              "type": "string"
+            },
+            "used_by_apis": {
+              "$ref": "#/$defs/references"
+            },
+            "used_by_integrations": {
+              "$ref": "#/$defs/references"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "crud_matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "actor_or_component",
+        "entity"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "actor_or_component": {
+          "$ref": "#/$defs/reference"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "create": {
+          "type": "boolean"
+        },
+        "read": {
+          "type": "boolean"
+        },
+        "update": {
+          "type": "boolean"
+        },
+        "delete": {
+          "type": "boolean"
+        },
+        "source_of_truth": {
+          "type": "boolean"
+        }
+      }
+    },
+    "data_quality_issue": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "affected_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "issue_type": {
+              "type": "string",
+              "enum": [
+                "incomplete",
+                "inconsistent",
+                "duplicate",
+                "stale",
+                "incorrect",
+                "missing_lineage",
+                "unknown_owner",
+                "other"
+              ]
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "detected_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "api_event": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "enum": [
+                "domain_event",
+                "system_event",
+                "integration_event",
+                "message_event",
+                "external_event",
+                "other"
+              ]
+            },
+            "producer": {
+              "$ref": "#/$defs/reference"
+            },
+            "consumers": {
+              "$ref": "#/$defs/references"
+            },
+            "payload_contract": {
+              "$ref": "#/$defs/reference"
+            },
+            "payload_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_data_contract": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "api_interaction_pattern": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "pattern_type"
+          ],
+          "properties": {
+            "pattern_type": {
+              "$ref": "#/$defs/interaction_pattern_type"
+            },
+            "description": {
+              "type": "string"
+            },
+            "used_by_operations": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "api_sequence": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operations": {
+              "$ref": "#/$defs/references"
+            },
+            "process_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "branching_logic": {
+              "type": "string"
+            },
+            "optional_calls": {
+              "$ref": "#/$defs/references"
+            },
+            "repeated_calls": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "api_compatibility_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/references"
+        },
+        "compatibility_type": {
+          "type": "string",
+          "enum": [
+            "backward",
+            "forward",
+            "breaking_change",
+            "versioning",
+            "deprecation",
+            "idempotency",
+            "error_handling",
+            "other"
+          ]
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "integration_topology": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "topology_type"
+          ],
+          "properties": {
+            "topology_type": {
+              "type": "string",
+              "enum": [
+                "point_to_point",
+                "hub_and_spoke",
+                "event_bus",
+                "mesh",
+                "brokered",
+                "gateway",
+                "other"
+              ]
+            },
+            "systems": {
+              "$ref": "#/$defs/references"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "reliability_model": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "delivery_guarantee": {
+              "$ref": "#/$defs/delivery_guarantee"
+            },
+            "timeout_behavior": {
+              "type": "string"
+            },
+            "fallback_strategy": {
+              "type": "string"
+            },
+            "idempotency_required": {
+              "type": "boolean"
+            },
+            "applies_to_integrations": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "retry_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "backoff_strategy": {
+          "type": "string",
+          "enum": [
+            "none",
+            "fixed",
+            "linear",
+            "exponential",
+            "custom"
+          ]
+        },
+        "retryable_errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "applies_to": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "integration_failure_handling_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "failure_type": {
+          "type": "string",
+          "enum": [
+            "timeout",
+            "connection_failure",
+            "validation_error",
+            "remote_error",
+            "duplicate",
+            "ordering_error",
+            "data_loss",
+            "unknown",
+            "other"
+          ]
+        },
+        "handling_type": {
+          "type": "string",
+          "enum": [
+            "retry",
+            "fallback",
+            "compensation",
+            "dead_letter",
+            "manual_intervention",
+            "ignore",
+            "stop",
+            "other"
+          ]
+        },
+        "applies_to": {
+          "$ref": "#/$defs/references"
+        },
+        "compensation_logic": {
+          "type": "string"
+        }
+      }
+    },
+    "integration_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "integration": {
+              "$ref": "#/$defs/reference"
+            },
+            "initiator": {
+              "$ref": "#/$defs/reference"
+            },
+            "receiver": {
+              "$ref": "#/$defs/reference"
+            },
+            "trigger": {
+              "$ref": "#/$defs/reference"
+            },
+            "frequency": {
+              "type": "string"
+            },
+            "messages": {
+              "$ref": "#/$defs/references"
+            },
+            "events": {
+              "$ref": "#/$defs/references"
+            },
+            "happy_path": {
+              "type": "string"
+            },
+            "failure_path": {
+              "type": "string"
+            },
+            "sla": {
+              "type": "string"
+            },
+            "compensation_logic": {
+              "type": "string"
             }
           }
         }
