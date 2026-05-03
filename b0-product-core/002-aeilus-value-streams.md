@@ -1,206 +1,406 @@
 <!-- AISMM:BEGIN -->
-type: layer_document
+type: layer_specification
 layer_id: 002
 layer_key: aeilus_value_streams
-document_id: value.streams.definition
-document_type: value_streams
+document_id: spec.aeilus.value.streams
+document_type: layer_specification
 module_scope: root
-status: active
-title: Aeilus Value Streams (VSS)
-references:
-  - file:vss.schema.json
+status: draft
+title: Aeilus Value Streams Layer Specification
 <!-- AISMM:META_END -->
 
-# Aeilus Value Streams (VSS)
+# 002 — Aeilus Value Streams
 
-## Overview
+## 1. Purpose of the Layer
 
-This layer defines **Value Streams using Æilus methodology**.
+The **Aeilus Value Streams** layer defines how value is created, transformed, transferred, accumulated, and lost within and around the product.
 
-Value Streams describe how value is:
-- created
-- transformed
-- transferred
-- accumulated or lost (anti-value)
+This layer describes the system **from a value perspective**, independent of implementation, architecture, or processes.
 
-across the system.
+It answers:
 
-The canonical representation of Value Streams is defined in:
-
-👉 `vss.schema.json`
-
----
-
-## What is VSS (Value System Schema)
-
-VSS (Value System Schema) is a structured representation of a system in terms of:
-
-- **Converters** — entities that transform value
-- **Flows** — value and anti-value moving between converters
-- **Actors (contextual)** — participants relevant for value context (may be external to system interaction)
-- **Inputs / Outputs** — entry and exit points of value
-- **Value / Anti-value metrics** — quantitative or qualitative measures
-
-VSS focuses on **value transformation**, not implementation details.
+- Where does value originate?
+- How does value flow through the system?
+- Where is value increased, decreased, or destroyed?
+- Which elements transform value?
+- Where does anti-value appear?
+- How do different participants perceive value?
 
 ---
 
-## Purpose of this Layer
+## 2. Layer Role in AISMM
 
-This layer answers:
+This layer provides the **semantic backbone of the product in terms of value**.
 
-- Where does value come from?
-- How does value move through the product?
-- Where is value increased or lost?
-- Which parts of the system create or destroy value?
+Other layers rely on it to:
 
----
+- understand why the system exists
+- align decisions with value creation
+- connect actions and outcomes to value
+- evaluate effectiveness and efficiency
+- map economic and operational impact
 
-## Source of Truth
+This layer does NOT define:
 
-All Value Stream definitions must conform to:
+- technical implementation
+- UI behavior
+- API structure
+- internal system architecture
 
-👉 `vss.schema.json`
-
-This schema defines:
-- structure of converters
-- structure of flows
-- identifiers and relationships
-- allowed attributes
-
-AISMM Studio parses VSS definitions using this schema.
+It defines **value logic only**.
 
 ---
 
-## Core VSS Entities
+## 3. Main Output of the Layer
 
-### Converter
-A unit that transforms value.
+The output of this layer is a **value system model**, consisting of:
 
-### Flow
-A directed connection representing value or anti-value movement.
-
-### Value Node
-A measurable point of value creation or loss.
-
-### Context Actor
-An actor relevant for value perception but not necessarily a system user.
+- value transformations
+- value flows
+- participants affecting or perceiving value
+- value and anti-value elements
+- measurable or observable value effects
 
 ---
 
-## Relationship to Other AISMM Layers
+## 4. Core Concepts
 
-VSS is connected to the rest of AISMM through shared identifiers and semantic mappings.
+### 4.1 Value
 
----
+Value is any positive outcome perceived by a participant.
 
-### 1. Product Definition & Context (Layer 002)
+Value may be:
 
-- VSS converters may represent product modules or external systems
-- Context actors in VSS must map to context entities
-
-```
-VSS.converter → product.module / external_system
-VSS.actor → context actor
-```
+- functional (task completion)
+- economic (revenue, savings)
+- experiential (UX quality)
+- informational (insight, knowledge)
+- strategic (market position)
 
 ---
 
-### 2. Stakeholders (Layer 003)
+### 4.2 Anti-Value
 
-- Value perception is defined per stakeholder
-- Stakeholders evaluate value created by flows
+Anti-value is any negative outcome:
 
-```
-VSS.value → stakeholder motivation
+- delays
+- errors
+- friction
+- cost without benefit
+- risk realization
+
+Anti-value is consumed by the system and may also be produced.
+
+---
+
+### 4.3 Value Element
+
+A value element is a measurable or identifiable unit of value or anti-value. There are many Value Element types.
+
+Examples:
+
+```text
+value.execution_completed
+value.customer_satisfaction
+antivalue.delay
+antivalue.failed_execution
 ```
 
 ---
 
-### 3. Business Architecture (Layer 004)
+### 4.4 Value Flow
 
-- Converters correspond to business capabilities or domains
+A value flow represents movement of value or anti-value between participants.
 
-```
-VSS.converter → business capability / domain
+It describes:
+
+- direction
+- transformation
+- accumulation
+- distribution
+
+---
+
+### 4.5 Converter
+
+A converter is an abstract entity that transforms value. Converter is a role for participants.
+
+A converter:
+
+- consumes value and/or anti-value
+- produces value and/or anti-value
+- may accumulate value internally
+
+Converters may represent:
+
+- product modules
+- processes
+- actors
+- systems
+- functions
+
+---
+
+### 4.6 Value Participant
+
+A value participant is any entity that:
+
+- contributes to value creation
+- consumes value
+- evaluates value
+
+Participants may be:
+
+- internal
+- external
+- human
+- system-level
+- conceptual
+
+---
+
+### 4.7 Value Context
+
+A value context defines the scope in which value is evaluated.
+
+Different participants may perceive value differently within different contexts.
+
+---
+
+## 5. Identifiable Entities
+
+| Entity Type | Identifier Prefix |
+| ----------- | ----------------- |
+| Value       | `value.*`         |
+| Anti-Value  | `antivalue.*`     |
+| Converter   | `converter.*`     |
+| Flow        | `flow.*`          |
+| Participant | `participant.*`   |
+| Context     | `context.*`       |
+| Metric      | `metric.*`        |
+
+---
+
+## 6. Required Content Structure
+
+---
+
+### 6.1 Value Elements
+
+Define:
+
+- types of value
+- types of anti-value
+- their meaning
+- their relevance
+
+---
+
+### 6.2 Converters
+
+Define entities that transform value.
+
+For each converter:
+
+- identifier
+- description
+- role in value transformation
+
+---
+
+### 6.3 Value Flows
+
+Define how value moves:
+
+- source
+- destination
+- type of value
+- direction
+
+---
+
+### 6.4 Participants
+
+Define entities that:
+
+- produce value
+- consume value
+- evaluate value
+
+---
+
+### 6.5 Value Transformations
+
+Describe:
+
+- how value changes
+- where it increases
+- where it decreases
+- where it is lost
+
+---
+
+### 6.6 Anti-Value Sources
+
+Define:
+
+- where anti-value originates
+- how it propagates
+
+---
+
+### 6.7 Metrics
+
+Define measurable aspects:
+
+- value metrics
+- anti-value metrics
+- efficiency indicators
+
+---
+
+## 7. Relationships Inside the Layer
+
+```text
+converter → consumes → value
+converter → produces → value
+converter → produces → anti-value
+flow → transfers → value
+participant → evaluates → value
+participant → affected_by → flow
+value → measured_by → metric
 ```
 
 ---
 
-### 4. Critical Path (Layer 005)
+## 8. Relationships With Other AISMM Layers
 
-- Critical path is a selected chain of VSS flows
+### Product Definition & Context
 
-```
-Critical Path ⊂ VSS graph
-```
-
----
-
-### 5. Product Behavior (Bundle 4)
-
-- Converters are realized by controls/actions
-- Flows are realized by state transitions
-
-```
-VSS.converter → control
-VSS.flow → state transition
+```text
+converter → module.*
+participant → external.*
 ```
 
 ---
 
-### 6. Events Layer (implicit via behavior)
+### Stakeholders
 
-- Value changes are observable via events
-
-```
-VSS.flow → event
-```
-
----
-
-### 7. Economics (P&L Model)
-
-- Value flows are mapped to revenue and cost
-
-```
-VSS.flow → revenue / cost
+```text
+participant → stakeholder.*
+value → stakeholder perception
 ```
 
 ---
 
-### 8. Observability (Layer 602)
+### Business Architecture
 
-- Metrics track value realization
-
-```
-VSS.node → metric
+```text
+converter → business capability
 ```
 
 ---
 
-## Important Notes
+### Critical Path
 
-- VSS is **technology-agnostic**
-- VSS does not describe UI, API, or code
-- VSS operates at **value abstraction level**
+```text
+critical_step → flow
+```
 
 ---
 
-## Interpretation
+### Product Behavior
 
-VSS provides the **semantic backbone** for:
+```text
+control → value transformation
+event → value change
+```
 
-- product understanding
-- economic modeling
-- decision-making
+---
+
+### P&L Model
+
+```text
+value → revenue
+antivalue → cost
+```
+
+---
+
+### Observability
+
+```text
+metric → monitoring
+```
+
+---
+
+## 9. Layer Boundaries
+
+This layer must not include:
+
+- UI details
+- API definitions
+- database structures
+- code logic
+- detailed process steps
+
+---
+
+## 10. Recommended Block Types
+
+- layer_document
+- value_definition
+- flow_definition
+- converter_definition
+- metric_definition
+
+---
+
+## 11. Minimal Valid Content
+
+Must define:
+
+- at least one value element
+- at least two converters
+- at least one flow
+
+---
+
+## 12. Completeness Criteria
+
+A mature model includes:
+
+- full value graph
+- anti-value mapping
+- participants
+- metrics
+- cross-layer links
+
+---
+
+## 13. Example Identifiers
+
+```text
+value.execution_success
+antivalue.execution_failure
+converter.workflow_engine
+flow.execution_flow
+participant.customer
+metric.success_rate
+```
+
+---
+
+## 14. Summary
+
+This layer defines **how value exists and moves in the system**.
+
+It is independent of implementation and provides the foundation for:
+
+- product decisions
 - optimization
-
----
-
-## Summary
-
-> VSS describes how value moves through the system.  
-> Other layers describe how the system makes that movement possible.
+- economic modeling
+- system evolution
 
 <!-- AISMM:END -->
