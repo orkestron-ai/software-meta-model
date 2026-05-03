@@ -1,129 +1,398 @@
 <!-- AISMM:BEGIN -->
-type: layer_document
+type: layer_specification
 layer_id: 003
 layer_key: stakeholders_and_motivation
-document_id: stakeholders.definition
-document_type: stakeholders
+document_id: spec.stakeholders.motivation
+document_type: layer_specification
 module_scope: root
-status: active
-title: Stakeholders and Motivation
+status: draft
+title: Stakeholders and Motivation Layer Specification
 <!-- AISMM:META_END -->
 
-# Stakeholders and Motivation
+# 003 — Stakeholders and Motivation
 
-## Overview
+## 1. Purpose of the Layer
 
-This document defines **stakeholders of the product and their motivations**.
+The **Stakeholders and Motivation** layer defines who cares about the product and why.
 
-It serves as the primary source for:
-- stakeholder identification
-- goals and motivations
+It describes:
+
+- stakeholders interacting with or affected by the product
+- their goals, motivations, and expectations
+- how they perceive value and anti-value
+- conflicts and alignment between stakeholders
+
+It answers:
+
+- Who are the stakeholders?
+- What do they want to achieve?
+- How do they measure success?
+- What is valuable for them?
+- What is harmful (anti-value)?
+- Where do stakeholder interests align or conflict?
+
+---
+
+## 2. Layer Role in AISMM
+
+This layer connects:
+
+```text
+Value ↔ Human / Organizational Perception
+```
+
+It translates abstract value into **perceived value**.
+
+Other layers rely on it to:
+
+- interpret value streams
+- define priorities
+- validate decisions
+- align product evolution
+- define requirements and success criteria
+
+This layer does NOT define:
+
+- system behavior
+- architecture
+- implementation
+- UI or processes
+
+It defines **motivation and perception only**.
+
+---
+
+## 3. Main Output of the Layer
+
+The output is a structured model of:
+
+- stakeholders
+- their motivations
+- their goals and outcomes
 - value perception
-- relationships between stakeholders and product
-
-AISMM Studio uses this document to build:
-- stakeholder maps
-- value perception layers
-- links to Value Streams (VSS)
+- relationships between stakeholders
 
 ---
 
-## 1. Stakeholder Definition
+## 4. Core Concepts
 
-Each stakeholder must have:
-- unique ID
-- type
-- role in relation to the product
+### 4.1 Stakeholder
 
-### Stakeholders
+A stakeholder is any entity that:
 
-- **ID:**  
-  **Name:**  
-  **Type:** (customer / user / partner / internal / regulator / system)  
-  **Description:**  
+- is affected by the product
+- benefits from the product
+- is harmed by the product
+- influences product decisions
+
+Stakeholders may be:
+
+- users
+- customers
+- inverstors, owners
+- operators
+- internal teams
+- external organizations
+- regulators
+- systems (in some cases)
+
+Example:
+
+```text
+stakeholder.customer
+stakeholder.product_owner
+stakeholder.support_team
+```
 
 ---
 
-## 2. Stakeholder Roles
+### 4.2 Stakeholder Role
 
-Defines how stakeholders interact with the product.
+A stakeholder role defines how a stakeholder relates to the product.
 
-- Consumer
-- Operator
-- Owner
-- Partner
-- Observer
+Examples:
+
+- consumer
+- operator
+- decision-maker
+- maintainer
+- integrator
+- regulator
 
 ---
 
-## 3. Motivations and Goals
+### 4.3 Motivation
 
-Defines what each stakeholder wants to achieve.
+Motivation describes what drives a stakeholder.
+
+Motivation may include:
+
+- goals
+- incentives
+- constraints
+- fears
+- expectations
+
+---
+
+### 4.4 Goal
+
+A goal is a desired outcome for a stakeholder.
+
+Goals should be:
+
+- explicit
+- measurable (if possible)
+- aligned or conflicting with other goals
+
+---
+
+### 4.5 Value Perception
+
+Value perception defines what a stakeholder considers valuable.
+
+It links stakeholders to value elements.
+
+Example:
+
+```text
+stakeholder.customer → values → value.fast_execution
+stakeholder.operator → values → value.system_stability
+```
+
+---
+
+### 4.6 Anti-Value Perception
+
+Defines what a stakeholder considers harmful.
+
+Example:
+
+```text
+stakeholder.customer → avoids → antivalue.delay
+stakeholder.team → avoids → antivalue.operational_complexity
+```
+
+---
+
+### 4.7 Stakeholder Relationship
+
+Defines relationships between stakeholders:
+
+- dependency
+- influence
+- conflict
+- collaboration
+
+---
+
+## 5. Identifiable Entities
+
+| Entity Type      | Identifier Prefix |
+| ---------------- | ----------------- |
+| Stakeholder      | `stakeholder.*`   |
+| Role             | `role.*`          |
+| Goal             | `goal.*`          |
+| Motivation       | `motivation.*`    |
+| Value Perception | `perception.*`    |
+| Relationship     | `relationship.*`  |
+
+---
+
+## 6. Required Content Structure
+
+---
+
+### 6.1 Stakeholder Definitions
 
 For each stakeholder:
 
-- Goals:
-- Expected outcomes:
-- Success criteria:
+- identifier
+- name
+- description
+- role(s)
+- type (internal / external / system)
 
 ---
 
-## 4. Value Perception
+### 6.2 Roles
 
-Defines how stakeholders perceive value.
-
-- What is valuable:
-- What is anti-value:
-- Value metrics (optional):
+Define roles that stakeholders can take.
 
 ---
 
-## 5. Relationships
+### 6.3 Goals
 
-Defines relationships between stakeholders.
+Define stakeholder goals:
 
-- Dependencies:
-- Conflicts:
-- Collaboration:
-
----
-
-## 6. Mapping to Value Streams (VSS)
-
-Defines how stakeholders connect to value flows.
-
-- Stakeholder → VSS actor
-- Stakeholder → value nodes
-- Stakeholder → flows
+- goal identifier
+- description
+- success criteria (if applicable)
 
 ---
 
-## 7. Mapping to Product Behavior
+### 6.4 Motivations
 
-Defines how stakeholders interact with the system.
+Describe:
 
-- Stakeholder → roles (access layer)
-- Stakeholder → controls/actions
-- Stakeholder → user scenarios
-
----
-
-## 8. Assumptions
-
-- 
+- why goals matter
+- underlying drivers
 
 ---
 
-## 9. Constraints
+### 6.5 Value Perception
 
-- 
+Define:
+
+- what is valuable
+- what is anti-value
+- how value is evaluated
 
 ---
 
-## Notes
+### 6.6 Relationships
 
-- Stakeholders are **value observers and participants**
-- Stakeholders are not always system users
-- IDs must be stable and reusable across layers
+Define:
+
+- dependencies
+- conflicts
+- influence chains
+
+---
+
+## 7. Relationships Inside the Layer
+
+```text
+stakeholder → has → role
+stakeholder → pursues → goal
+goal → driven_by → motivation
+stakeholder → perceives → value
+stakeholder → perceives → anti-value
+stakeholder → interacts_with → stakeholder
+```
+
+---
+
+## 8. Relationships With Other AISMM Layers
+
+### Value Streams
+
+```text
+stakeholder → evaluates → value.*
+stakeholder → affected_by → flow.*
+```
+
+---
+
+### Product Definition & Context
+
+```text
+stakeholder → interacts_with → product.*
+stakeholder → uses → channel.*
+stakeholder → related_to → external.*
+```
+
+---
+
+### Business Architecture
+
+```text
+stakeholder → involved_in → capability.*
+```
+
+---
+
+### Critical Path
+
+```text
+stakeholder → participates_in → critical_step.*
+```
+
+---
+
+### Product Behavior
+
+```text
+stakeholder → performs → control.*
+stakeholder → triggers → event.*
+```
+
+---
+
+### P&L Model
+
+```text
+stakeholder → generates → revenue
+stakeholder → incurs → cost
+```
+
+---
+
+## 9. Layer Boundaries
+
+This layer must not include:
+
+- system structure
+- processes
+- implementation details
+- UI flows
+- API definitions
+
+---
+
+## 10. Recommended Block Types
+
+- layer_document
+- stakeholder_definition
+- goal_definition
+- relationship_definition
+
+---
+
+## 11. Minimal Valid Content
+
+Must define:
+
+- at least one stakeholder
+- at least one goal
+- at least one value perception
+
+---
+
+## 12. Completeness Criteria
+
+A mature layer includes:
+
+- full stakeholder map
+- goals and motivations
+- value perception mapping
+- conflicts and dependencies
+
+---
+
+## 13. Example Identifiers
+
+```text
+stakeholder.customer
+stakeholder.operator
+goal.reduce_latency
+goal.increase_revenue
+motivation.user_satisfaction
+perception.fast_execution
+relationship.customer_depends_on_system
+```
+
+---
+
+## 14. Summary
+
+This layer defines **who cares about the product and why**.
+
+It connects value to human and organizational meaning, enabling:
+
+- prioritization
+- alignment
+- decision-making
+- value interpretation
 
 <!-- AISMM:END -->
