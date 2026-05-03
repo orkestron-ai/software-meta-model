@@ -243,6 +243,18 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "business_signals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_signal"
+          }
+        },
+        "impact_scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/impact_scope"
+          }
         }
       }
     },
@@ -330,6 +342,18 @@
                 "high",
                 "unknown"
               ]
+            },
+            "business_signal": {
+              "$ref": "#/$defs/reference"
+            },
+            "decision_horizon": {
+              "$ref": "#/$defs/decision_horizon"
+            },
+            "impact_scope": {
+              "$ref": "#/$defs/references"
+            },
+            "triggered_by": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -524,6 +548,18 @@
             },
             "consequences": {
               "type": "string"
+            },
+            "related_hypothesis": {
+              "$ref": "#/$defs/reference"
+            },
+            "creates_initiatives": {
+              "$ref": "#/$defs/references"
+            },
+            "updates_strategy": {
+              "$ref": "#/$defs/reference"
+            },
+            "decision_horizon": {
+              "$ref": "#/$defs/decision_horizon"
             }
           }
         }
@@ -602,6 +638,24 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "decision_traces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decision_trace"
+          }
+        },
+        "value_targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_target"
+          }
+        },
+        "economic_targets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_target"
+          }
         }
       }
     },
@@ -620,6 +674,15 @@
               "$ref": "#/$defs/references"
             },
             "objectives": {
+              "$ref": "#/$defs/references"
+            },
+            "based_on_decisions": {
+              "$ref": "#/$defs/references"
+            },
+            "value_targets": {
+              "$ref": "#/$defs/references"
+            },
+            "economic_targets": {
               "$ref": "#/$defs/references"
             }
           }
@@ -687,6 +750,18 @@
             },
             "expected_economic_impact": {
               "$ref": "#/$defs/references"
+            },
+            "derived_from_decisions": {
+              "$ref": "#/$defs/references"
+            },
+            "value_targets": {
+              "$ref": "#/$defs/references"
+            },
+            "economic_targets": {
+              "$ref": "#/$defs/references"
+            },
+            "decision_trace": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -879,6 +954,36 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "orchestrations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/process_orchestration"
+          }
+        },
+        "exception_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/exception_flow"
+          }
+        },
+        "parallel_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parallel_flow"
+          }
+        },
+        "process_variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/process_variant"
+          }
+        },
+        "process_metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/process_metric"
+          }
         }
       }
     },
@@ -934,6 +1039,37 @@
               "items": {
                 "type": "string"
               }
+            },
+            "process_hierarchy_level": {
+              "type": "string",
+              "enum": [
+                "L0_end_to_end",
+                "L1_domain",
+                "L2_detailed",
+                "L3_technical",
+                "unknown"
+              ]
+            },
+            "orchestration": {
+              "$ref": "#/$defs/reference"
+            },
+            "variants": {
+              "$ref": "#/$defs/references"
+            },
+            "exception_flows": {
+              "$ref": "#/$defs/references"
+            },
+            "parallel_flows": {
+              "$ref": "#/$defs/references"
+            },
+            "metrics": {
+              "$ref": "#/$defs/references"
+            },
+            "bpmn_artifacts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }
@@ -967,6 +1103,31 @@
               "$ref": "#/$defs/references"
             },
             "uses_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "step_type": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "automated",
+                "system",
+                "decision",
+                "integration",
+                "approval",
+                "notification",
+                "other"
+              ]
+            },
+            "related_critical_step": {
+              "$ref": "#/$defs/reference"
+            },
+            "uses_business_services": {
+              "$ref": "#/$defs/references"
+            },
+            "invokes_api_operations": {
+              "$ref": "#/$defs/references"
+            },
+            "uses_data": {
               "$ref": "#/$defs/references"
             }
           }
@@ -1108,6 +1269,363 @@
           "type": "string"
         }
       }
+    },
+    "decision_horizon": {
+      "type": "string",
+      "enum": [
+        "short_term",
+        "mid_term",
+        "strategic",
+        "unknown"
+      ]
+    },
+    "business_signal": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "signal_type": {
+              "type": "string",
+              "enum": [
+                "market_change",
+                "kpi_deviation",
+                "stakeholder_feedback",
+                "operational_issue",
+                "financial_signal",
+                "regulatory_change",
+                "risk_signal",
+                "technology_signal",
+                "other"
+              ]
+            },
+            "source": {
+              "type": "string"
+            },
+            "observed_at": {
+              "type": "string"
+            },
+            "affected_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "triggers_hypotheses": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "impact_scope": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope_type": {
+              "type": "string",
+              "enum": [
+                "value_stream",
+                "module",
+                "capability",
+                "business_service",
+                "process",
+                "economics",
+                "stakeholder",
+                "critical_path",
+                "other"
+              ]
+            },
+            "affected_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "impact_summary": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "decision_trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "hypothesis",
+        "decision",
+        "initiative"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "hypothesis": {
+          "$ref": "#/$defs/reference"
+        },
+        "decision": {
+          "$ref": "#/$defs/reference"
+        },
+        "strategy": {
+          "$ref": "#/$defs/reference"
+        },
+        "initiative": {
+          "$ref": "#/$defs/reference"
+        },
+        "roadmap_items": {
+          "$ref": "#/$defs/references"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "value_target": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "increase_value",
+                "reduce_antivalue",
+                "improve_key_result",
+                "improve_metric",
+                "other"
+              ]
+            },
+            "target_value_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "target_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_value": {
+              "type": "string"
+            },
+            "related_initiatives": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "economic_target": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "revenue_growth",
+                "cost_reduction",
+                "margin_improvement",
+                "unit_economics",
+                "payback",
+                "other"
+              ]
+            },
+            "target_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_value": {
+              "type": "string"
+            },
+            "related_revenue": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_cost": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_initiatives": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "process_orchestration": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "process": {
+              "$ref": "#/$defs/reference"
+            },
+            "orchestrates_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "orchestrates_processes": {
+              "$ref": "#/$defs/references"
+            },
+            "orchestration_type": {
+              "type": "string",
+              "enum": [
+                "human",
+                "system",
+                "workflow_engine",
+                "service_orchestration",
+                "ai_agent",
+                "mixed",
+                "other"
+              ]
+            },
+            "coordination_logic": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "exception_flow": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "process": {
+              "$ref": "#/$defs/reference"
+            },
+            "trigger": {
+              "$ref": "#/$defs/reference"
+            },
+            "affected_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "exception_type": {
+              "type": "string",
+              "enum": [
+                "error",
+                "timeout",
+                "rejection",
+                "manual_workaround",
+                "escalation",
+                "retry",
+                "rollback",
+                "compensation",
+                "other"
+              ]
+            },
+            "handling_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "recovery_process": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "parallel_flow": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "process": {
+              "$ref": "#/$defs/reference"
+            },
+            "parallel_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "join_condition": {
+              "type": "string"
+            },
+            "synchronization_point": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "process_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parent_process": {
+              "$ref": "#/$defs/reference"
+            },
+            "variant_type": {
+              "type": "string",
+              "enum": [
+                "main",
+                "alternative",
+                "exception",
+                "manual_workaround",
+                "channel_specific",
+                "customer_segment",
+                "other"
+              ]
+            },
+            "steps": {
+              "$ref": "#/$defs/references"
+            },
+            "conditions": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "process_metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "process": {
+              "$ref": "#/$defs/reference"
+            },
+            "metric_type": {
+              "type": "string",
+              "enum": [
+                "duration",
+                "bottleneck",
+                "return_count",
+                "manual_step_share",
+                "error_rate",
+                "approval_duration",
+                "automation_rate",
+                "throughput",
+                "conversion",
+                "other"
+              ]
+            },
+            "formula": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "observed_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
     }
   }
 }
