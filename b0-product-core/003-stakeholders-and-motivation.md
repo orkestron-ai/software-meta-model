@@ -19,17 +19,20 @@ The **Stakeholders and Motivation** layer defines who cares about the product an
 It describes:
 
 - stakeholders interacting with or affected by the product
-- their goals, motivations, and expectations
+- their goals, motivations, expectations, and constraints
 - how they perceive value and anti-value
+- what drives change in the product
 - conflicts and alignment between stakeholders
 
 It answers:
 
 - Who are the stakeholders?
 - What do they want to achieve?
+- What drives their behavior?
 - How do they measure success?
 - What is valuable for them?
 - What is harmful (anti-value)?
+- What forces drive changes in the system?
 - Where do stakeholder interests align or conflict?
 
 ---
@@ -42,7 +45,7 @@ This layer connects:
 Value ↔ Human / Organizational Perception
 ```
 
-It translates abstract value into **perceived value**.
+It translates abstract value into **perceived value** and **decision drivers**.
 
 Other layers rely on it to:
 
@@ -51,6 +54,7 @@ Other layers rely on it to:
 - validate decisions
 - align product evolution
 - define requirements and success criteria
+- explain why changes are needed
 
 This layer does NOT define:
 
@@ -59,7 +63,7 @@ This layer does NOT define:
 - implementation
 - UI or processes
 
-It defines **motivation and perception only**.
+It defines **motivation, perception, and change drivers only**.
 
 ---
 
@@ -68,10 +72,12 @@ It defines **motivation and perception only**.
 The output is a structured model of:
 
 - stakeholders
-- their motivations
-- their goals and outcomes
-- value perception
-- relationships between stakeholders
+- roles
+- goals and success criteria
+- motivations and expectations
+- value and anti-value perception
+- change drivers
+- relationships and conflicts
 
 ---
 
@@ -90,26 +96,18 @@ Stakeholders may be:
 
 - users
 - customers
-- inverstors, owners
+- owners / investors
 - operators
 - internal teams
 - external organizations
 - regulators
-- systems (in some cases)
-
-Example:
-
-```text
-stakeholder.customer
-stakeholder.product_owner
-stakeholder.support_team
-```
+- partner systems
 
 ---
 
 ### 4.2 Stakeholder Role
 
-A stakeholder role defines how a stakeholder relates to the product.
+Defines how a stakeholder interacts with the product.
 
 Examples:
 
@@ -122,21 +120,7 @@ Examples:
 
 ---
 
-### 4.3 Motivation
-
-Motivation describes what drives a stakeholder.
-
-Motivation may include:
-
-- goals
-- incentives
-- constraints
-- fears
-- expectations
-
----
-
-### 4.4 Goal
+### 4.3 Goal
 
 A goal is a desired outcome for a stakeholder.
 
@@ -144,39 +128,86 @@ Goals should be:
 
 - explicit
 - measurable (if possible)
-- aligned or conflicting with other goals
+- comparable with other goals
 
 ---
 
-### 4.5 Value Perception
+### 4.4 Motivation
 
-Value perception defines what a stakeholder considers valuable.
+Motivation describes what drives a stakeholder:
 
-It links stakeholders to value elements.
+- incentives
+- needs
+- fears
+- constraints
+- expectations
+
+---
+
+### 4.5 Expectation
+
+Expectation defines what outcome a stakeholder expects from the product.
 
 Example:
+
+```text
+stakeholder.customer expects fast execution
+stakeholder.operator expects system stability
+```
+
+---
+
+### 4.6 Success Criterion
+
+Defines how a stakeholder evaluates success.
+
+Examples:
+
+- reduced time to complete task
+- increased reliability
+- reduced manual effort
+- increased revenue
+
+---
+
+### 4.7 Change Driver
+
+A change driver represents a force that pushes the product to evolve.
+
+Typical drivers:
+
+- growth of load or users
+- regulatory requirements
+- reduction of operation time
+- data quality issues
+- cost pressure
+- availability requirements
+- security risks
+- technological obsolescence
+
+---
+
+### 4.8 Value Perception
+
+Defines what a stakeholder considers valuable.
 
 ```text
 stakeholder.customer → values → value.fast_execution
-stakeholder.operator → values → value.system_stability
 ```
 
 ---
 
-### 4.6 Anti-Value Perception
+### 4.9 Anti-Value Perception
 
 Defines what a stakeholder considers harmful.
 
-Example:
-
 ```text
 stakeholder.customer → avoids → antivalue.delay
-stakeholder.team → avoids → antivalue.operational_complexity
 ```
 
 ---
 
-### 4.7 Stakeholder Relationship
+### 4.10 Stakeholder Relationship
 
 Defines relationships between stakeholders:
 
@@ -189,46 +220,47 @@ Defines relationships between stakeholders:
 
 ## 5. Identifiable Entities
 
-| Entity Type      | Identifier Prefix |
-| ---------------- | ----------------- |
-| Stakeholder      | `stakeholder.*`   |
-| Role             | `role.*`          |
-| Goal             | `goal.*`          |
-| Motivation       | `motivation.*`    |
-| Value Perception | `perception.*`    |
-| Relationship     | `relationship.*`  |
+| Entity Type | Identifier Prefix |
+|-------------|------------------|
+| Stakeholder | `stakeholder.*` |
+| Role | `role.*` |
+| Goal | `goal.*` |
+| Motivation | `motivation.*` |
+| Expectation | `expectation.*` |
+| Success Criterion | `success_criterion.*` |
+| Change Driver | `change_driver.*` |
+| Value Perception | `perception.*` |
+| Relationship | `relationship.*` |
 
 ---
 
 ## 6. Required Content Structure
 
----
-
-### 6.1 Stakeholder Definitions
+### 6.1 Stakeholders
 
 For each stakeholder:
 
 - identifier
-- name
 - description
-- role(s)
 - type (internal / external / system)
+- roles
 
 ---
 
 ### 6.2 Roles
 
-Define roles that stakeholders can take.
+Define all roles used by stakeholders.
 
 ---
 
 ### 6.3 Goals
 
-Define stakeholder goals:
+For each goal:
 
-- goal identifier
+- identifier
 - description
-- success criteria (if applicable)
+- stakeholder
+- success criteria
 
 ---
 
@@ -237,21 +269,42 @@ Define stakeholder goals:
 Describe:
 
 - why goals matter
-- underlying drivers
+- what drives stakeholder behavior
 
 ---
 
-### 6.5 Value Perception
+### 6.5 Expectations and Success Criteria
 
 Define:
 
-- what is valuable
+- expected outcomes
+- how success is evaluated
+- measurable indicators (if possible)
+
+---
+
+### 6.6 Change Drivers
+
+Define:
+
+- driver identifier
+- description
+- affected stakeholders
+- impact on product
+
+---
+
+### 6.7 Value Perception
+
+Define:
+
+- what is valuable for each stakeholder
 - what is anti-value
 - how value is evaluated
 
 ---
 
-### 6.6 Relationships
+### 6.8 Relationships
 
 Define:
 
@@ -265,24 +318,13 @@ Define:
 
 The semantic content of this layer is independent of any specific representation format.
 
-This layer defines **who the stakeholders are, what they want, and how they perceive value**, not how this information must be structured or stored.
+Recommended formats:
 
-Due to the narrative and conceptual nature of this layer, the following representations are considered most suitable:
+- Markdown for narrative descriptions
+- JSON/YAML for structured mappings
+- tables or diagrams for relationships
 
-- Markdown (`.md`) for structured descriptions of stakeholders, goals, motivations, and relationships  
-- Structured formats (JSON / YAML) for machine-readable stakeholder definitions and mappings  
-- Tables or simple diagrams for visualizing relationships, dependencies, and conflicts  
-
-These representations are **recommendations, not requirements**.
-
-Implementations:
-
-- SHOULD use Markdown as the primary format for clarity and human understanding  
-- MAY use structured formats when machine processing or integration is required  
-- MAY use visual representations to improve comprehension of relationships  
-- MUST NOT encode semantics in format-specific constructs  
-
-The correctness of this layer is determined by the completeness and consistency of its **semantic content**, not by the chosen representation format.
+The correctness of this layer is determined by semantic completeness, not format.
 
 ---
 
@@ -291,7 +333,10 @@ The correctness of this layer is determined by the completeness and consistency 
 ```text
 stakeholder → has → role
 stakeholder → pursues → goal
+goal → evaluated_by → success_criterion
 goal → driven_by → motivation
+stakeholder → has → expectation
+stakeholder → affected_by → change_driver
 stakeholder → perceives → value
 stakeholder → perceives → anti-value
 stakeholder → interacts_with → stakeholder
@@ -315,7 +360,6 @@ stakeholder → affected_by → flow.*
 ```text
 stakeholder → interacts_with → product.*
 stakeholder → uses → channel.*
-stakeholder → related_to → external.*
 ```
 
 ---
@@ -323,15 +367,18 @@ stakeholder → related_to → external.*
 ### Business Architecture
 
 ```text
-stakeholder → involved_in → capability.*
+stakeholder → participates_in → business_function.*
+stakeholder → uses → business_service.*
 ```
 
 ---
 
-### Critical Path
+### Strategy and Product Management
 
 ```text
-stakeholder → participates_in → critical_step.*
+change_driver.* → influences → strategy.*
+goal.* → maps_to → objective.*
+success_criterion.* → measured_by → kpi.*
 ```
 
 ---
@@ -339,17 +386,17 @@ stakeholder → participates_in → critical_step.*
 ### Product Behavior
 
 ```text
-stakeholder → performs → control.*
-stakeholder → triggers → event.*
+expectation.* → leads_to → requirement.*
+goal.* → drives → requirement.*
 ```
 
 ---
 
-### P&L Model
+### Product Economics
 
 ```text
-stakeholder → generates → revenue
-stakeholder → incurs → cost
+stakeholder → generates → revenue.*
+stakeholder → incurs → cost.*
 ```
 
 ---
@@ -372,6 +419,7 @@ This layer must not include:
 - stakeholder_definition
 - goal_definition
 - relationship_definition
+- change_driver_definition
 
 ---
 
@@ -381,6 +429,7 @@ Must define:
 
 - at least one stakeholder
 - at least one goal
+- at least one expectation
 - at least one value perception
 
 ---
@@ -391,6 +440,8 @@ A mature layer includes:
 
 - full stakeholder map
 - goals and motivations
+- expectations and success criteria
+- change drivers
 - value perception mapping
 - conflicts and dependencies
 
@@ -400,25 +451,24 @@ A mature layer includes:
 
 ```text
 stakeholder.customer
-stakeholder.operator
 goal.reduce_latency
-goal.increase_revenue
-motivation.user_satisfaction
-perception.fast_execution
-relationship.customer_depends_on_system
+expectation.fast_execution
+success_criterion.time_below_1s
+change_driver.load_growth
 ```
 
 ---
 
 ## 15. Summary
 
-This layer defines **who cares about the product and why**.
+This layer defines **who cares about the product, why, and what drives change**.
 
 It connects value to human and organizational meaning, enabling:
 
 - prioritization
 - alignment
 - decision-making
-- value interpretation
+- requirement generation
+- change justification
 
 <!-- AISMM:END -->
