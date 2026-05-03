@@ -1,15 +1,17 @@
-# Bundle 3 — Implementation (Technology Architecture & Code)
+# Bundle 3 — Implementation (Technology, Code & Runtime)
 
 ## Overview
 
-Bundle 3 defines **how the system is realized in real technologies and code**.
+Bundle 3 defines **how the system becomes real, executable software running in real environments**.
 
-It transforms system design into **executable software**, describing:
+It transforms:
 
-- the technology stack and runtime environment  
-- the structure of repositories and codebases  
-- how components are implemented in code  
-- how build artifacts are produced  
+- architecture → technology choices  
+- components → code  
+- code → build artifacts  
+- artifacts → deployed runtime systems  
+
+This bundle introduces **execution reality**, completing the transition from design (b2) to running system.
 
 ---
 
@@ -17,96 +19,178 @@ It transforms system design into **executable software**, describing:
 
 ### 301 — Technology Architecture
 
-Defines the **technological foundation** of the system:
+Defines the **technological foundation and constraints**:
 
-- programming languages and frameworks  
+- programming languages and ecosystems  
 - runtimes and execution environments  
+- frameworks and libraries  
 - databases, storage, caches  
-- message brokers  
-- infrastructure tools  
-- deployment platforms  
+- messaging technologies  
+- infrastructure platforms  
+- constraints and capabilities  
 
 Answers:
 
 ```text
-On which technologies does the system run?
+On which technologies does the system run, and what are their limits?
 ```
 
 ---
 
 ### 302 — Code and Implementation
 
-Defines the **actual implementation structure**:
+Defines the **logical implementation in source code**:
 
 - repositories and codebases  
 - packages and modules  
-- implementation units (classes, functions, services)  
-- build artifacts and scripts  
-- test entry points  
+- implementation units (classes, functions, handlers)  
+- dependency structure  
+- test structure  
+- mapping between code and architecture  
 
 Answers:
 
 ```text
-Where and how is the system implemented?
+Where and how is the system implemented in code?
+```
+
+---
+
+### 303 — Build, Deployment and Runtime Artifacts
+
+Defines **how code becomes a running system**:
+
+- build processes  
+- artifacts (binaries, containers, bundles)  
+- packaging formats  
+- deployment units  
+- runtime instances  
+- CI/CD pipelines  
+- environments (dev, staging, production)  
+
+Answers:
+
+```text
+How does code become a running system in real environments?
 ```
 
 ---
 
 ## Role of Bundle 3
 
-Bundle 3 provides a coherent model:
+Bundle 3 provides a complete execution model:
 
 ```text
-Technology → Code → Execution
+Technology → Code → Artifact → Deployment → Runtime
+```
+
+More precisely:
+
+```text
+Constraints → Logic → Packaging → Execution
 ```
 
 It is used as:
 
-- bridge between architecture and real implementation  
-- reference for engineering structure  
-- foundation for CI/CD and automation  
-- traceability layer from design to code  
+- bridge between system design and real execution  
+- foundation for engineering and DevOps  
+- source of truth for runtime architecture  
+- input for automation and AI agents  
+- traceability layer from design to execution  
+
+---
+
+## Relationship with Other Bundles
+
+### Depends on Bundle 2 (System Design)
+
+```text
+component → implemented_in → module
+operation → implemented_by → function
+entity → mapped_to → class / schema
+integration → executed_by → runtime
+```
+
+---
+
+### Extends Toward Runtime Reality
+
+```text
+code → built_into → artifact
+artifact → deployed_as → deployment_unit
+deployment_unit → runs_on → runtime
+runtime → executes → component
+```
 
 ---
 
 ## Key Principles
 
-- Technology is separated from system design  
-- Code structure reflects system architecture  
-- No duplication of source code inside AISMM  
-- Strong traceability: component → module → code  
-- Technology-agnostic modeling  
+### 1. Clear Separation of Layers
+
+- 301 → technology and constraints  
+- 302 → code and logic  
+- 303 → build, deployment, runtime  
 
 ---
 
-## Relationships with Other Bundles
-
-### From Bundle 2 (System Design)
+### 2. No Mixing of Concerns
 
 ```text
-component → implemented_in → repository / module
-api.operation → implemented_by → function
-entity → mapped_to → class / structure
+Code ≠ Build ≠ Deployment
+```
+
+Each layer must remain isolated but connected.
+
+---
+
+### 3. Execution Ownership
+
+Every runtime responsibility must be traceable:
+
+```text
+component → module → artifact → runtime_instance
 ```
 
 ---
 
-### Toward Runtime / Operations
+### 4. Technology as Constraint & Capability
+
+Technologies define:
+
+- what is possible  
+- what is efficient  
+- what is risky  
+
+---
+
+### 5. Traceability End-to-End
 
 ```text
-artifact → deployed_to → runtime / platform
-technology → constrains → execution
+Process → Component → Code → Artifact → Runtime
 ```
+
+---
+
+### 6. Real System Modeling
+
+The model must reflect:
+
+- CI/CD pipelines  
+- runtime environments  
+- deployment structure  
+- scaling behavior  
 
 ---
 
 ## Typical Use Cases
 
-- understanding system implementation  
 - onboarding engineers  
 - mapping architecture to code  
-- analyzing tech stack  
-- preparing CI/CD pipelines  
+- analyzing tech stack constraints  
+- designing CI/CD pipelines  
+- understanding runtime behavior  
+- enabling AI-driven development  
 
 ---
 
@@ -121,18 +205,20 @@ b3.schema.json
 Defines:
 
 - technology model (301)  
-- code implementation model (302)  
+- code model (302)  
+- runtime model (303)  
 - relationships across layers  
 
 ---
 
 ## Summary
 
-Bundle 3 defines **how the system becomes real software**.
+Bundle 3 defines how the system **becomes real, running software**.
 
-It connects architecture with actual code and technologies, ensuring the system is:
+It connects technology, code, and runtime into a single execution model, ensuring the system is:
 
 - implementable  
-- traceable  
-- maintainable  
-- executable  
+- deployable  
+- observable (in future bundles)  
+- scalable  
+- executable in real-world environments  
