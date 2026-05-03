@@ -1,0 +1,1437 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b4.schema.json",
+  "title": "AISMM Bundle 4 — Product Behavior Schema",
+  "description": "Full data schema for AISMM Bundle 4: Product Behavior (Requirements, Domain Model & Rules, Access Rights, NFR & Quality Attributes).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b4"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "product_behavior"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "Product Behavior (Requirements, Domain Rules, Access & Quality)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "401_requirements",
+        "402_domain_model_and_business_rules",
+        "403_access_rights",
+        "404_nfr_and_quality_attributes"
+      ],
+      "properties": {
+        "401_requirements": {
+          "$ref": "#/$defs/requirements_layer"
+        },
+        "402_domain_model_and_business_rules": {
+          "$ref": "#/$defs/domain_model_business_rules_layer"
+        },
+        "403_access_rights": {
+          "$ref": "#/$defs/access_rights_layer"
+        },
+        "404_nfr_and_quality_attributes": {
+          "$ref": "#/$defs/nfr_quality_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "requirements_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "requirements"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "401"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "requirements"
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requirement"
+          },
+          "minItems": 1
+        },
+        "requirement_groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requirement_group"
+          }
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/acceptance_criterion"
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/behavior_scenario"
+          }
+        },
+        "constraint_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint_requirement"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "requirement_type"
+          ],
+          "properties": {
+            "requirement_type": {
+              "type": "string",
+              "enum": [
+                "functional",
+                "business",
+                "constraint",
+                "quality",
+                "security",
+                "access",
+                "other"
+              ]
+            },
+            "priority": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "derived_from_initiatives": {
+              "$ref": "#/$defs/references"
+            },
+            "validates_hypotheses": {
+              "$ref": "#/$defs/references"
+            },
+            "delivers_value": {
+              "$ref": "#/$defs/references"
+            },
+            "implemented_by_processes": {
+              "$ref": "#/$defs/references"
+            },
+            "implemented_in_components": {
+              "$ref": "#/$defs/references"
+            },
+            "acceptance_criteria": {
+              "$ref": "#/$defs/references"
+            },
+            "scenarios": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "requirement_group": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "group_type": {
+              "type": "string",
+              "enum": [
+                "feature",
+                "capability",
+                "initiative",
+                "module",
+                "release",
+                "other"
+              ]
+            },
+            "requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "acceptance_criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "requirement",
+        "condition",
+        "expected_result"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "requirement": {
+          "$ref": "#/$defs/reference"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "expected_result": {
+          "type": "string"
+        },
+        "verification_method": {
+          "type": "string"
+        }
+      }
+    },
+    "behavior_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "given": {
+              "type": "string"
+            },
+            "when": {
+              "type": "string"
+            },
+            "then": {
+              "type": "string"
+            },
+            "scenario_type": {
+              "type": "string",
+              "enum": [
+                "normal",
+                "edge_case",
+                "exception",
+                "negative",
+                "other"
+              ]
+            },
+            "related_requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "constraint_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "constraint_type": {
+              "type": "string",
+              "enum": [
+                "legal",
+                "technical",
+                "business",
+                "security",
+                "compliance",
+                "operational",
+                "other"
+              ]
+            },
+            "limitation": {
+              "type": "string"
+            },
+            "affected_requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "domain_model_business_rules_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "domain_entities",
+        "business_rules"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "402"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "domain_model_and_business_rules"
+        },
+        "domain_entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_entity"
+          },
+          "minItems": 1
+        },
+        "domain_attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_attribute"
+          }
+        },
+        "domain_relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_relationship"
+          }
+        },
+        "business_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_rule"
+          },
+          "minItems": 1
+        },
+        "invariants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/invariant"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_state"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/state_transition"
+          }
+        },
+        "lifecycles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_lifecycle"
+          }
+        },
+        "domain_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_event"
+          }
+        },
+        "decision_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decision_model"
+          }
+        },
+        "policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domain_policy"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "domain_entity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "attributes": {
+              "$ref": "#/$defs/references"
+            },
+            "relationships": {
+              "$ref": "#/$defs/references"
+            },
+            "lifecycle": {
+              "$ref": "#/$defs/reference"
+            },
+            "maps_to_data_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "domain_attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "entity",
+        "data_type",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "data_type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "domain_relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_entity",
+        "relation",
+        "target_entity"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "one_to_one",
+            "one_to_many",
+            "many_to_one",
+            "many_to_many",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "business_rule": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            },
+            "applies_to_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "enforces_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "implemented_in_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "invariant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "rule": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "string"
+            },
+            "applies_to_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "domain_state": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "state_type": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "state_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "entity",
+        "from_state",
+        "to_state"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "from_state": {
+          "$ref": "#/$defs/reference"
+        },
+        "to_state": {
+          "$ref": "#/$defs/reference"
+        },
+        "triggered_by": {
+          "$ref": "#/$defs/reference"
+        },
+        "produces_event": {
+          "$ref": "#/$defs/reference"
+        },
+        "guard_rule": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "domain_lifecycle": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "states": {
+              "$ref": "#/$defs/references"
+            },
+            "transitions": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "domain_event": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "enum": [
+                "created",
+                "updated",
+                "state_changed",
+                "approved",
+                "rejected",
+                "completed",
+                "failed",
+                "custom"
+              ]
+            },
+            "payload_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "produced_by_transition": {
+              "$ref": "#/$defs/reference"
+            },
+            "maps_to_api_event": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "decision_model": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inputs": {
+              "$ref": "#/$defs/references"
+            },
+            "rules": {
+              "$ref": "#/$defs/references"
+            },
+            "outputs": {
+              "$ref": "#/$defs/references"
+            },
+            "decision_table_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "domain_policy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "policy_type": {
+              "type": "string",
+              "enum": [
+                "business",
+                "access",
+                "validation",
+                "pricing",
+                "risk",
+                "other"
+              ]
+            },
+            "governs_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "governs_rules": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "access_rights_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "roles",
+        "permissions"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "403"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "access_rights"
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_actor"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_role"
+          },
+          "minItems": 1
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/permission"
+          },
+          "minItems": 1
+        },
+        "policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_policy"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_condition"
+          }
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_scope"
+          }
+        },
+        "delegations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/delegation"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "access_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actor_type": {
+              "type": "string",
+              "enum": [
+                "user",
+                "system",
+                "service",
+                "external_party",
+                "ai_agent",
+                "other"
+              ]
+            },
+            "roles": {
+              "$ref": "#/$defs/references"
+            },
+            "attributes": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      ]
+    },
+    "access_role": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "permissions": {
+              "$ref": "#/$defs/references"
+            },
+            "assigned_to_actors": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "permission": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "action",
+            "resource"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "execute",
+                "approve",
+                "manage",
+                "delete",
+                "create",
+                "update",
+                "other"
+              ]
+            },
+            "resource": {
+              "$ref": "#/$defs/reference"
+            },
+            "scope": {
+              "$ref": "#/$defs/reference"
+            },
+            "required_by_operations": {
+              "$ref": "#/$defs/references"
+            },
+            "required_by_process_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "applies_to_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "access_policy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "policy_model": {
+              "type": "string",
+              "enum": [
+                "RBAC",
+                "ABAC",
+                "context_based",
+                "hybrid",
+                "other"
+              ]
+            },
+            "applies_to_roles": {
+              "$ref": "#/$defs/references"
+            },
+            "grants_permissions": {
+              "$ref": "#/$defs/references"
+            },
+            "conditions": {
+              "$ref": "#/$defs/references"
+            },
+            "constrained_by_business_rules": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "access_condition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "condition_type": {
+              "type": "string",
+              "enum": [
+                "time",
+                "location",
+                "state",
+                "ownership",
+                "environment",
+                "attribute",
+                "other"
+              ]
+            },
+            "logic": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "restricts_permissions": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "access_scope": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope_type": {
+              "type": "string",
+              "enum": [
+                "entity",
+                "field",
+                "operation",
+                "environment",
+                "tenant",
+                "module",
+                "other"
+              ]
+            },
+            "boundaries": {
+              "$ref": "#/$defs/references"
+            },
+            "limitations": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "delegation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from_actor",
+        "to_actor",
+        "permissions"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "from_actor": {
+          "$ref": "#/$defs/reference"
+        },
+        "to_actor": {
+          "$ref": "#/$defs/reference"
+        },
+        "permissions": {
+          "$ref": "#/$defs/references"
+        },
+        "conditions": {
+          "$ref": "#/$defs/references"
+        },
+        "expires_at": {
+          "type": "string"
+        }
+      }
+    },
+    "nfr_quality_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "quality_attributes",
+        "metrics"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "404"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "nfr_and_quality_attributes"
+        },
+        "quality_attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quality_attribute"
+          },
+          "minItems": 1
+        },
+        "nfrs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nfr"
+          }
+        },
+        "quality_scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quality_scenario"
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quality_metric"
+          },
+          "minItems": 1
+        },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/threshold"
+          }
+        },
+        "slas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sla"
+          }
+        },
+        "slos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slo"
+          }
+        },
+        "error_budgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/error_budget"
+          }
+        },
+        "tradeoffs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quality_tradeoff"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "quality_attribute": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "attribute_type": {
+              "type": "string",
+              "enum": [
+                "performance",
+                "availability",
+                "scalability",
+                "security",
+                "maintainability",
+                "reliability",
+                "usability",
+                "compatibility",
+                "observability",
+                "other"
+              ]
+            },
+            "constrains_components": {
+              "$ref": "#/$defs/references"
+            },
+            "constrained_by_technologies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "nfr": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "quality_attribute": {
+              "$ref": "#/$defs/reference"
+            },
+            "requirement_statement": {
+              "type": "string"
+            },
+            "metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "threshold": {
+              "$ref": "#/$defs/reference"
+            },
+            "complements_requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "quality_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "stimulus": {
+              "type": "string"
+            },
+            "environment": {
+              "type": "string"
+            },
+            "response": {
+              "type": "string"
+            },
+            "response_measure": {
+              "type": "string"
+            },
+            "quality_attribute": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "quality_metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "definition": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "measurement_method": {
+              "type": "string"
+            },
+            "observed_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "metric",
+        "operator",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "metric": {
+          "$ref": "#/$defs/reference"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "lt",
+            "lte",
+            "eq",
+            "gte",
+            "gt",
+            "between"
+          ]
+        },
+        "value": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "info",
+            "warning",
+            "critical",
+            "blocking",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "sla": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_value": {
+              "type": "string"
+            },
+            "measurement_period": {
+              "type": "string"
+            },
+            "external_guarantee": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "slo": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_value": {
+              "type": "string"
+            },
+            "measurement_period": {
+              "type": "string"
+            },
+            "internal_target": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "error_budget": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "slo": {
+              "$ref": "#/$defs/reference"
+            },
+            "allowed_failure_rate": {
+              "type": "string"
+            },
+            "period": {
+              "type": "string"
+            },
+            "remaining_budget_formula": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "quality_tradeoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "first_attribute",
+        "second_attribute",
+        "decision"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "first_attribute": {
+          "$ref": "#/$defs/reference"
+        },
+        "second_attribute": {
+          "$ref": "#/$defs/reference"
+        },
+        "decision": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "affected_components": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    }
+  }
+}
