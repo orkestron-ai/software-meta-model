@@ -1,95 +1,101 @@
-# Product Definition & Value-Economics Core (Bundle 0)
+# Bundle 0 — Product Core (Definition, Value & Economics)
 
 ## Overview
 
-Bundle 0 represents the **core semantic foundation of the product** within AISMM.
+Bundle 0 defines the **core meaning of the product**.
 
-It defines:
-- what the product is
-- how it creates value
-- how it is structured at a business level
-- how value translates into economics
+It answers the fundamental questions:
 
-This bundle is the **entry point for understanding the product** and the base for all other layers.
+- What is the product?
+- Why does it exist?
+- For whom is it valuable?
+- How is it structured at a business level?
+- What is the minimal way it delivers value?
+- How does it translate value into money?
 
----
-
-## Included Layers
-
-- 001 — Product Definition & Context
-- 002 — Aeilus Value Streams (VSS)
-- 003 — Stakeholders and Motivation
-- 004 — Business Architecture (Static)
-- 005 — Critical Path (High-Level)
-- 006 — Product P&L Model
+This bundle is the **foundation for all other AISMM layers**.
 
 ---
 
-## Purpose
+## Layers Overview
 
-This bundle provides:
-
-- **Semantic definition of the product**
-- **Value flow representation (VSS)**
-- **Business structure**
-- **Critical execution path**
-- **Economic model**
-
-It is used by AISMM Studio to generate:
-
-- Product Card
-- Value Graph
-- Economic Model
-- Core Product Overview
+### 001 — Product Definition & Context
+Defines the product as a bounded system:
+- scope and boundaries
+- modules and external systems
+- ownership and context
 
 ---
 
-## Schema Definition
-
-The structure of this bundle is formally defined in:
-
-👉 `b0aismm.schema.json`
-
-This schema:
-
-- aggregates all layers of Bundle 0
-- defines how they are composed into a unified model
-- is used during:
-  - export
-  - composition
-  - decomposition
+### 002 — Aeilus Value Streams
+Defines how value flows through the system:
+- value and anti-value
+- transformations
+- participants and flows
 
 ---
 
-## Integration into AISMM
+### 003 — Stakeholders & Motivation
+Defines who cares about the product and why:
+- stakeholders
+- goals and motivations
+- value perception
 
-Bundle 0 is included into the global model:
+---
 
-👉 `aismm.json`
+### 004 — Business Architecture
+Defines the static business structure:
+- domains
+- capabilities
+- business entities
+- ownership
 
-Where:
+---
 
-```json
-{
-  "bundles": {
-    "b0": {
-      "$ref": "b0aismm.schema.json"
-    }
-  }
-}
+### 005 — Critical Path
+Defines the minimal path of value delivery:
+- essential steps
+- dependencies
+- value transitions
+
+---
+
+### 006 — Product Economics (P&L)
+Defines how value becomes money:
+- revenue streams
+- cost structure
+- economic drivers
+
+---
+
+## Role of Bundle 0
+
+Bundle 0 provides a coherent model:
+
+```
+Product → Value → Stakeholders → Structure → Execution → Economics
 ```
 
+It is used as:
+
+- entry point for understanding the product
+- base for all further modeling
+- alignment layer across teams
+
 ---
 
-## Notes
+## Key Principles
 
-- Bundle 0 is **mostly static**
-- Changes here indicate **major product evolution**
-- All entities must have stable IDs
-- Other bundles depend on this bundle
+- Semantic first, format second
+- Stable identifiers across all layers
+- Clear boundaries and scope
+- Value-driven modeling
+- Separation of concerns between layers
 
 ---
 
 ## Summary
 
-> Bundle 0 defines the product, its value, and its economic foundation.
+Bundle 0 defines **what the product is, why it exists, and how it creates and captures value**.
+
+All other bundles extend, refine, and operationalize this foundation.
