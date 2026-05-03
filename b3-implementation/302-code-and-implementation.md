@@ -6,7 +6,7 @@ document_id: spec.code.implementation
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Code and Implementation Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,22 +14,27 @@ title: Code and Implementation Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Code and Implementation** layer defines how the system is realized in actual source code and executable artifacts.
+The **Code and Implementation** layer defines how the system is realized in actual **source code and logical implementation structure**.
 
 It describes:
 
 - repositories and codebases  
-- packages and modules  
+- modules and packages  
 - implementation units (classes, functions, services)  
-- build and deployment artifacts  
 - mapping between code and system design  
+- traceability between code, APIs, data, and processes  
 
 It answers:
 
 - Where is the system implemented?
-- How is code structured?
-- Which parts of code implement which components?
-- How is the system built and packaged?
+- How is the code structured?
+- Which code implements which system components?
+- How does implementation map to architecture and behavior?
+
+IMPORTANT:
+
+This layer defines **code structure**, NOT build/deployment artifacts  
+(these are moved to layer 303)
 
 ---
 
@@ -37,284 +42,232 @@ It answers:
 
 This layer connects:
 
-```text
-Technology → Code → Execution
-```
+Technology → Code → Logical Execution
 
-It transforms abstract system design into **concrete implementation artifacts**.
+It transforms:
+
+- system components → code modules  
+- APIs → functions / handlers  
+- data → classes / schemas  
+- processes → orchestrated logic  
 
 Other layers rely on it to:
 
-- trace requirements to code  
+- trace architecture to code  
 - validate implementation coverage  
 - support development workflows  
-- enable automation and CI/CD  
+- enable testing and quality control  
 
 This layer does NOT define:
 
-- business meaning  
-- API contracts (only references them)  
-- data semantics  
-- runtime infrastructure  
+- build pipelines  
+- deployment artifacts  
+- infrastructure configuration  
 
-It defines **where and how logic is implemented**.
+It defines **where and how logic is implemented in code**.
 
 ---
 
-## 3. Main Output of the Layer
-
-The output is a structured model of:
+## 3. Main Output
 
 - repositories  
 - codebases  
 - modules and packages  
 - implementation units  
-- build artifacts  
+- code-to-architecture mapping  
+- test structure  
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 Repository
-
-A repository is a version-controlled codebase.
+Version-controlled code storage.
 
 ---
 
 ### 4.2 Codebase
-
-Logical grouping of code within a repository.
+Logical grouping of code.
 
 ---
 
 ### 4.3 Package / Module
-
-Reusable or logically grouped code units.
+Reusable or grouped code.
 
 ---
 
 ### 4.4 Implementation Unit
-
 Concrete code element:
 
 - class  
 - function  
 - service  
-- script  
+- handler  
 
 ---
 
-### 4.5 Build Artifact
+### 4.5 Code Mapping (NEW)
+Defines explicit links:
 
-Output of build process:
-
-- binary  
-- container  
-- bundle  
+- module → component  
+- function → API operation  
+- class → data entity  
+- handler → process step  
 
 ---
 
-### 4.6 Test Entry Point
+### 4.6 Test Structure (ENHANCED)
+Defines:
 
-Entry point for validation/testing.
+- test types (unit / integration / e2e)  
+- coverage mapping  
+- validation targets  
+
+---
+
+### 4.7 Dependency (NEW)
+Defines:
+
+- library dependencies  
+- module dependencies  
+- internal/external usage  
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type | Identifier Prefix |
-| :---------- | :---------------- |
-| Repository  | `repository.*`    |
-| Codebase    | `codebase.*`      |
-| Package     | `package.*`       |
-| Module      | `module.*`        |
-| Class       | `class.*`         |
-| Function    | `function.*`      |
-| Artifact    | `artifact.*`      |
-| Test        | `test.*`          |
+| Entity | Prefix |
+|--------|--------|
+| Repository | repository.* |
+| Codebase | codebase.* |
+| Module | module.* |
+| Package | package.* |
+| Class | class.* |
+| Function | function.* |
+| Test | test.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
 ### 6.1 Repositories
-
-- identifier  
-- description  
-- location (URL/path)  
+- id  
+- location  
+- purpose  
 
 ---
 
 ### 6.2 Codebases
-
-- identifier  
 - repository  
 - scope  
 
 ---
 
-### 6.3 Packages / Modules
-
-- identifier  
+### 6.3 Modules
 - codebase  
-- purpose  
+- responsibility  
 
 ---
 
 ### 6.4 Implementation Units
-
-- identifier  
-- type (class/function/etc.)  
-- module  
-
----
-
-### 6.5 Build Artifacts
-
-- identifier  
 - type  
-- produced from  
+- module  
+- purpose  
 
 ---
 
-### 6.6 Test Entry Points
+### 6.5 Code Mapping
+- module → component  
+- function → operation  
+- class → entity  
+- handler → process step  
 
-- identifier  
-- coverage scope  
+---
+
+### 6.6 Tests
+- type  
+- validates  
+- coverage  
+
+---
+
+### 6.7 Dependencies
+- internal dependencies  
+- external libraries  
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of representation format.
+- Markdown for structure  
+- actual source code (primary artifact)  
+- manifests (composer.json, package.json, etc.)  
 
-Recommended formats:
+RULES:
 
-- Markdown (`.md`) for structure description  
-- Source code (primary artifact)  
-- Language manifests (`composer.json`, `package.json`, `pyproject.toml`, etc.)  
-- Build configs (Dockerfile, CI pipelines)  
-
-Implementations:
-
-- SHOULD reference actual code locations  
-- SHOULD keep mapping between code and system design  
-- MAY include generated code maps  
-- MUST NOT duplicate full source code in AISMM  
+- MUST reference real code locations  
+- MUST NOT duplicate source code  
+- SHOULD maintain mapping to AISMM layers  
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-repository → contains → codebase
-codebase → contains → module
-module → contains → implementation_unit
-implementation_unit → produces → artifact
-test → validates → implementation_unit
-```
+repository → contains → codebase  
+codebase → contains → module  
+module → contains → implementation_unit  
+implementation_unit → depends_on → library  
+test → validates → implementation_unit  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### System Architecture
+System Architecture:
+module → implements → component.*
 
-```text
-repository → implements → component.*
-module → implements → module.*
-```
-
----
-
-### API Layer
-
-```text
+API:
 function → implements → operation.*
-```
 
----
-
-### Data Architecture
-
-```text
+Data:
 class → maps_to → entity.*
-```
+
+Processes:
+handler → executes → step.*
+
+Technology:
+module → uses → technology.*
 
 ---
 
-### Technology Architecture
+## 10. Boundaries
 
-```text
-artifact → built_with → technology.*
-artifact → runs_on → runtime.*
-```
+Does NOT include:
 
----
-
-### Requirements
-
-```text
-test → validates → requirement.*
-```
+- build artifacts (→ 303)  
+- CI/CD pipelines (→ 303)  
+- infrastructure configs  
 
 ---
 
-## 10. Layer Boundaries
+## 11. Minimal Content
 
-This layer must not include:
-
-- full source code dumps  
-- business definitions  
-- infrastructure configs (only references)  
+- 1 repository  
+- 1 module  
 
 ---
 
-## 11. Recommended Block Types
+## 12. Completeness
 
-- layer_document  
-- repository_definition  
-- module_definition  
-- implementation_definition  
-
----
-
-## 12. Minimal Valid Content
-
-Must define:
-
-- at least one repository  
-- at least one module  
-
----
-
-## 13. Completeness Criteria
-
-A mature model includes:
-
-- mapping from components to code  
+- full mapping to architecture  
 - clear module structure  
-- traceability to requirements  
-- build and artifact definitions  
+- traceability to APIs, data, processes  
+- test coverage  
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-repository.orkestron_backend
-module.workflow_engine
-class.workflow_executor
-function.execute_workflow
-artifact.backend_container
-```
-
----
-
-## 15. Summary
-
-This layer defines **where the system is implemented and how code is structured**.
-
-It provides the final link between system design and real executable software.
+Defines how system logic is implemented in code and how it maps to architecture and behavior.
 
 <!-- AISMM:END -->
