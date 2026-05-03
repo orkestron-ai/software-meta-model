@@ -1,0 +1,1026 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b3.schema.json",
+  "title": "AISMM Bundle 3 — Implementation Schema",
+  "description": "Full data schema for AISMM Bundle 3: Implementation (Technology Architecture & Code Implementation). This schema expands layers 301–302 into one machine-readable JSON structure.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b3"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "implementation"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "Implementation (Technology Architecture & Code Implementation)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "301_technology_architecture",
+        "302_code_and_implementation"
+      ],
+      "properties": {
+        "301_technology_architecture": {
+          "$ref": "#/$defs/technology_architecture_layer"
+        },
+        "302_code_and_implementation": {
+          "$ref": "#/$defs/code_implementation_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "description": "Optional explicit links between Bundle 3 entities and other AISMM layers.",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. technology.php or repository.backend."
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference to another AISMM entity or external file."
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "technology_architecture_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "technologies",
+        "runtimes"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "301"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "technology_architecture"
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/technology"
+          },
+          "minItems": 1
+        },
+        "runtimes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime"
+          },
+          "minItems": 1
+        },
+        "frameworks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/framework"
+          }
+        },
+        "databases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/database"
+          }
+        },
+        "storages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/storage"
+          }
+        },
+        "message_brokers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/message_broker"
+          }
+        },
+        "caches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cache"
+          }
+        },
+        "infrastructure_tools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/infrastructure_tool"
+          }
+        },
+        "deployment_platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deployment_platform"
+          }
+        },
+        "technology_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/technology_constraint"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "technology": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "technology_type"
+          ],
+          "properties": {
+            "technology_type": {
+              "type": "string",
+              "enum": [
+                "language",
+                "framework",
+                "database",
+                "message_broker",
+                "cache",
+                "storage",
+                "infrastructure_tool",
+                "deployment_platform",
+                "runtime",
+                "library",
+                "other"
+              ]
+            },
+            "version": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "supported_components": {
+              "$ref": "#/$defs/references"
+            },
+            "constraints": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "runtime": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "runtime_type": {
+              "type": "string",
+              "enum": [
+                "language_runtime",
+                "application_server",
+                "container_runtime",
+                "serverless_runtime",
+                "browser_runtime",
+                "mobile_runtime",
+                "other"
+              ]
+            },
+            "supported_technologies": {
+              "$ref": "#/$defs/references"
+            },
+            "runs_deployment_units": {
+              "$ref": "#/$defs/references"
+            },
+            "execution_context": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "framework": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "associated_language": {
+              "$ref": "#/$defs/reference"
+            },
+            "used_by_components": {
+              "$ref": "#/$defs/references"
+            },
+            "version": {
+              "type": "string"
+            },
+            "usage_context": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "database": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "database_type": {
+              "type": "string",
+              "enum": [
+                "relational",
+                "document",
+                "key_value",
+                "graph",
+                "time_series",
+                "search",
+                "analytical",
+                "other"
+              ]
+            },
+            "stores_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "owned_by_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "storage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "storage_type": {
+              "type": "string",
+              "enum": [
+                "object_storage",
+                "file_storage",
+                "block_storage",
+                "database_storage",
+                "other"
+              ]
+            },
+            "stores_datasets": {
+              "$ref": "#/$defs/references"
+            },
+            "owned_by_component": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "message_broker": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "broker_type": {
+              "type": "string",
+              "enum": [
+                "kafka",
+                "rabbitmq",
+                "redis_streams",
+                "sqs",
+                "pubsub",
+                "nats",
+                "other"
+              ]
+            },
+            "transports_events": {
+              "$ref": "#/$defs/references"
+            },
+            "used_by_integrations": {
+              "$ref": "#/$defs/references"
+            },
+            "version": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "cache": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cache_type": {
+              "type": "string",
+              "enum": [
+                "memory",
+                "distributed",
+                "cdn",
+                "application_cache",
+                "other"
+              ]
+            },
+            "used_by_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "infrastructure_tool": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool_type": {
+              "type": "string",
+              "enum": [
+                "container",
+                "orchestration",
+                "iac",
+                "ci_cd",
+                "configuration_management",
+                "observability",
+                "security",
+                "other"
+              ]
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "reference_files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "deployment_platform": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "platform_type": {
+              "type": "string",
+              "enum": [
+                "cloud",
+                "on_premise",
+                "hybrid",
+                "edge",
+                "local",
+                "other"
+              ]
+            },
+            "hosts_systems": {
+              "$ref": "#/$defs/references"
+            },
+            "hosts_deployment_units": {
+              "$ref": "#/$defs/references"
+            },
+            "regions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "technology_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "constraint_type": {
+          "type": "string",
+          "enum": [
+            "version",
+            "license",
+            "vendor",
+            "runtime",
+            "platform",
+            "security",
+            "compliance",
+            "performance",
+            "other"
+          ]
+        },
+        "affected_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "code_implementation_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "repositories",
+        "modules"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "302"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "code_and_implementation"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repository"
+          },
+          "minItems": 1
+        },
+        "codebases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/codebase"
+          }
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/code_package"
+          }
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/code_module"
+          },
+          "minItems": 1
+        },
+        "implementation_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/implementation_unit"
+          }
+        },
+        "build_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/build_artifact"
+          }
+        },
+        "test_entrypoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_entrypoint"
+          }
+        },
+        "build_scripts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/build_script"
+          }
+        },
+        "manifests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/code_manifest"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "repository": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "location"
+          ],
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "repository_type": {
+              "type": "string",
+              "enum": [
+                "git",
+                "svn",
+                "mercurial",
+                "filesystem",
+                "other"
+              ]
+            },
+            "default_branch": {
+              "type": "string"
+            },
+            "contains_codebases": {
+              "$ref": "#/$defs/references"
+            },
+            "implements_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "codebase": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "repository"
+          ],
+          "properties": {
+            "repository": {
+              "$ref": "#/$defs/reference"
+            },
+            "root_path": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "contains_packages": {
+              "$ref": "#/$defs/references"
+            },
+            "implements_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "code_package": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "codebase": {
+              "$ref": "#/$defs/reference"
+            },
+            "path": {
+              "type": "string"
+            },
+            "package_manager": {
+              "type": "string",
+              "enum": [
+                "composer",
+                "npm",
+                "yarn",
+                "pnpm",
+                "pip",
+                "poetry",
+                "maven",
+                "gradle",
+                "go_modules",
+                "cargo",
+                "other"
+              ]
+            },
+            "implements_modules": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "code_module": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "codebase": {
+              "$ref": "#/$defs/reference"
+            },
+            "package": {
+              "$ref": "#/$defs/reference"
+            },
+            "path": {
+              "type": "string"
+            },
+            "module_type": {
+              "type": "string",
+              "enum": [
+                "domain",
+                "application",
+                "infrastructure",
+                "ui",
+                "integration",
+                "test",
+                "script",
+                "other"
+              ]
+            },
+            "implements_system_modules": {
+              "$ref": "#/$defs/references"
+            },
+            "implements_components": {
+              "$ref": "#/$defs/references"
+            },
+            "contains_implementation_units": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "implementation_unit": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "unit_type"
+          ],
+          "properties": {
+            "unit_type": {
+              "type": "string",
+              "enum": [
+                "class",
+                "function",
+                "method",
+                "service",
+                "script",
+                "migration",
+                "configuration",
+                "template",
+                "other"
+              ]
+            },
+            "module": {
+              "$ref": "#/$defs/reference"
+            },
+            "path": {
+              "type": "string"
+            },
+            "language": {
+              "$ref": "#/$defs/reference"
+            },
+            "implements_operation": {
+              "$ref": "#/$defs/reference"
+            },
+            "implements_control": {
+              "$ref": "#/$defs/reference"
+            },
+            "maps_to_entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "changes_entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "produces_artifacts": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "build_artifact": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "artifact_type"
+          ],
+          "properties": {
+            "artifact_type": {
+              "type": "string",
+              "enum": [
+                "binary",
+                "container_image",
+                "bundle",
+                "library",
+                "package",
+                "static_assets",
+                "migration_package",
+                "other"
+              ]
+            },
+            "produced_from": {
+              "$ref": "#/$defs/reference"
+            },
+            "built_with": {
+              "$ref": "#/$defs/references"
+            },
+            "runs_on": {
+              "$ref": "#/$defs/reference"
+            },
+            "deploys_as": {
+              "$ref": "#/$defs/reference"
+            },
+            "artifact_location": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "test_entrypoint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "test_type": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "integration",
+                "e2e",
+                "contract",
+                "performance",
+                "security",
+                "manual",
+                "other"
+              ]
+            },
+            "path": {
+              "type": "string"
+            },
+            "validates_units": {
+              "$ref": "#/$defs/references"
+            },
+            "validates_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "validates_operations": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "build_script": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "script_type": {
+              "type": "string",
+              "enum": [
+                "build",
+                "test",
+                "lint",
+                "deploy",
+                "migration",
+                "generation",
+                "other"
+              ]
+            },
+            "path": {
+              "type": "string"
+            },
+            "produces_artifacts": {
+              "$ref": "#/$defs/references"
+            },
+            "uses_technologies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "code_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "manifest_type",
+        "path"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "manifest_type": {
+          "type": "string",
+          "enum": [
+            "composer_json",
+            "package_json",
+            "pyproject_toml",
+            "go_mod",
+            "cargo_toml",
+            "pom_xml",
+            "gradle",
+            "dockerfile",
+            "ci_pipeline",
+            "other"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "repository": {
+          "$ref": "#/$defs/reference"
+        },
+        "describes": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    }
+  }
+}
