@@ -67,7 +67,7 @@ The main output of this layer is a structured product definition containing:
 
 ## 4. Core Concepts
 
-### 4.1 Product
+### 4.1 Product Passport
 
 The product is the main object being described by AISMM.
 
@@ -81,6 +81,19 @@ A product may be:
 - a service
 - a product family
 - a subsystem treated as an independent product
+
+A product passport include:
+
+- product name
+- purpose
+- target domain
+- product type
+- short history
+- lifecycle status
+- business criticality
+- main users
+- product owners
+- key constraints
 
 The product must have a stable identifier.
 
@@ -238,7 +251,7 @@ A Product Definition & Context block should contain the following sections.
 
 ---
 
-### 6.1 Product Identity
+### 6.1 Product Passport
 
 Defines the product as a distinct entity.
 
@@ -444,6 +457,7 @@ constraint.must_use_shared_billing_platform
 Detailed security, compliance, and performance constraints may be expanded in later layers.
 
 ---
+
 
 ## 7. Preferred Representation
 
