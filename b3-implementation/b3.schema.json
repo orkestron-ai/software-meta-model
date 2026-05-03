@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b3.schema.json",
-  "title": "AISMM Bundle 3 — Implementation Schema",
-  "description": "Full data schema for AISMM Bundle 3: Implementation (Technology Architecture & Code Implementation). This schema expands layers 301–302 into one machine-readable JSON structure.",
+  "title": "AISMM Bundle 3 \u2014 Implementation Schema",
+  "description": "Full data schema for AISMM Bundle 3: Implementation (Technology Architecture, Code Implementation, Build & Runtime).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -23,7 +23,7 @@
     },
     "bundle_name": {
       "type": "string",
-      "const": "Implementation (Technology Architecture & Code Implementation)"
+      "const": "Implementation (Technology, Code & Runtime)"
     },
     "schema_version": {
       "type": "string"
@@ -39,7 +39,8 @@
       "additionalProperties": false,
       "required": [
         "301_technology_architecture",
-        "302_code_and_implementation"
+        "302_code_and_implementation",
+        "303_build_deployment_runtime"
       ],
       "properties": {
         "301_technology_architecture": {
@@ -47,6 +48,9 @@
         },
         "302_code_and_implementation": {
           "$ref": "#/$defs/code_implementation_layer"
+        },
+        "303_build_deployment_runtime": {
+          "$ref": "#/$defs/build_deployment_runtime_layer"
         }
       }
     },
@@ -639,12 +643,6 @@
             "$ref": "#/$defs/implementation_unit"
           }
         },
-        "build_artifacts": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/build_artifact"
-          }
-        },
         "test_entrypoints": {
           "type": "array",
           "items": {
@@ -1019,6 +1017,118 @@
         },
         "describes": {
           "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "build_deployment_runtime_layer": {
+      "type": "object",
+      "required": [
+        "layer_id",
+        "layer_key",
+        "artifacts",
+        "deployment_units"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "303"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "build_deployment_runtime"
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_artifact"
+          }
+        },
+        "deployment_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deployment_unit"
+          }
+        },
+        "pipelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pipeline"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/environment"
+          }
+        }
+      }
+    },
+    "runtime_artifact": {
+      "type": "object",
+      "required": [
+        "id",
+        "artifact_type"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "artifact_type": {
+          "type": "string"
+        },
+        "built_from": {
+          "$ref": "#/$defs/reference"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "deployment_unit": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "artifact": {
+          "$ref": "#/$defs/reference"
+        },
+        "runs_on": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "pipeline": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
         }
       }
     }
