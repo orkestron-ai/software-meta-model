@@ -275,6 +275,27 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "product_passport": {
+          "$ref": "#/$defs/product_passport"
+        },
+        "context_domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/context_domain"
+          }
+        },
+        "manual_activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/manual_activity"
+          }
+        },
+        "boundary_classifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/boundary_classification"
+          }
         }
       }
     },
@@ -312,6 +333,34 @@
             },
             "lifecycle_status": {
               "type": "string"
+            },
+            "target_domain": {
+              "type": "string"
+            },
+            "short_history": {
+              "type": "string"
+            },
+            "business_criticality": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "mission_critical",
+                "unknown"
+              ]
+            },
+            "main_users": {
+              "$ref": "#/$defs/references"
+            },
+            "product_owners": {
+              "$ref": "#/$defs/references"
+            },
+            "key_constraints": {
+              "$ref": "#/$defs/references"
+            },
+            "key_dependencies": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -362,6 +411,18 @@
           "items": {
             "$ref": "#/$defs/reference"
           }
+        },
+        "does": {
+          "$ref": "#/$defs/references"
+        },
+        "owns": {
+          "$ref": "#/$defs/references"
+        },
+        "controls": {
+          "$ref": "#/$defs/references"
+        },
+        "depends_on_but_does_not_own": {
+          "$ref": "#/$defs/references"
         }
       }
     },
@@ -398,6 +459,15 @@
           "items": {
             "$ref": "#/$defs/reference"
           }
+        },
+        "boundary_rules": {
+          "$ref": "#/$defs/references"
+        },
+        "exclusion_rationale": {
+          "type": "string"
+        },
+        "impact_on_other_layers": {
+          "type": "string"
         }
       }
     },
@@ -414,6 +484,12 @@
             },
             "has_own_smm": {
               "type": "boolean"
+            },
+            "context_domain": {
+              "$ref": "#/$defs/reference"
+            },
+            "boundary_category": {
+              "$ref": "#/$defs/boundary_category"
             }
           }
         }
@@ -438,6 +514,9 @@
                 "adjacent_product",
                 "other"
               ]
+            },
+            "boundary_category": {
+              "$ref": "#/$defs/boundary_category"
             }
           }
         }
@@ -463,6 +542,9 @@
                 "integration",
                 "other"
               ]
+            },
+            "boundary_category": {
+              "$ref": "#/$defs/boundary_category"
             }
           }
         }
@@ -587,6 +669,8 @@
         "layer_id",
         "layer_key",
         "value_elements",
+        "value_chains",
+        "value_segments",
         "converters",
         "flows"
       ],
@@ -634,6 +718,36 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "value_chains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_chain"
+          }
+        },
+        "value_segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_stream_segment"
+          }
+        },
+        "entry_points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_entry_point"
+          }
+        },
+        "exit_points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_exit_point"
+          }
+        },
+        "key_results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/key_result"
+          }
         }
       }
     },
@@ -664,7 +778,9 @@
                 "informational",
                 "strategic",
                 "risk_reduction",
-                "other"
+                "other",
+                "operational",
+                "risk_reducing"
               ]
             },
             "unit": {
@@ -708,6 +824,15 @@
             },
             "maps_to": {
               "$ref": "#/$defs/references"
+            },
+            "accumulates": {
+              "$ref": "#/$defs/references"
+            },
+            "related_business_service": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_business_function": {
+              "$ref": "#/$defs/reference"
             }
           }
         }
@@ -753,6 +878,15 @@
         },
         "metrics": {
           "$ref": "#/$defs/references"
+        },
+        "related_value_segment": {
+          "$ref": "#/$defs/reference"
+        },
+        "anti_value_elements": {
+          "$ref": "#/$defs/references"
+        },
+        "transformation_meaning": {
+          "type": "string"
         }
       }
     },
@@ -824,6 +958,7 @@
         "layer_key",
         "stakeholders",
         "goals",
+        "expectations",
         "value_perceptions"
       ],
       "properties": {
@@ -870,6 +1005,30 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "expectations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stakeholder_expectation"
+          }
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/success_criterion"
+          }
+        },
+        "change_drivers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/change_driver"
+          }
+        },
+        "stakeholder_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stakeholder_constraint"
+          }
         }
       }
     },
@@ -900,6 +1059,15 @@
             },
             "goals": {
               "$ref": "#/$defs/references"
+            },
+            "expectations": {
+              "$ref": "#/$defs/references"
+            },
+            "success_criteria": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_by_change_drivers": {
+              "$ref": "#/$defs/references"
             }
           }
         }
@@ -921,7 +1089,7 @@
           "type": "object",
           "properties": {
             "success_criteria": {
-              "type": "string"
+              "$ref": "#/$defs/references"
             },
             "driven_by": {
               "$ref": "#/$defs/references"
@@ -974,7 +1142,7 @@
         "layer_key",
         "domains",
         "capabilities",
-        "business_entities"
+        "business_services"
       ],
       "properties": {
         "layer_id": {
@@ -1014,6 +1182,30 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "business_functions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_function"
+          }
+        },
+        "business_services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_service"
+          }
+        },
+        "business_roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_role"
+          }
+        },
+        "ownership_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ownership_rule"
+          }
         }
       }
     },
@@ -1029,6 +1221,15 @@
               "$ref": "#/$defs/references"
             },
             "related_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "business_functions": {
+              "$ref": "#/$defs/references"
+            },
+            "business_services": {
+              "$ref": "#/$defs/references"
+            },
+            "business_roles": {
               "$ref": "#/$defs/references"
             }
           }
@@ -1056,6 +1257,12 @@
               "$ref": "#/$defs/references"
             },
             "related_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "supported_functions": {
+              "$ref": "#/$defs/references"
+            },
+            "exposed_by_services": {
               "$ref": "#/$defs/references"
             }
           }
@@ -1125,6 +1332,30 @@
           "items": {
             "$ref": "#/$defs/metric"
           }
+        },
+        "failure_handling": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/failure_handling"
+          }
+        },
+        "degraded_routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/degraded_route"
+          }
+        },
+        "recovery_routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recovery_route"
+          }
+        },
+        "continuity_contracts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/continuity_contract"
+          }
         }
       }
     },
@@ -1183,6 +1414,18 @@
         },
         "value_mapping": {
           "$ref": "#/$defs/references"
+        },
+        "failure_handling": {
+          "$ref": "#/$defs/references"
+        },
+        "continuity_contracts": {
+          "$ref": "#/$defs/references"
+        },
+        "related_business_service": {
+          "$ref": "#/$defs/reference"
+        },
+        "related_business_function": {
+          "$ref": "#/$defs/reference"
         }
       }
     },
@@ -1292,6 +1535,30 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/economic_unit"
+          }
+        },
+        "economic_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_constraint"
+          }
+        },
+        "guardrails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unit_economics_guardrail"
+          }
+        },
+        "impact_assessments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_impact_assessment"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
           }
         }
       }
@@ -1461,6 +1728,765 @@
                 "per_time_period",
                 "other"
               ]
+            }
+          }
+        }
+      ]
+    },
+    "boundary_category": {
+      "type": "string",
+      "enum": [
+        "inside_product_scope",
+        "external_system",
+        "adjacent_subsystem",
+        "shared_platform",
+        "infrastructure_component",
+        "manual_activity",
+        "regulatory_context",
+        "partner_system",
+        "other"
+      ]
+    },
+    "product_passport": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "product": {
+              "$ref": "#/$defs/reference"
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "target_domain": {
+              "type": "string"
+            },
+            "product_type": {
+              "type": "string"
+            },
+            "short_history": {
+              "type": "string"
+            },
+            "lifecycle_status": {
+              "type": "string"
+            },
+            "business_criticality": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "mission_critical",
+                "unknown"
+              ]
+            },
+            "main_users": {
+              "$ref": "#/$defs/references"
+            },
+            "product_owners": {
+              "$ref": "#/$defs/references"
+            },
+            "key_constraints": {
+              "$ref": "#/$defs/references"
+            },
+            "key_dependencies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "context_domain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "contains_modules": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_business_domain": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "manual_activity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "performed_by": {
+              "$ref": "#/$defs/reference"
+            },
+            "affects_product": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_processes": {
+              "$ref": "#/$defs/references"
+            },
+            "boundary_category": {
+              "const": "manual_activity"
+            }
+          }
+        }
+      ]
+    },
+    "boundary_classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "entity",
+        "category"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "category": {
+          "$ref": "#/$defs/boundary_category"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "value_chain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "participants": {
+              "$ref": "#/$defs/references"
+            },
+            "entry_point": {
+              "$ref": "#/$defs/reference"
+            },
+            "exit_point": {
+              "$ref": "#/$defs/reference"
+            },
+            "segments": {
+              "$ref": "#/$defs/references"
+            },
+            "expected_key_results": {
+              "$ref": "#/$defs/references"
+            },
+            "related_modules": {
+              "$ref": "#/$defs/references"
+            },
+            "related_business_services": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "value_stream_segment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "parent_value_chain": {
+              "$ref": "#/$defs/reference"
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "converters": {
+              "$ref": "#/$defs/references"
+            },
+            "flows": {
+              "$ref": "#/$defs/references"
+            },
+            "value_elements": {
+              "$ref": "#/$defs/references"
+            },
+            "anti_value_elements": {
+              "$ref": "#/$defs/references"
+            },
+            "key_results": {
+              "$ref": "#/$defs/references"
+            },
+            "related_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "related_business_services": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "value_entry_point": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_participant": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_channel": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_trigger": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_process": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "value_exit_point": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_key_results": {
+              "$ref": "#/$defs/references"
+            },
+            "related_metrics": {
+              "$ref": "#/$defs/references"
+            },
+            "related_economic_effects": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "key_result": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_value_chain": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_value_segment": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_stakeholder_outcome": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_kpi": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_economic_effect": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "stakeholder_expectation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "stakeholder": {
+              "$ref": "#/$defs/reference"
+            },
+            "expected_outcome": {
+              "type": "string"
+            },
+            "leads_to_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "measured_by": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "success_criterion": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "stakeholder": {
+              "$ref": "#/$defs/reference"
+            },
+            "goal": {
+              "$ref": "#/$defs/reference"
+            },
+            "metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_value": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "change_driver": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "driver_type": {
+              "type": "string",
+              "enum": [
+                "load_growth",
+                "business_requirement",
+                "regulatory",
+                "operation_time_reduction",
+                "data_quality",
+                "support_cost_reduction",
+                "security",
+                "availability",
+                "technology_obsolescence",
+                "import_substitution",
+                "other"
+              ]
+            },
+            "affected_stakeholders": {
+              "$ref": "#/$defs/references"
+            },
+            "motivates_goals": {
+              "$ref": "#/$defs/references"
+            },
+            "affects_initiatives": {
+              "$ref": "#/$defs/references"
+            },
+            "impact_on_product": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "stakeholder_constraint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "stakeholder": {
+              "$ref": "#/$defs/reference"
+            },
+            "constraint_type": {
+              "type": "string",
+              "enum": [
+                "business",
+                "technical",
+                "operational",
+                "regulatory",
+                "security",
+                "economic",
+                "other"
+              ]
+            },
+            "affected_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "business_function": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "function_type": {
+              "type": "string",
+              "enum": [
+                "registration",
+                "processing",
+                "validation",
+                "calculation",
+                "control",
+                "notification",
+                "reporting",
+                "administration",
+                "audit",
+                "approval",
+                "export",
+                "synchronization",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "business_service": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "provided_capability": {
+              "$ref": "#/$defs/reference"
+            },
+            "domain": {
+              "$ref": "#/$defs/reference"
+            },
+            "conceptual_inputs": {
+              "$ref": "#/$defs/references"
+            },
+            "conceptual_outputs": {
+              "$ref": "#/$defs/references"
+            },
+            "consumers": {
+              "$ref": "#/$defs/references"
+            },
+            "realized_by_processes": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "business_role": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_services": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_stakeholder": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "ownership_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "governs_domains": {
+          "$ref": "#/$defs/references"
+        },
+        "governs_capabilities": {
+          "$ref": "#/$defs/references"
+        },
+        "governs_services": {
+          "$ref": "#/$defs/references"
+        },
+        "governs_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "decision_rights": {
+          "type": "string"
+        }
+      }
+    },
+    "failure_handling": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "affected_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "failure_type": {
+              "type": "string",
+              "enum": [
+                "timeout",
+                "validation_error",
+                "dependency_failure",
+                "capacity",
+                "data_error",
+                "security",
+                "unknown",
+                "other"
+              ]
+            },
+            "handling_type": {
+              "type": "string",
+              "enum": [
+                "retry",
+                "fallback",
+                "escalation",
+                "compensation",
+                "manual_intervention",
+                "skip",
+                "stop",
+                "other"
+              ]
+            },
+            "triggers_degraded_route": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggers_recovery_route": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "degraded_route": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "starts_from_step": {
+              "$ref": "#/$defs/reference"
+            },
+            "reduced_value": {
+              "$ref": "#/$defs/references"
+            },
+            "lost_value": {
+              "$ref": "#/$defs/references"
+            },
+            "added_anti_value": {
+              "$ref": "#/$defs/references"
+            },
+            "leads_to_recovery_route": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "recovery_route": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "recovers_from": {
+              "$ref": "#/$defs/reference"
+            },
+            "restores_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "recovery_conditions": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "continuity_contract": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "contract_type": {
+              "type": "string",
+              "enum": [
+                "partial_completion",
+                "delayed_completion",
+                "eventual_consistency",
+                "best_effort",
+                "manual_fallback",
+                "other"
+              ]
+            },
+            "applies_to_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "guarantee": {
+              "type": "string"
+            },
+            "constraints": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "economic_constraint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "constraint_type": {
+              "type": "string",
+              "enum": [
+                "budget_limit",
+                "cost_ceiling",
+                "pricing_constraint",
+                "resource_limit",
+                "version_constraint",
+                "unit_economics",
+                "other"
+              ]
+            },
+            "limit_value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "unit_economics_guardrail": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "guardrail_type": {
+              "type": "string",
+              "enum": [
+                "cost_per_unit",
+                "revenue_per_unit",
+                "margin",
+                "payback",
+                "conversion",
+                "usage",
+                "other"
+              ]
+            },
+            "economic_unit": {
+              "$ref": "#/$defs/reference"
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "threshold_operator": {
+              "type": "string",
+              "enum": [
+                "lt",
+                "lte",
+                "eq",
+                "gte",
+                "gt"
+              ]
+            },
+            "applies_to_drivers": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "economic_impact_assessment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "evaluates": {
+              "$ref": "#/$defs/reference"
+            },
+            "scenario": {
+              "type": "string"
+            },
+            "revenue_impact": {
+              "type": "number"
+            },
+            "cost_impact": {
+              "type": "number"
+            },
+            "profit_impact": {
+              "type": "number"
+            },
+            "affected_revenue_drivers": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_cost_drivers": {
+              "$ref": "#/$defs/references"
+            },
+            "assumptions": {
+              "$ref": "#/$defs/references"
             }
           }
         }
