@@ -294,6 +294,10 @@ operation → generates → revenue_driver.*
 
 This layer must not include:
 
+- communication protocols (HTTP, Kafka, etc.)
+- network endpoints (URLs, topics, queues)
+- external system names
+- deployment or runtime details
 - internal logic implementation
 - infrastructure routing
 - UI structure
