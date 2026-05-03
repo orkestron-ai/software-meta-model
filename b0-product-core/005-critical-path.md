@@ -5,17 +5,12 @@ layer_key: critical_path
 document_id: spec.critical.path
 document_type: layer_specification
 module_scope: root
-status: draft
+status: stable
 spec_version: 1.0.0
 title: Critical Path Layer Specification
 <!-- AISMM:META_END -->
 
 # 005 — Critical Path
-
-**Specification Version:** 1.0.0  
-**Status:** Draft
-
----
 
 ## 1. Purpose of the Layer
 
