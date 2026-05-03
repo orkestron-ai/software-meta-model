@@ -82,18 +82,21 @@ A product may be:
 - a product family
 - a subsystem treated as an independent product
 
-A product passport include:
+A product passport includes structured metadata describing the product as a managed system.
+
+It SHOULD include:
 
 - product name
 - purpose
 - target domain
 - product type
 - short history
-- lifecycle status
-- business criticality
-- main users
-- product owners
-- key constraints
+- lifecycle status (e.g., concept, active, deprecated)
+- business criticality (e.g., low / medium / high / mission-critical)
+- main user groups
+- product owners and responsible organizations
+- key constraints (technical, regulatory, organizational)
+- key dependencies (optional but recommended)
 
 The product must have a stable identifier.
 
@@ -223,23 +226,61 @@ ownership.external_provider
 
 ---
 
+### 4.9 Boundary Classification
+
+Each boundary SHOULD explicitly classify entities as:
+
+- inside product scope
+- external system
+- adjacent subsystem
+- shared platform
+- infrastructure component
+- manual activity (human-driven outside system control)
+
+This classification prevents ambiguity and ensures consistent interpretation across layers.
+
+---
+
+### 4.10 Manual Activity
+
+A manual activity represents a human-driven action that exists outside system automation but affects the product.
+
+Examples:
+
+```text
+manual.customer_support_call
+manual.operator_manual_verification
+```
+
+Manual activities are important for:
+
+- process completeness
+- critical path analysis
+- operational modeling
+
+---
+
 ## 5. Identifiable Entities
 
 This layer should define stable identifiers for the following entity types.
 
-| Entity Type         | Identifier Prefix  | Description                        |
-| ------------------- | ------------------ | ---------------------------------- |
-| Product             | `product.*`        | Main product entity                |
-| Product Module      | `module.*`         | Product-internal module or domain  |
-| External System     | `external.*`       | System outside product boundary    |
-| Channel             | `channel.*`        | Product access or delivery channel |
-| Environment         | `environment.*`    | Runtime or deployment environment  |
-| Organization / Team | `org.*` / `team.*` | Organizational context             |
-| Ownership Zone      | `ownership.*`      | Responsibility boundary            |
-| Boundary Rule       | `boundary.*`       | Inclusion or exclusion rule        |
-| Assumption          | `assumption.*`     | Contextual assumption              |
-| Constraint          | `constraint.*`     | Contextual limitation              |
-| Context Domain      | `context.*`        | Named contextual area              |
+| Entity Type         | Identifier Prefix    | Description                        |
+| ------------------- | -------------------- | ---------------------------------- |
+| Product             | `product.*`          | Main product entity                |
+| Product Passport    | `product_passport.*` | Structured product metadata        |
+| Product Module      | `module.*`           | Product-internal module or domain  |
+| External System     | `external.*`         | System outside product boundary    |
+| Channel             | `channel.*`          | Product access or delivery channel |
+| Environment         | `environment.*`      | Runtime or deployment environment  |
+| Organization / Team | `org.*` / `team.*`   | Organizational context             |
+| Manual Activity     | `manual.*`           | Human-driven external activity     |
+| Ownership Zone      | `ownership.*`        | Responsibility boundary            |
+| Boundary Rule       | `boundary.*`         | Inclusion or exclusion rule        |
+| Boundary Category   | `boundary_type.*`    | Boundary classification type       |
+| Assumption          | `assumption.*`       | Contextual assumption              |
+| Constraint          | `constraint.*`       | Contextual limitation              |
+| Context Domain      | `context.*`          | Named contextual area              |
+
 
 Identifiers must be stable and reused by other layers.
 
@@ -285,6 +326,13 @@ Primary Repository:
 
 Defines what is included in the product.
 
+Scope MUST explicitly distinguish:
+
+- what the product DOES
+- what the product OWNS
+- what the product CONTROLS
+- what the product DEPENDS ON but does NOT OWN
+
 Should include:
 
 - core capabilities at high level
@@ -312,6 +360,14 @@ Should include:
 - data or process areas outside the product
 
 Out-of-scope definitions are important because they prevent accidental expansion of the model.
+
+Out-of-scope MUST be explicit and testable.
+
+Each exclusion SHOULD:
+
+- reference a boundary rule
+- explain why it is excluded
+- define impact on other layers
 
 ---
 
@@ -350,6 +406,7 @@ Should include:
 - third-party services
 - external organizations
 - regulatory or market context
+- infrastructure
 
 Each external entity must have a stable identifier.
 
@@ -458,6 +515,26 @@ Detailed security, compliance, and performance constraints may be expanded in la
 
 ---
 
+### 6.12 Context Domains
+
+Defines logical grouping of context elements.
+
+Examples:
+
+```text
+context.identity
+context.billing
+context.analytics
+```
+
+Used for:
+
+- grouping modules
+- mapping to business domains
+- traceability
+
+---
+
 
 ## 7. Preferred Representation
 
@@ -479,7 +556,7 @@ Implementations:
 - MAY use alternative formats if they preserve semantic meaning
 - MUST NOT encode semantics in format-specific constructs
 
-The correctness of this layer is determined исключительно by the completeness and consistency of its **semantic content**, not by the chosen representation format.
+The correctness of this layer is determined solely by the completeness and consistency of its semantic content.
 
 ---
 
@@ -491,12 +568,16 @@ This layer should describe relationships such as:
 product → contains → module
 product → exposes → channel
 product → depends_on → external_system
+product → classified_by → boundary_type
 module → owned_by → ownership_zone
+module → belongs_to → context_domain
 channel → uses → interface
 environment → constrains → product
 boundary_rule → applies_to → entity
 assumption → supports → product_scope
 constraint → limits → product_scope
+external_system → classified_as → boundary_type
+manual_activity → affects → product
 ```
 
 These relationships may be written in human-readable text, structured tables, or extracted into graph.
@@ -510,8 +591,10 @@ These relationships may be written in human-readable text, structured tables, or
 Product modules and external systems may be mapped to value converters or value context nodes.
 
 ```text
-module.* → VSS.converter
-external.* → VSS.external_converter
+module.* → value_converter
+external.* → value_external_converter
+channel.* → maps_to → value_stream_entry_point
+module.* → participates_in → value_stream_segment
 ```
 
 ---
@@ -535,6 +618,8 @@ Business domains and capabilities are grounded in product modules and boundaries
 ```text
 business_domain.* → module.*
 capability.* → module.*
+business_service.* → operates_on → module.*
+business_function.* → applies_to → module.*
 ```
 
 ---
@@ -639,6 +724,8 @@ A minimal valid Product Definition & Context layer must define:
 - out-of-scope summary
 - at least one ownership statement
 - stable identifiers for referenced modules or external systems if mentioned
+  at least one boundary rule
+- at least one external system OR explicit statement of isolation
 
 ---
 
@@ -656,6 +743,10 @@ A mature version of this layer should define:
 - assumptions
 - constraints
 - cross-layer references
+- boundary classification applied consistently
+- manual activities identified (if present)
+- context domains defined for large systems
+- explicit ownership mapping for all major modules
 
 ---
 
