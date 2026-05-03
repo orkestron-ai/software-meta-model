@@ -6,7 +6,7 @@ document_id: spec.api.interfaces
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: API and Interfaces Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,20 +14,24 @@ title: API and Interfaces Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **API and Interfaces** layer defines the **capabilities exposed by systems and components as formal interaction contracts**.
+The **API and Interfaces** layer defines how system capabilities are exposed as **formal interaction contracts between components**.
 
 It describes:
-- what operations are available
-- what inputs are accepted
-- what outputs are returned
-- what commands and functions can be invoked
+
+- APIs and operations
+- interaction models (sync / async)
+- requests and responses
+- commands and events
+- contracts and compatibility rules
 
 It answers:
-- What can this system or component do?
-- What operations are exposed?
-- What are the exact input/output contracts?
 
-This layer defines **logical interfaces independent of transport, protocol, or deployment context**.
+- What can the system do externally?
+- How can other components or systems interact with it?
+- What are the exact input/output contracts?
+- What interaction patterns are used?
+
+This layer defines **logical interaction contracts independent of transport and infrastructure**.
 
 ---
 
@@ -35,322 +39,223 @@ This layer defines **logical interfaces independent of transport, protocol, or d
 
 This layer connects:
 
-```text
-System Structure → Interaction Contracts
-```
+System Structure → Interaction Contracts → Process Execution
 
-It transforms internal system logic into **formal interaction interfaces**.
+It transforms:
+
+- components → APIs  
+- services → operations  
+- data → contracts  
 
 Other layers rely on it to:
 
-- execute processes
-- expose system capabilities
-- enable integrations
-- define agent contracts (Orkestron context)
-- structure input/output data
+- execute processes (103)
+- enable integrations (204)
+- define agent contracts (Orkestron)
+- structure data exchange (202)
 
 This layer does NOT define:
 
-- internal implementation
-- infrastructure/network setup
-- UI design
+- network protocols
+- infrastructure routing
+- UI
 - business strategy
-
-It defines **how functionality is exposed and consumed**.
 
 ---
 
-## 3. Main Output of the Layer
-
-The output is a structured model of:
+## 3. Main Output
 
 - APIs
-- endpoints / operations
+- operations
 - requests / responses
-- commands and functions
-- interaction contracts
-- access patterns
+- commands
+- events
+- contracts
+- interaction models
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 API
-
-An API defines a set of operations exposed by a system or component.
-
-Examples:
-
-```text
-api.workflow_service
-api.billing_api
-```
+Logical interface exposing capabilities.
 
 ---
 
-### 4.2 Operation / Endpoint
-
-An operation represents a callable action.
-
-Examples:
-
-```text
-operation.create_workflow
-operation.execute_workflow
-```
+### 4.2 Operation
+Callable action.
 
 ---
 
-### 4.3 Request
-
-Defines input structure.
-
----
-
-### 4.4 Response
-
-Defines output structure.
+### 4.3 Request / Response
+Data structures for interaction.
 
 ---
 
-### 4.5 Command / Function
-
-Represents executable logic (Control layer mapping).
+### 4.4 Command (ENHANCED)
+Represents intent to execute logic.
 
 ---
 
-### 4.6 Contract
+### 4.5 Event (NEW)
+Represents something that happened:
 
-Defines strict interaction agreement.
+- domain event
+- system event
+- integration event
+
+---
+
+### 4.6 Contract (ENHANCED)
+Defines strict interaction rules:
+
+- structure
+- validation
+- compatibility
+
+---
+
+### 4.7 Interaction Pattern (NEW)
+Defines how interaction happens:
+
+- synchronous (request/response)
+- asynchronous (event-driven)
+- streaming
+- batch
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type | Identifier Prefix |
-| :---------- | :---------------- |
-| API         | `api.*`           |
-| Operation   | `operation.*`     |
-| Endpoint    | `endpoint.*`      |
-| Request     | `request.*`       |
-| Response    | `response.*`      |
-| Command     | `command.*`       |
-| Contract    | `contract.*`      |
+| Entity | Prefix |
+|--------|--------|
+| API | api.* |
+| Operation | operation.* |
+| Request | request.* |
+| Response | response.* |
+| Command | command.* |
+| Event | event.* |
+| Contract | contract.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
----
-
-### 6.1 API Definitions
-
-Each API must include:
-
-- identifier
-- description
+### 6.1 APIs
+- id
 - owner component
-- exposure type (internal/external)
+- exposure type
 
 ---
 
 ### 6.2 Operations
-
-Each operation:
-
-- identifier
+- id
 - purpose
-- input (request)
-- output (response)
+- request
+- response
+- interaction pattern
 
 ---
 
-### 6.3 Requests
-
-Define:
-
+### 6.3 Requests / Responses
 - structure
-- fields
-- constraints
+- validation rules
 
 ---
 
-### 6.4 Responses
-
-Define:
-
-- structure
-- returned data
-- status conditions
+### 6.4 Commands
+- intent
+- mapped logic
 
 ---
 
-### 6.5 Commands / Functions
-
-Define:
-
-- executable logic reference
-- mapping to system behavior
+### 6.5 Events
+- type
+- payload
+- producer
 
 ---
 
 ### 6.6 Contracts
-
-Define:
-
-- strict input/output format
-- validation rules
-- compatibility expectations
+- structure
+- compatibility rules
+- versioning
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
+PRIMARY:
 
-This layer defines **interaction contracts**, not how they must be stored.
+- OpenAPI (REST)
+- AsyncAPI (events)
 
-Recommended representations:
+ALTERNATIVE:
 
-- OpenAPI (`.yaml` / `.json`) for REST APIs  
-- AsyncAPI for event-driven APIs  
-- Markdown (`.md`) for documentation  
-- JSON schemas for contracts  
-
-Implementations:
-
-- SHOULD use OpenAPI for synchronous APIs  
-- SHOULD use AsyncAPI for event-driven systems  
-- SHOULD use JSON schemas for validation  
-- MUST NOT rely on tool-specific semantics  
+- JSON Schema
+- Markdown
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-api → exposes → operation
-operation → accepts → request
-operation → returns → response
-operation → triggers → command
-contract → defines → operation
-```
+api → exposes → operation  
+operation → uses → contract  
+operation → triggers → command  
+command → produces → event  
+event → consumed_by → component  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### System Architecture
-
-```text
+System Architecture:
 api → owned_by → component.*
-operation → executed_by → component.*
-```
 
----
-
-### Data Architecture
-
-```text
+Data:
 request/response → uses → entity.*
-```
 
----
-
-### Processes
-
-```text
+Processes:
 operation → invoked_by → process_step.*
-```
 
----
-
-### Critical Path
-
-```text
+Critical Path:
 operation → executes → step.*
-```
 
----
+Value:
+operation → produces → value.*
 
-### Integrations
-
-```text
-api → used_by → integration.*
-```
-
----
-
-### Economics
-
-```text
+Economics:
 operation → generates → cost_driver.*
-operation → generates → revenue_driver.*
-```
 
 ---
 
-## 10. Layer Boundaries
+## 10. Boundaries
 
-This layer must not include:
+Does NOT include:
 
-- communication protocols (HTTP, Kafka, etc.)
-- network endpoints (URLs, topics, queues)
-- external system names
-- deployment or runtime details
-- internal logic implementation
-- infrastructure routing
-- UI structure
-- business decisions
+- HTTP / Kafka specifics
+- endpoints / URLs
+- infra routing
 
 ---
 
-## 11. Recommended Block Types
+## 11. Minimal Content
 
-- layer_document
-- api_definition
-- operation_definition
-- contract_definition
+- 1 API
+- 1 operation
 
 ---
 
-## 12. Minimal Valid Content
-
-Must define:
-
-- at least one API
-- at least one operation
-
----
-
-## 13. Completeness Criteria
-
-A mature model includes:
+## 12. Completeness
 
 - full API coverage
-- well-defined contracts
-- mapping to system and data layers
-- consistency across operations
+- clear contracts
+- sync + async supported
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-api.workflow_service
-operation.execute_workflow
-request.execute_workflow
-response.workflow_result
-command.execute_logic
-contract.workflow_execution
-```
-
----
-
-## 15. Summary
-
-This layer defines **how systems expose functionality and interact**.
-
-It provides the foundation for integrations, agent contracts, and execution interfaces.
+Defines how systems interact through formal contracts and patterns.
 
 <!-- AISMM:END -->
