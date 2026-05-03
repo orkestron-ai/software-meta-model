@@ -6,7 +6,7 @@ document_id: spec.applications.system.architecture
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Applications and System Architecture Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,7 +14,7 @@ title: Applications and System Architecture Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Applications and System Architecture** layer defines how the product is decomposed into systems, applications, and components.
+The **Applications and System Architecture** layer defines how the product is decomposed into systems, applications, and components — and how responsibilities from business layers are mapped into executable system structure.
 
 It describes:
 
@@ -22,13 +22,15 @@ It describes:
 - applications and services
 - internal components
 - responsibility distribution
-- execution context of business processes
+- execution ownership of business logic
+- mapping of business services and process steps to components
 
 It answers:
 
 - Where does the product logic live?
 - How is the system decomposed?
 - Which components execute which responsibilities?
+- How do business services map to system structure?
 - How are systems structured and connected?
 
 ---
@@ -37,306 +39,211 @@ It answers:
 
 This layer connects:
 
-```text
-Business Execution → System Structure
-```
+Business Architecture + Processes → System Structure
 
-It transforms business capabilities and processes into system-level structure.
+It transforms:
+
+- capabilities → components  
+- services → implementations  
+- process steps → execution units  
 
 Other layers rely on it to:
 
-- understand system boundaries
-- map execution to components
-- define ownership of logic
-- prepare API and data design
+- define system boundaries
+- assign ownership of logic
+- prepare API design (203)
+- prepare data ownership (202)
+- support implementation (b3)
 
 This layer does NOT define:
 
 - API contracts (see 203)
-- data models (see 202)
-- infrastructure details (see 301)
-- UI behavior
-- implementation code
-
-It defines **structural decomposition of the system**.
+- data schemas (see 202)
+- infrastructure (see 301)
+- UI
+- code
 
 ---
 
 ## 3. Main Output of the Layer
 
-The output is a structured model of:
-
 - systems
 - applications
-- services
 - components
 - modules
-- execution responsibilities
+- deployment units
+- responsibility mappings
+- execution ownership
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 System
-
-A system is a bounded unit of software delivering functionality.
-
-Examples:
-
-```text
-system.orkestron_platform
-system.payment_gateway
-```
+Bounded unit of software.
 
 ---
 
 ### 4.2 Application
-
-An application is a deployable unit within a system.
+Deployable unit inside system.
 
 ---
 
-### 4.3 Service / Component
-
-A service or component performs a specific responsibility.
+### 4.3 Component / Service
+Execution unit with clear responsibility.
 
 ---
 
 ### 4.4 Module
-
-A module is a logical grouping of functionality.
+Logical grouping.
 
 ---
 
 ### 4.5 Deployment Unit
-
-Represents a deployable artifact (service, container, binary).
+Runtime artifact.
 
 ---
 
-### 4.6 Responsibility
+### 4.6 Responsibility Mapping (NEW)
+Defines which component executes:
 
-Defines what a system or component is responsible for.
+- capability
+- service
+- process step
+- critical step
+
+---
+
+### 4.7 Execution Ownership (NEW)
+Defines which component is the **source of truth executor**.
+
+---
+
+### 4.8 Boundary Type (NEW)
+Defines:
+
+- internal
+- external
+- shared
+- infrastructure
+- third-party
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type     | Identifier Prefix   |
-| :-------------- | :------------------ |
-| System          | `system.*`          |
-| Application     | `application.*`     |
-| Component       | `component.*`       |
-| Service         | `service.*`         |
-| Module          | `module.*`          |
-| Deployment Unit | `deployment_unit.*` |
+| Entity | Prefix |
+|--------|--------|
+| System | system.* |
+| Application | application.* |
+| Component | component.* |
+| Service | service.* |
+| Module | module.* |
+| Deployment | deployment_unit.* |
 
 ---
 
-## 6. Required Content Structure
-
----
+## 6. Required Structure
 
 ### 6.1 Systems
-
-Each system must include:
-
-- identifier
-- description
-- boundaries
+- id
+- boundary
 - owned capabilities
 
 ---
 
 ### 6.2 Applications
-
-Define applications within systems:
-
-- identifier
 - system
 - responsibilities
 
 ---
 
-### 6.3 Components / Services
-
-Define components:
-
-- identifier
+### 6.3 Components
 - application
 - responsibility
-- executed logic
+- execution ownership
+- implements capabilities/services
 
 ---
 
 ### 6.4 Modules
-
-Define logical groupings:
-
-- identifier
-- related components
+- grouping
 
 ---
 
 ### 6.5 Deployment Units
-
-Define deployment structure:
-
-- service units
-- containers
-- binaries
+- runtime structure
 
 ---
 
-### 6.6 Responsibilities Mapping
-
-Define:
-
-- which component executes which capability
-- which component executes which process step
+### 6.6 Responsibility Mapping
+- component → capability
+- component → service
+- component → process step
+- component → critical step
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
-
-This layer defines **system structure and decomposition**, not how it must be visualized.
-
-Recommended representations:
-
-- Markdown (`.md`) for structured description  
-- Diagrams (C4 model) for visualization  
-- Structured formats (JSON / YAML) for machine-readable architecture  
-
-Implementations:
-
-- SHOULD use diagrams for clarity  
-- SHOULD use Markdown for definitions  
-- MAY use structured formats  
-- MUST NOT encode semantics in diagram-specific tools  
+- Markdown
+- C4 diagrams
+- JSON/YAML
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-system → contains → application
-application → contains → component
-component → grouped_in → module
-component → deployed_as → deployment_unit
-```
+system → contains → application  
+application → contains → component  
+component → grouped_in → module  
+component → deployed_as → deployment_unit  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### Business Architecture
+Business Architecture:
+component → implements → business_service.*
 
-```text
-component → implements → capability.*
-```
-
----
-
-### Processes
-
-```text
+Processes:
 component → executes → step.*
-```
 
----
-
-### Critical Path
-
-```text
+Critical Path:
 component → executes → critical_step.*
-```
+
+Value:
+component → contributes_to → value.*
 
 ---
 
-### APIs
+## 10. Boundaries
 
-```text
-component → exposes → api.*
-```
+Does NOT include:
 
----
-
-### Data Architecture
-
-```text
-component → owns → entity.*
-component → reads/writes → entity.*
-```
-
----
-
-### Integrations
-
-```text
-system → connects_to → external_system.*
-```
-
----
-
-## 10. Layer Boundaries
-
-This layer must not include:
-
-- API definitions
+- API contracts
 - data schemas
-- infrastructure configs
-- UI details
+- infra configs
 
 ---
 
-## 11. Recommended Block Types
+## 11. Minimal Content
 
-- layer_document
-- system_definition
-- application_definition
-- component_definition
-- module_definition
+- 1 system
+- 1 component
 
 ---
 
-## 12. Minimal Valid Content
+## 12. Completeness
 
-Must define:
-
-- at least one system
-- at least one component
-
----
-
-## 13. Completeness Criteria
-
-A mature model includes:
-
-- full system decomposition
-- clear responsibilities
-- mapping to business capabilities
-- mapping to processes
+- full decomposition
+- mapping to business/services/processes
+- ownership clarity
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-system.orkestron_platform
-application.agent_runtime
-component.workflow_engine
-module.execution_core
-deployment_unit.workflow_service
-```
-
----
-
-## 15. Summary
-
-This layer defines **how the product is structured as a system**.
-
-It provides the foundation for all technical layers and ensures alignment between business logic and system implementation.
+Defines how business logic becomes executable system structure.
 
 <!-- AISMM:END -->
