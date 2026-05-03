@@ -6,7 +6,7 @@ document_id: spec.data.information.architecture
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Data and Information Architecture Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,24 +14,26 @@ title: Data and Information Architecture Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Data and Information Architecture** layer defines how information is structured, stored, owned, and flows across the system.
+The **Data and Information Architecture** layer defines how information is structured, owned, transformed, and flows across the system.
 
 It describes:
 
 - data domains
-- business entities and attributes
+- entities and attributes
 - relationships between entities
-- data ownership
+- ownership and source of truth
 - data flows between components
-- lifecycle of data
+- lifecycle and state transitions of data
+- data consistency and synchronization
 
 It answers:
 
 - What data exists in the product?
-- How is it structured?
-- Who owns the data?
+- How is it structured and related?
+- Who owns the data (source of truth)?
 - How does data move across the system?
-- How does data support processes and value creation?
+- How does data evolve over time?
+- How does data support value creation and execution?
 
 ---
 
@@ -39,311 +41,247 @@ It answers:
 
 This layer connects:
 
-```text
-Business Meaning → Structured Data
-```
+Business Meaning → Data → System Execution
 
-It transforms business entities and concepts into structured, usable data.
+It transforms:
+
+- business entities → data entities  
+- process execution → data lifecycle  
+- system components → data ownership  
 
 Other layers rely on it to:
 
-- define what systems operate on
-- provide input/output structures for APIs
-- enable process execution
-- support analytics and economics
+- define input/output structures (APIs)
+- define ownership for system components (201)
+- support process execution (103)
+- enable analytics and economics (006)
 
 This layer does NOT define:
 
-- database engine details
+- database engines
 - storage infrastructure
 - API endpoints
 - UI representation
-
-It defines **logical data structure and semantics**.
 
 ---
 
 ## 3. Main Output of the Layer
 
-The output is a structured model of:
-
 - data domains
-- entities
-- attributes
+- entities and attributes
 - relationships
-- data ownership
+- ownership model
 - data flows
+- lifecycle definitions
+- data consistency rules
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 Data Domain
-
-A data domain groups related entities.
-
-Examples:
-
-```text
-data_domain.user_management
-data_domain.billing
-```
+Logical grouping of related data.
 
 ---
 
 ### 4.2 Entity
-
-An entity represents a core data object.
-
-Examples:
-
-```text
-entity.user
-entity.workflow
-entity.subscription
-```
+Core data object representing business concept.
 
 ---
 
 ### 4.3 Attribute
-
-An attribute describes a property of an entity.
+Property of an entity.
 
 ---
 
 ### 4.4 Relationship
-
-Defines how entities are connected.
+Connection between entities.
 
 ---
 
 ### 4.5 Data Flow
-
-Represents movement of data between components or processes.
+Movement of data across components or processes.
 
 ---
 
-### 4.6 Ownership
+### 4.6 Ownership (Source of Truth) (ENHANCED)
+Defines:
 
-Defines which component or system owns data.
+- which component owns the data
+- where data is authoritative
+- who can modify it
+
+---
+
+### 4.7 Data Lifecycle (NEW)
+Defines states and transitions:
+
+- created
+- updated
+- consumed
+- archived
+- deleted
+
+---
+
+### 4.8 Data State (NEW)
+Represents current condition of entity.
+
+---
+
+### 4.9 Data Consistency (NEW)
+Defines:
+
+- strong consistency
+- eventual consistency
+- synchronization rules
+
+---
+
+### 4.10 Data Contract (NEW)
+Defines expected structure exchanged between components.
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type  | Identifier Prefix |
-| :----------- | :---------------- |
-| Data Domain  | `data_domain.*`   |
-| Entity       | `entity.*`        |
-| Attribute    | `attribute.*`     |
-| Relationship | `relationship.*`  |
-| Data Flow    | `data_flow.*`     |
-| Dataset      | `dataset.*`       |
+| Entity | Prefix |
+|--------|--------|
+| Data Domain | data_domain.* |
+| Entity | entity.* |
+| Attribute | attribute.* |
+| Relationship | relationship.* |
+| Data Flow | data_flow.* |
+| Dataset | dataset.* |
+| Data State | data_state.* |
 
 ---
 
-## 6. Required Content Structure
-
----
+## 6. Required Structure
 
 ### 6.1 Data Domains
-
-- identifier
+- id
 - description
-- owned entities
+- entities
 
 ---
 
 ### 6.2 Entities
-
-Each entity must include:
-
-- identifier
-- description
+- id
 - domain
 - attributes
+- states (optional)
+- lifecycle
 
 ---
 
 ### 6.3 Attributes
-
-Each attribute:
-
 - name
 - type
 - meaning
-- constraints (optional)
+- constraints
 
 ---
 
 ### 6.4 Relationships
-
-Define:
-
-- entity relationships
+- type
 - cardinality
-- dependency
 
 ---
 
 ### 6.5 Ownership
-
-Define:
-
-- which component/system owns the data
-- responsibility boundaries
+- component owner
+- source of truth
+- access rules
 
 ---
 
 ### 6.6 Data Flows
+- source component
+- target component
+- entities transferred
 
-Define:
+---
 
-- source
-- target
-- data being transferred
+### 6.7 Lifecycle
+- states
+- transitions
+- triggers
+
+---
+
+### 6.8 Consistency Rules
+- consistency type
+- synchronization rules
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
-
-This layer defines **data structure and relationships**, not how it must be stored.
-
-Recommended representations:
-
-- Markdown (`.md`) for description  
-- ER diagrams for visualization  
-- Structured formats (JSON / YAML) for machine-readable schemas  
-
-Implementations:
-
-- SHOULD use ER-style modeling  
-- SHOULD keep identifiers consistent across layers  
-- MAY use diagrams for clarity  
-- MUST NOT depend on storage-specific constructs  
+- Markdown
+- ER diagrams
+- JSON/YAML
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-entity → belongs_to → data_domain
-entity → has → attribute
-entity → relates_to → entity
-data_flow → transfers → entity
-```
+entity → belongs_to → data_domain  
+entity → has → attribute  
+entity → relates_to → entity  
+data_flow → transfers → entity  
+component → owns → entity  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### Business Architecture
-
-```text
+Business Architecture:
 entity → represents → business_entity.*
-```
 
----
-
-### Processes
-
-```text
+Processes:
 process → reads/writes → entity
-```
 
----
+System Architecture:
+component → owns → entity  
+component → reads/writes → entity  
 
-### System Architecture
-
-```text
-component → owns → entity
-component → reads/writes → entity
-```
-
----
-
-### APIs
-
-```text
-entity → used_in → request/response
-```
-
----
-
-### Value Streams
-
-```text
+Value:
 entity → carries → value.*
-```
 
----
-
-### Economics
-
-```text
+Economics:
 entity → used_for → metric.*
-```
 
 ---
 
-## 10. Layer Boundaries
+## 10. Boundaries
 
-This layer must not include:
+Does NOT include:
 
-- database technology
-- storage configuration
-- API definitions
-- UI structures
-
----
-
-## 11. Recommended Block Types
-
-- layer_document
-- data_domain_definition
-- entity_definition
-- relationship_definition
+- DB technology
+- storage config
+- API endpoints
 
 ---
 
-## 12. Minimal Valid Content
+## 11. Minimal Content
 
-Must define:
-
-- at least one entity
-- at least one data domain
+- 1 entity
+- 1 domain
 
 ---
 
-## 13. Completeness Criteria
+## 12. Completeness
 
-A mature model includes:
-
-- all core entities
-- clear relationships
-- ownership definition
-- mapping to systems and processes
+- full entity map
+- ownership defined
+- lifecycle defined
+- flows defined
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-data_domain.user_management
-entity.user
-entity.workflow
-attribute.user_email
-data_flow.workflow_execution
-```
-
----
-
-## 15. Summary
-
-This layer defines **how information is structured and flows across the system**.
-
-It provides the foundation for APIs, storage, analytics, and system interaction.
+Defines how data becomes a controlled, consistent, and owned system resource.
 
 <!-- AISMM:END -->
