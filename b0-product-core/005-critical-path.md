@@ -6,7 +6,7 @@ document_id: spec.critical.path
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Critical Path Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,7 +14,7 @@ title: Critical Path Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Critical Path** layer defines the minimal sequence of steps required to deliver core value of the product.
+The **Critical Path** layer defines the minimal sequence of steps required to deliver the core value of the product **including how this path behaves under failure conditions**.
 
 It describes:
 
@@ -22,6 +22,9 @@ It describes:
 - key steps required to produce value
 - dependencies between steps
 - bottlenecks and constraints
+- failure handling behavior
+- degraded and recovery routes
+- continuity guarantees
 
 It answers:
 
@@ -30,6 +33,8 @@ It answers:
 - What is the minimal working path?
 - Where are the bottlenecks?
 - What cannot be skipped?
+- What happens when something fails?
+- How does the system continue to deliver value under degradation?
 
 ---
 
@@ -38,26 +43,28 @@ It answers:
 This layer connects:
 
 ```text
-Value → Execution (minimal form)
+Value → Execution (minimal and resilient form)
 ```
 
-It is the **bridge between static structure and dynamic processes**.
+It is the **bridge between static structure and dynamic processes**, enriched with resilience semantics.
 
 Other layers rely on it to:
 
 - identify key execution paths
 - prioritize optimization
 - understand system dependencies
+- define minimal viable execution
+- reason about failure and recovery
 - derive processes and workflows
 
 This layer does NOT define:
 
 - full processes
-- alternative paths
+- detailed branching logic
 - UI flows
-- detailed system behavior
+- implementation details
 
-It defines the **essential path only**.
+It defines the **essential and resilient path only**.
 
 ---
 
@@ -70,6 +77,9 @@ The output is a structured description of:
 - dependencies
 - inputs and outputs
 - value produced at each step
+- failure handling mechanisms
+- degraded and recovery routes
+- continuity contracts
 
 ---
 
@@ -84,21 +94,11 @@ It:
 - cannot be removed without breaking value delivery
 - contributes directly to value creation
 
-Example:
-
-```text
-step.create_task
-step.execute_workflow
-step.generate_result
-```
-
 ---
 
 ### 4.2 Sequence
 
 Defines the order of execution.
-
-Critical path is inherently sequential (even if system is parallel internally).
 
 ---
 
@@ -129,27 +129,63 @@ Each step should map to a value transformation.
 
 ---
 
+### 4.7 Failure Handling
+
+Defines what happens when a step fails.
+
+Includes:
+
+- retry
+- fallback
+- escalation
+- compensation
+
+---
+
+### 4.8 Degraded Route
+
+A degraded route is an alternative path where value is delivered with reduced quality.
+
+---
+
+### 4.9 Recovery Route
+
+A recovery route restores normal execution after failure or degradation.
+
+---
+
+### 4.10 Continuity Contract
+
+Defines guarantees of value delivery under constraints.
+
+Examples:
+
+- partial completion allowed
+- delayed completion allowed
+- eventual consistency
+- best-effort execution
+
+---
+
 ## 5. Identifiable Entities
 
 | Entity Type | Identifier Prefix |
-| :---------- | :---------------- |
-| Step        | `step.*`          |
-| Dependency  | `dependency.*`    |
-| Input       | `input.*`         |
-| Output      | `output.*`        |
-| Bottleneck  | `bottleneck.*`    |
+|-------------|------------------|
+| Step | `step.*` |
+| Dependency | `dependency.*` |
+| Input | `input.*` |
+| Output | `output.*` |
+| Bottleneck | `bottleneck.*` |
+| Failure Handling | `failure.*` |
+| Degraded Route | `degraded_route.*` |
+| Recovery Route | `recovery_route.*` |
+| Continuity Contract | `continuity.*` |
 
 ---
 
 ## 6. Required Content Structure
 
----
-
 ### 6.1 Critical Steps
-
-Define all essential steps.
-
-For each step:
 
 - identifier
 - description
@@ -159,59 +195,71 @@ For each step:
 
 ### 6.2 Sequence Definition
 
-Define order of steps.
+- ordered list of steps
 
 ---
 
 ### 6.3 Dependencies
 
-Define dependencies between steps.
+- step dependencies
 
 ---
 
 ### 6.4 Inputs and Outputs
 
-Define:
-
-- what each step consumes
-- what each step produces
+- consumed inputs
+- produced outputs
 
 ---
 
 ### 6.5 Value Mapping
 
-Each step should map to value transformation.
+- value transformation per step
 
 ---
 
 ### 6.6 Bottlenecks
 
-Define known bottlenecks or constraints.
+- known constraints
+
+---
+
+### 6.7 Failure Handling
+
+- what happens on failure
+- retry / fallback / escalation
+
+---
+
+### 6.8 Degraded Routes
+
+- alternative execution paths
+- reduced value scenarios
+
+---
+
+### 6.9 Recovery Routes
+
+- how system returns to normal
+
+---
+
+### 6.10 Continuity Contracts
+
+- guarantees of value delivery
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
+Recommended:
 
-This layer defines **the minimal execution path for value delivery**, not how it must be visualized or stored.
+- Markdown for clarity
+- simple flow diagrams
+- sequence diagrams
+- structured JSON/YAML
 
-Due to its semi-structural and sequential nature, the following representations are considered most suitable:
-
-- Markdown (`.md`) for describing steps, sequences, and dependencies  
-- Structured formats (JSON / YAML) for machine-readable path definitions  
-- Simple diagrams (flow diagrams, sequence diagrams) for visualization  
-
-This layer is intentionally simpler than full process modeling and SHOULD NOT be represented as full BPMN.
-
-Implementations:
-
-- SHOULD use simple and clear representations of sequence and dependencies  
-- SHOULD avoid overcomplicating the model  
-- MAY use diagrams to improve understanding  
-- MUST NOT encode semantics in format-specific constructs  
-
-The correctness of this layer is determined by the completeness and clarity of the **critical path definition**, not by the chosen representation.
+This is NOT BPMN.
 
 ---
 
@@ -222,6 +270,10 @@ step → depends_on → step
 step → consumes → input
 step → produces → output
 step → creates → value
+step → fails → failure
+failure → triggers → degraded_route
+degraded_route → leads_to → recovery_route
+step → governed_by → continuity
 ```
 
 ---
@@ -231,15 +283,7 @@ step → creates → value
 ### Value Streams
 
 ```text
-step → maps_to → value transformation
-```
-
----
-
-### Stakeholders
-
-```text
-step → impacts → stakeholder.*
+step → realizes → value_segment
 ```
 
 ---
@@ -247,16 +291,16 @@ step → impacts → stakeholder.*
 ### Business Architecture
 
 ```text
-step → uses → capability.*
+step → uses → business_service.*
+step → performs → business_function.*
 ```
 
 ---
 
-### Product Behavior
+### Processes
 
 ```text
-control → implements → step
-event → represents → step execution
+process_step → refines → step
 ```
 
 ---
@@ -269,24 +313,33 @@ component → executes → step
 
 ---
 
-### P&L Model
+### Product Behavior
+
+```text
+control → implements → step
+event → triggers → step
+```
+
+---
+
+### Product Economics
 
 ```text
 step → generates → cost
-step → contributes_to → revenue
+step → protects → revenue
+failure → increases → cost
 ```
 
 ---
 
 ## 10. Layer Boundaries
 
-This layer must not include:
+Must not include:
 
-- full business processes
+- full processes
 - UI flows
 - API definitions
 - implementation details
-- branching logic (except minimal)
 
 ---
 
@@ -294,7 +347,8 @@ This layer must not include:
 
 - layer_document
 - step_definition
-- dependency_definition
+- failure_definition
+- route_definition
 
 ---
 
@@ -311,10 +365,13 @@ Must define:
 
 A mature model includes:
 
-- full minimal value path
-- step dependencies
+- full critical path
+- dependencies
 - value mapping
 - bottlenecks
+- failure handling
+- degraded and recovery routes
+- continuity contracts
 
 ---
 
@@ -324,16 +381,22 @@ A mature model includes:
 step.create_request
 step.process_request
 step.return_result
-dependency.request_to_processing
-bottleneck.processing_delay
+failure.timeout
+degraded_route.manual_fallback
+recovery_route.retry_flow
+continuity.eventual_completion
 ```
 
 ---
 
 ## 15. Summary
 
-This layer defines the **minimal path of value delivery**.
+This layer defines the **minimal and resilient path of value delivery**.
 
-It provides a simplified execution model that connects value to system behavior and prepares the foundation for full process modeling.
+It ensures that the product:
+
+- delivers value in normal conditions
+- continues operating under failure
+- provides guarantees of continuity
 
 <!-- AISMM:END -->
