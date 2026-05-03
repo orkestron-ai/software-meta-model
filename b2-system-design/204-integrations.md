@@ -6,7 +6,7 @@ document_id: spec.integrations
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Integrations Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,21 +14,26 @@ title: Integrations Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Integrations** layer defines the **actual connections and communication between systems using APIs, protocols, and transport mechanisms**.
+The **Integrations** layer defines how systems are **actually connected and communicate in real-world environments**.
 
 It describes:
-- which systems are connected
-- how APIs are used in real interactions
-- communication protocols and channels
-- interaction patterns (synchronous / asynchronous)
-- data exchange flows
+
+- system-to-system connections
+- external and internal integrations
+- protocols and transport mechanisms
+- communication channels
+- real message and event exchange
+- reliability and delivery guarantees
 
 It answers:
-- Which systems communicate with each other?
-- How are APIs actually used in practice?
-- Through what protocols and channels does communication happen?
 
-This layer defines **real-world interaction and communication between systems**.
+- Which systems communicate?
+- How do they communicate in practice?
+- Through which protocols and channels?
+- What guarantees exist (delivery, retries, failures)?
+- How do integrations behave under real conditions?
+
+This layer defines **runtime interaction between systems**, not just contracts.
 
 ---
 
@@ -36,104 +41,80 @@ This layer defines **real-world interaction and communication between systems**.
 
 This layer connects:
 
-```text
-APIs → External / Distributed Systems
-```
+API Contracts → Real Communication → Distributed Execution
 
-It extends internal interfaces into **real-world communication**.
+IMPORTANT:
+
+API (203) ≠ Integration (204)
+
+- API = what can be done  
+- Integration = how it is actually connected and executed  
+
+This layer extends:
+
+- APIs → into real network interactions  
+- events → into real transport channels  
+- processes → into cross-system execution  
 
 Other layers rely on it to:
 
-- execute cross-system processes
-- enable external functionality
-- support data exchange
-- define system boundaries in practice
-
-This layer does NOT define:
-
-- API structure (see 203)
-- internal system decomposition
-- data modeling
-- infrastructure deployment
-
-It defines **interaction between systems**.
-
-This layer MUST define:
-
-- communication protocol
-- transport mechanism
-- connected systems
-- interaction pattern (sync/async)
+- execute distributed processes
+- connect external systems
+- move data across boundaries
+- implement real system topology
 
 ---
 
-## 3. Main Output of the Layer
-
-The output is a structured model of:
+## 3. Main Output
 
 - integrations
-- external systems
-- communication channels
+- connected systems
 - protocols
+- channels
 - messages and events
-- interaction patterns
+- communication patterns
+- reliability rules
+- retry / failure handling
 
 ---
 
 ## 4. Core Concepts
 
 ### 4.1 Integration
-
-An integration defines a connection between systems.
-
-Examples:
-
-```text
-integration.payment_provider
-integration.crm_sync
-```
+Connection between systems.
 
 ---
 
 ### 4.2 External System
-
-Represents an external or third-party system.
+Third-party or separate system.
 
 ---
 
 ### 4.3 Communication Pattern
-
-Defines how systems interact:
+Defines execution style:
 
 - synchronous (request/response)
-- asynchronous (events, queues)
-- batch processing
+- asynchronous (event-driven)
+- streaming
+- batch
 
 ---
 
 ### 4.4 Protocol
-
-Defines how communication happens:
+Defines communication mechanism:
 
 - HTTP / REST
 - gRPC
 - messaging (Kafka, RabbitMQ)
 - file transfer
-- webhooks
+- webhook
 
 ---
 
-### 4.5 Message / Event
+### 4.5 Channel (ENHANCED)
+Transport medium:
 
-Defines the payload exchanged between systems.
-
----
-
-### 4.6 Channel
-
-Defines transport medium:
-
-- API endpoint
+- endpoint
 - queue
 - topic
 - webhook
@@ -141,217 +122,176 @@ Defines transport medium:
 
 ---
 
+### 4.6 Message / Event (ENHANCED)
+Actual payload exchanged.
+
+Includes:
+
+- structure
+- meaning
+- lifecycle
+
+---
+
+### 4.7 Reliability Model (NEW)
+Defines:
+
+- delivery guarantees (at-most-once, at-least-once, exactly-once)
+- retry policies
+- timeout behavior
+- fallback strategies
+
+---
+
+### 4.8 Integration Topology (NEW)
+Defines:
+
+- point-to-point
+- hub-and-spoke
+- event bus
+- mesh
+
+---
+
 ## 5. Identifiable Entities
 
-| Entity Type     | Identifier Prefix   |
-| :-------------- | :------------------ |
-| Integration     | `integration.*`     |
-| External System | `external_system.*` |
-| Message         | `message.*`         |
-| Event           | `event.*`           |
-| Protocol        | `protocol.*`        |
-| Channel         | `channel.*`         |
+| Entity | Prefix |
+|--------|--------|
+| Integration | integration.* |
+| External System | external_system.* |
+| Message | message.* |
+| Event | event.* |
+| Protocol | protocol.* |
+| Channel | channel.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
----
-
-### 6.1 Integration Definitions
-
-Each integration must include:
-
-- identifier
-- description
-- connected systems
+### 6.1 Integrations
+- id
 - purpose
+- connected systems
+- topology
 
 ---
 
-### 6.2 External Systems
-
-Define:
-
-- system description
-- ownership (internal/external)
-- responsibilities
+### 6.2 Systems
+- description
+- ownership
+- role
 
 ---
 
 ### 6.3 Communication Patterns
-
-Define:
-
-- sync / async
-- request-response or event-driven
-- reliability expectations
+- type
+- interaction style
 
 ---
 
 ### 6.4 Protocols
-
-Define:
-
-- communication protocol
+- protocol
 - constraints
 
 ---
 
-### 6.5 Messages / Events
-
-Define:
-
-- payload structure
-- meaning
-- source and destination
+### 6.5 Channels
+- type
+- endpoints / topics / queues
 
 ---
 
-### 6.6 Channels
+### 6.6 Messages / Events
+- payload
+- source
+- destination
 
-Define:
+---
 
-- communication medium
-- endpoints / topics / queues
+### 6.7 Reliability
+- delivery guarantees
+- retry policy
+- failure handling
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
+PRIMARY:
 
-This layer defines **system interaction patterns**, not how they must be stored.
+- AsyncAPI (events)
+- OpenAPI (sync)
 
-Recommended representations:
+ADDITIONAL:
 
-- AsyncAPI for event-driven integrations  
-- OpenAPI for synchronous integrations  
-- Markdown (`.md`) for documentation  
-- Diagrams for integration flows  
-
-Implementations:
-
-- SHOULD use AsyncAPI for messaging  
-- SHOULD use OpenAPI for HTTP integrations  
-- MAY use diagrams  
-- MUST NOT depend on vendor-specific formats  
+- diagrams (topology)
+- Markdown
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-integration → connects → system
-integration → uses → protocol
-integration → exchanges → message
-integration → uses → channel
-event → transported_via → channel
-```
+integration → connects → system  
+integration → uses → protocol  
+integration → uses → channel  
+integration → exchanges → message  
+event → transported_via → channel  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### API Layer
-
-```text
+API:
 integration → uses → api.*
-```
 
----
+System Architecture:
+integration → connects → component.*
 
-### System Architecture
+Processes:
+integration → executes → process.*
 
-```text
-integration → connects → system.*
-```
-
----
-
-### Processes
-
-```text
-integration → triggered_by → process.*
-integration → triggers → process.*
-```
-
----
-
-### Data Architecture
-
-```text
+Data:
 message → contains → entity.*
-```
 
----
+Critical Path:
+integration → affects → step.*
 
-### Economics
-
-```text
+Economics:
 integration → generates → cost.*
-integration → affects → revenue.*
-```
+integration → impacts → revenue.*
 
 ---
 
-## 10. Layer Boundaries
+## 10. Boundaries
 
-This layer must not include:
+Does NOT include:
 
-- API internal structure
-- system decomposition
-- data modeling
-- infrastructure deployment
-
----
-
-## 11. Recommended Block Types
-
-- layer_document
-- integration_definition
-- message_definition
-- event_definition
+- API contracts (203)
+- internal system structure (201)
+- data modeling (202)
+- infra configuration (301)
 
 ---
 
-## 12. Minimal Valid Content
+## 11. Minimal Content
 
-Must define:
-
-- at least one integration
-- at least one external system
+- 1 integration
+- 1 external system
 
 ---
 
-## 13. Completeness Criteria
+## 12. Completeness
 
-A mature model includes:
-
-- all integrations
-- clear communication patterns
-- defined protocols
-- mapped data exchange
-- reliability considerations
+- full integration map
+- protocols defined
+- channels defined
+- reliability defined
+- topology defined
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-integration.payment_gateway
-external_system.stripe
-event.payment_completed
-message.payment_request
-channel.webhook_payment
-```
-
----
-
-## 15. Summary
-
-This layer defines **how systems connect and communicate across boundaries**.
-
-It completes the system design by extending internal logic into real-world integrations.
+Defines how systems are **actually connected and communicate in distributed environments**.
 
 <!-- AISMM:END -->
