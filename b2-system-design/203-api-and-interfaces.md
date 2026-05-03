@@ -14,23 +14,20 @@ title: API and Interfaces Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **API and Interfaces** layer defines how systems and components interact with each other and with external actors.
+The **API and Interfaces** layer defines the **capabilities exposed by systems and components as formal interaction contracts**.
 
 It describes:
-
-- APIs (internal and external)
-- operations and endpoints
-- request and response structures
-- commands and functions (Control layer bridge)
-- contracts of interaction
+- what operations are available
+- what inputs are accepted
+- what outputs are returned
+- what commands and functions can be invoked
 
 It answers:
+- What can this system or component do?
+- What operations are exposed?
+- What are the exact input/output contracts?
 
-- How do systems communicate?
-- What operations are available?
-- What inputs and outputs are expected?
-- How is behavior exposed externally?
-- How can agents and users interact with the system?
+This layer defines **logical interfaces independent of transport, protocol, or deployment context**.
 
 ---
 
