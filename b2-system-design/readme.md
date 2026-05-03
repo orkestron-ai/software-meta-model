@@ -2,86 +2,169 @@
 
 ## Overview
 
-Bundle 2 defines **how the product is implemented as a system**.
+Bundle 2 defines **how the product is realized as a working system in practice**.
+
+It transforms:
+
+- business architecture → system structure  
+- processes → execution components  
+- business entities → data models  
+- interactions → API contracts  
+- contracts → real integrations  
 
 It answers:
 
-- How is the product decomposed into systems and components?
-- What data structures exist and how are they organized?
-- How do components communicate?
-- How does the system interact with the external world?
-
-This bundle transforms business logic and processes into **technical system design**.
+- How is the system decomposed?
+- Who executes business logic?
+- Where is data owned?
+- How do components interact?
+- How do systems communicate in reality?
 
 ---
 
 ## Layers Overview
 
 ### 201 — Applications and System Architecture
-Defines system structure:
-- systems and applications
-- components and services
-- modules and responsibilities
-- execution mapping
+Defines **execution structure**:
+
+- systems and boundaries  
+- applications and components  
+- modules and deployment units  
+- responsibility mapping  
+- execution ownership (source of truth executors)  
 
 ---
 
 ### 202 — Data and Information Architecture
-Defines data structure:
-- data domains
-- entities and attributes
-- relationships
-- data ownership and flows
+Defines **system state and data model**:
+
+- data domains  
+- entities and attributes  
+- relationships  
+- ownership (source of truth)  
+- data flows  
+- lifecycle and states  
+- consistency rules  
 
 ---
 
 ### 203 — API and Interfaces
-Defines interaction contracts:
-- APIs and operations
-- requests and responses
-- commands and contracts
-- interaction patterns
+Defines **interaction contracts**:
+
+- APIs and operations  
+- requests and responses  
+- commands and events  
+- contracts and versioning  
+- interaction patterns (sync / async)  
 
 ---
 
 ### 204 — Integrations
-Defines external and cross-system communication:
-- integrations
-- external systems
-- protocols and channels
-- messages and events
+Defines **real runtime communication**:
+
+- integrations between systems  
+- external systems  
+- protocols and channels  
+- messages and events  
+- reliability and delivery guarantees  
+- integration topology  
 
 ---
 
 ## Role of Bundle 2
 
-Bundle 2 provides a coherent model:
+Bundle 2 provides a coherent execution model:
 
-```
-Systems → Data → Interfaces → Integrations
-```
+Systems → Data → Contracts → Communication
+
+More precisely:
+
+Structure → State → Interaction → Runtime
 
 It is used as:
 
-- technical foundation for implementation
-- bridge between business logic and code
-- reference for architecture decisions
-- base for contracts and integrations
+- architecture foundation  
+- bridge between business and implementation  
+- source of truth for system design  
+- base for APIs and integrations  
+- input for implementation (b3)  
+
+---
+
+## Relationship with Other Bundles
+
+### Depends on Bundle 0 (Product Core)
+- implements business architecture (004)  
+- supports value streams (002)  
+- constrained by economics (006)  
+
+### Depends on Bundle 1 (Business Dynamics)
+- executes processes (103)  
+- supports initiatives (102)  
+- evolves based on hypotheses (101)  
 
 ---
 
 ## Key Principles
 
-- Business-driven system design
-- Clear system boundaries and responsibilities
-- Consistent identifiers across layers
-- Separation of concerns between structure, data, and interaction
-- Technology-agnostic modeling
+### 1. Execution Ownership
+
+Every responsibility must have a clear executor:
+
+component → source_of_truth_executor → logic/data
+
+---
+
+### 2. Separation of Concerns
+
+- 201 → structure  
+- 202 → data  
+- 203 → contracts  
+- 204 → runtime communication  
+
+---
+
+### 3. Data as System State
+
+Data is:
+
+- owned  
+- versioned  
+- lifecycle-driven  
+- consistent (with defined guarantees)  
+
+---
+
+### 4. Contracts Before Integration
+
+- API defines interaction  
+- Integration defines execution  
+
+API (203) ≠ Integration (204)
+
+---
+
+### 5. Distributed System Reality
+
+System must model:
+
+- async communication  
+- retries and failures  
+- consistency trade-offs  
+- topology  
+
+---
+
+### 6. Traceability
+
+Everything must link back:
+
+Process → Component → API → Integration → Data
 
 ---
 
 ## Summary
 
-Bundle 2 defines **how the product is realized as a system**.
+Bundle 2 defines how the product becomes a **real, executable, distributed system**.
 
-It connects business logic with technical implementation and ensures that system design is consistent, traceable, and aligned with product value.
+It connects structure, data, contracts, and runtime communication into a single coherent architecture model.
