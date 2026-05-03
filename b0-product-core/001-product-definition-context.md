@@ -6,6 +6,7 @@ document_id: spec.product.definition.context
 document_type: layer_specification
 module_scope: root
 status: stable
+spec_version: 1.0.0
 title: Product Definition & Context Layer Specification
 <!-- AISMM:META_END -->
 
