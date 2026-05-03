@@ -16,8 +16,8 @@ This bundle is the **entry point for understanding the product** and the base fo
 
 ## Included Layers
 
-- 001 — Aeilus Value Streams (VSS)
-- 002 — Product Definition & Context
+- 001 — Product Definition & Context
+- 002 — Aeilus Value Streams (VSS)
 - 003 — Stakeholders and Motivation
 - 004 — Business Architecture (Static)
 - 005 — Critical Path (High-Level)
