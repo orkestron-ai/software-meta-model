@@ -58,6 +58,13 @@ This layer does NOT define:
 
 It defines **interaction between systems**.
 
+This layer MUST define:
+
+- communication protocol
+- transport mechanism
+- connected systems
+- interaction pattern (sync/async)
+
 ---
 
 ## 3. Main Output of the Layer
