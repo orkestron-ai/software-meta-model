@@ -5,7 +5,8 @@ layer_key: stakeholders_and_motivation
 document_id: spec.stakeholders.motivation
 document_type: layer_specification
 module_scope: root
-status: draft
+status: stable
+spec_version: 1.0.0
 title: Stakeholders and Motivation Layer Specification
 <!-- AISMM:META_END -->
 
@@ -260,7 +261,32 @@ Define:
 
 ---
 
-## 7. Relationships Inside the Layer
+## 7. Preferred Representation
+
+The semantic content of this layer is independent of any specific representation format.
+
+This layer defines **who the stakeholders are, what they want, and how they perceive value**, not how this information must be structured or stored.
+
+Due to the narrative and conceptual nature of this layer, the following representations are considered most suitable:
+
+- Markdown (`.md`) for structured descriptions of stakeholders, goals, motivations, and relationships  
+- Structured formats (JSON / YAML) for machine-readable stakeholder definitions and mappings  
+- Tables or simple diagrams for visualizing relationships, dependencies, and conflicts  
+
+These representations are **recommendations, not requirements**.
+
+Implementations:
+
+- SHOULD use Markdown as the primary format for clarity and human understanding  
+- MAY use structured formats when machine processing or integration is required  
+- MAY use visual representations to improve comprehension of relationships  
+- MUST NOT encode semantics in format-specific constructs  
+
+The correctness of this layer is determined by the completeness and consistency of its **semantic content**, not by the chosen representation format.
+
+---
+
+## 8. Relationships Inside the Layer
 
 ```text
 stakeholder → has → role
@@ -273,7 +299,7 @@ stakeholder → interacts_with → stakeholder
 
 ---
 
-## 8. Relationships With Other AISMM Layers
+## 9. Relationships With Other AISMM Layers
 
 ### Value Streams
 
@@ -328,7 +354,7 @@ stakeholder → incurs → cost
 
 ---
 
-## 9. Layer Boundaries
+## 10. Layer Boundaries
 
 This layer must not include:
 
@@ -340,7 +366,7 @@ This layer must not include:
 
 ---
 
-## 10. Recommended Block Types
+## 11. Recommended Block Types
 
 - layer_document
 - stakeholder_definition
@@ -349,7 +375,7 @@ This layer must not include:
 
 ---
 
-## 11. Minimal Valid Content
+## 12. Minimal Valid Content
 
 Must define:
 
@@ -359,7 +385,7 @@ Must define:
 
 ---
 
-## 12. Completeness Criteria
+## 13. Completeness Criteria
 
 A mature layer includes:
 
@@ -370,7 +396,7 @@ A mature layer includes:
 
 ---
 
-## 13. Example Identifiers
+## 14. Example Identifiers
 
 ```text
 stakeholder.customer
@@ -384,7 +410,7 @@ relationship.customer_depends_on_system
 
 ---
 
-## 14. Summary
+## 15. Summary
 
 This layer defines **who cares about the product and why**.
 
