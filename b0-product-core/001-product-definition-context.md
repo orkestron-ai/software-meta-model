@@ -5,7 +5,7 @@ layer_key: product_definition_context
 document_id: spec.product.definition.context
 document_type: layer_specification
 module_scope: root
-status: draft
+status: stable
 title: Product Definition & Context Layer Specification
 <!-- AISMM:META_END -->
 
