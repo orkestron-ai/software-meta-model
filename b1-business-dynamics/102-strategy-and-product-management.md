@@ -6,7 +6,7 @@ document_id: spec.strategy.product_management
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Strategy and Product Management Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,24 +14,22 @@ title: Strategy and Product Management Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Strategy and Product Management** layer defines how validated hypotheses are transformed into structured product direction, decisions, and delivery planning.
+The **Strategy and Product Management** layer defines how validated knowledge is transformed into **controlled product evolution**.
 
-It describes:
+It connects:
 
-- product strategy
-- objectives and goals
-- initiatives
-- roadmap
-- product versions
-- prioritization logic
+- validated hypotheses
+- business goals
+- value impact
+- execution planning
 
 It answers:
 
-- What are we trying to achieve?
-- Why are we doing it?
-- What changes are we making in the product?
+- What direction are we taking?
+- Why is this the right direction?
+- What changes will we make?
 - In what order and priority?
-- What will be delivered and when?
+- What outcomes are expected?
 
 ---
 
@@ -39,41 +37,28 @@ It answers:
 
 This layer connects:
 
-```text
-Validated Hypotheses → Product Change → Planned Delivery
-```
+Hypothesis → Decision → Strategy → Initiative → Delivery
 
-It translates validated knowledge into actionable product direction.
+It is the **control layer of product evolution**.
 
 Other layers rely on it to:
 
-- define requirements scope
-- align teams on priorities
-- connect strategy with execution
-- explain product evolution over time
-
-This layer does NOT define:
-
-- detailed implementation
-- low-level tasks
-- UI or technical design
-- full business processes
-
-It defines **intent, direction, and prioritization**.
+- generate requirements
+- align execution
+- prioritize work
+- connect value and economics to delivery
 
 ---
 
-## 3. Main Output of the Layer
+## 3. Main Output
 
-The output is a structured model of:
-
-- strategy
+- strategies
 - objectives
-- product goals
 - initiatives
-- roadmap items
-- product versions
-- prioritization decisions
+- roadmap
+- versions
+- prioritization logic
+- decision traceability
 
 ---
 
@@ -81,295 +66,191 @@ The output is a structured model of:
 
 ### 4.1 Strategy
 
-Strategy defines the high-level direction of the product.
-
-Examples:
-
-```text
-strategy.enterprise_focus
-strategy.marketplace_growth
-strategy.cost_optimization
-```
+Defines long-term direction.
 
 ---
 
 ### 4.2 Objective
 
-An objective defines a measurable goal derived from strategy.
-
-Examples:
-
-```text
-objective.increase_activation_rate
-objective.reduce_operational_cost
-```
+Measurable target derived from strategy.
 
 ---
 
-### 4.3 Product Goal
+### 4.3 Initiative
 
-A product goal represents a concrete target for product improvement.
-
----
-
-### 4.4 Initiative
-
-An initiative is a structured change driven by hypotheses and strategy.
-
-Examples:
-
-```text
-initiative.workflow_templates
-initiative.new_pricing_model
-```
+A structured change driven by hypotheses.
 
 ---
 
-### 4.5 Roadmap Item
+### 4.4 Roadmap Item
 
-A roadmap item represents a planned delivery unit.
-
----
-
-### 4.6 Product Version
-
-A product version groups delivered changes.
+Atomic delivery unit.
 
 ---
 
-### 4.7 Priority
+### 4.5 Product Version
 
-Defines importance and execution order.
+Grouped delivery of changes.
+
+---
+
+### 4.6 Priority
+
+Execution order logic.
+
+---
+
+### 4.7 Decision Trace (NEW)
+
+Links hypothesis → decision → initiative.
+
+---
+
+### 4.8 Value Target (NEW)
+
+Defines expected value impact:
+
+- increase value
+- reduce anti-value
+
+---
+
+### 4.9 Economic Target (NEW)
+
+Defines expected economic impact:
+
+- revenue growth
+- cost reduction
+- margin improvement
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type     | Identifier Prefix  |
-| :-------------- | :----------------- |
-| Strategy        | `strategy.*`       |
-| Objective       | `objective.*`      |
-| Product Goal    | `goal.*`           |
-| Initiative      | `initiative.*`     |
-| Roadmap Item    | `roadmap_item.*`   |
-| Product Version | `version.*`        |
-| Priority        | `priority.*`       |
-| Decision        | `decision.*`       |
+| Entity | Prefix |
+|--------|--------|
+| Strategy | strategy.* |
+| Objective | objective.* |
+| Initiative | initiative.* |
+| Roadmap Item | roadmap_item.* |
+| Version | version.* |
+| Priority | priority.* |
+| Decision | decision.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
----
+### 6.1 Strategy
 
-### 6.1 Strategy Definition
-
-- identifier
+- id
 - description
-- scope
-- linked hypotheses
+- based_on hypotheses
 
 ---
 
 ### 6.2 Objectives
 
-- identifier
-- description
-- metric of success
-- linked strategy
+- id
+- metric
+- target
 
 ---
 
 ### 6.3 Initiatives
 
-- identifier
-- description
-- related hypotheses
-- affected product areas
+- id
+- derived_from hypotheses
+- value_target
+- economic_target
 
 ---
 
 ### 6.4 Roadmap
 
-- roadmap items
+- items
 - dependencies
-- sequencing
+- sequence
 
 ---
 
-### 6.5 Product Versions
+### 6.5 Versions
 
-- version identifier
-- included roadmap items
-- release goal
+- version id
+- included items
 
 ---
 
 ### 6.6 Prioritization
 
-- priority rules
-- ranking logic
+- rules
 - trade-offs
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
-
-This layer defines **product direction and planning**, not how it must be stored.
-
-Recommended representations:
-
-- Markdown (`.md`) for strategy and narrative explanation  
-- Structured formats (JSON / YAML) for roadmap and planning data  
-- Tables for priorities and roadmap views  
-- Simple diagrams for visualizing strategy alignment  
-
-Implementations:
-
-- SHOULD use Markdown for clarity  
-- SHOULD use structured formats for planning data  
-- MAY use visualizations  
-- MUST NOT encode semantics in format-specific constructs  
-
-The correctness of this layer depends on clarity and consistency of product direction.
+- Markdown for strategy
+- JSON/YAML for roadmap
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-strategy → defines → objective
-objective → drives → initiative
-initiative → creates → roadmap_item
-roadmap_item → included_in → version
-priority → ranks → roadmap_item
-```
+strategy → defines → objective  
+objective → drives → initiative  
+initiative → derived_from → hypothesis  
+initiative → creates → roadmap_item  
+roadmap_item → included_in → version  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### Business Hypotheses
-
-```text
-strategy → based_on → hypothesis.*
+Hypotheses:
 initiative → derived_from → hypothesis.*
-```
 
----
-
-### Product Definition
-
-```text
-initiative → affects → module.*
-initiative → affects → product.*
-```
-
----
-
-### Value Streams
-
-```text
+Value:
 initiative → improves → value.*
-```
 
----
+Economics:
+initiative → impacts → revenue/cost
 
-### Business Architecture
-
-```text
-initiative → changes → capability.*
-```
-
----
-
-### Critical Path
-
-```text
-initiative → optimizes → step.*
-```
-
----
-
-### Economics
-
-```text
-initiative → impacts → revenue.*
-initiative → impacts → cost.*
-```
-
----
-
-### Requirements
-
-```text
+Behavior:
 initiative → produces → requirement.*
-```
 
 ---
 
-## 10. Layer Boundaries
+## 10. Boundaries
 
-This layer must not include:
+Does NOT include:
 
-- implementation details
-- UI design
-- technical architecture
-- full process definitions
-
----
-
-## 11. Recommended Block Types
-
-- layer_document
-- strategy_definition
-- objective_definition
-- initiative_definition
-- roadmap_definition
-- version_definition
+- implementation
+- UI
+- architecture
 
 ---
 
-## 12. Minimal Valid Content
+## 11. Minimal Valid Content
 
-Must define:
-
-- at least one strategy
-- at least one initiative
+- one strategy
+- one initiative
 
 ---
 
-## 13. Completeness Criteria
-
-A mature model includes:
+## 12. Completeness Criteria
 
 - strategy
 - objectives
 - initiatives
 - roadmap
-- product versions
-- prioritization
+- priorities
+- traceability to hypotheses
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-strategy.enterprise_focus
-objective.increase_activation
-initiative.workflow_templates
-roadmap_item.templates_v1
-version.v1_2
-```
-
----
-
-## 15. Summary
-
-This layer defines **how product evolution is planned and structured**.
-
-It connects validated knowledge with execution planning.
+Defines **how validated knowledge becomes controlled product change**.
 
 <!-- AISMM:END -->
