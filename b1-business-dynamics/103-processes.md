@@ -273,7 +273,7 @@ This layer defines **structured flows of work**, not how they must be stored.
 
 Due to the process-oriented nature of this layer, the following representations are considered most suitable:
 
-- BPMN (`.bpmn`) for detailed and formal process modeling  
+- BPMN 2.0 (`.bpmn`) for detailed and formal process modeling  
 - Markdown (`.md`) for high-level descriptions and documentation  
 - Structured formats (JSON / YAML) for machine-readable process graphs  
 
