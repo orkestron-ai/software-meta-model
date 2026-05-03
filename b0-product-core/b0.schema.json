@@ -1,15 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b0.schema.json",
-  "title": "AISMM Bundle 0 Schema",
-  "description": "Schema for Bundle 0: Product Definition & Value-Economics Core. This bundle aggregates the core product definition, value, business, and economics layers into a single machine-readable section of AISMM.",
+  "title": "AISMM Bundle 0 — Product Core Schema",
+  "description": "Full data schema for AISMM Bundle 0: Product Core (Definition, Value & Economics). This schema expands all required Bundle 0 layers into one machine-readable JSON structure.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "bundle_id",
     "bundle_key",
     "bundle_name",
-    "version",
+    "schema_version",
     "layers"
   ],
   "properties": {
@@ -19,15 +19,63 @@
     },
     "bundle_key": {
       "type": "string",
-      "const": "product_definition_value_economics_core"
+      "const": "product_core"
     },
     "bundle_name": {
       "type": "string",
-      "const": "Product Definition & Value-Economics Core"
+      "const": "Product Core (Definition, Value & Economics)"
     },
-    "version": {
-      "type": "string"
+    "schema_version": {
+      "type": "string",
+      "description": "Version of this Bundle 0 schema."
     },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "001_product_definition_context",
+        "002_aeilus_value_streams",
+        "003_stakeholders_and_motivation",
+        "004_business_architecture",
+        "005_critical_path",
+        "006_product_economics_model"
+      ],
+      "properties": {
+        "001_product_definition_context": {
+          "$ref": "#/$defs/product_definition_context_layer"
+        },
+        "002_aeilus_value_streams": {
+          "$ref": "#/$defs/aeilus_value_streams_layer"
+        },
+        "003_stakeholders_and_motivation": {
+          "$ref": "#/$defs/stakeholders_and_motivation_layer"
+        },
+        "004_business_architecture": {
+          "$ref": "#/$defs/business_architecture_layer"
+        },
+        "005_critical_path": {
+          "$ref": "#/$defs/critical_path_layer"
+        },
+        "006_product_economics_model": {
+          "$ref": "#/$defs/product_economics_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "description": "Optional explicit links between entities of different Bundle 0 layers.",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
     "status": {
       "type": "string",
       "enum": [
@@ -37,411 +85,1386 @@
         "archived"
       ]
     },
-    "description": {
-      "type": "string"
-    },
     "module_scope": {
       "type": "string",
-      "description": "Scope of this bundle snapshot, for example root or module:<module_id>.",
       "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. product.orkestron_ai or module.billing."
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference": {
+      "type": "string",
+      "description": "Reference to another AISMM entity or external file, e.g. entity.workflow or file:vss.schema.json."
     },
     "references": {
       "type": "array",
       "items": {
-        "type": "string"
-      }
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
     },
-    "layers": {
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "001",
-        "002",
-        "003",
-        "004",
-        "005",
-        "006"
+        "id",
+        "name",
+        "description"
       ],
       "properties": {
-        "001": {
-          "$ref": "#/$defs/layer_001_value_streams"
+        "id": {
+          "$ref": "#/$defs/id"
         },
-        "002": {
-          "$ref": "#/$defs/layer_002_product_definition_context"
+        "name": {
+          "type": "string"
         },
-        "003": {
-          "$ref": "#/$defs/layer_003_stakeholders"
+        "description": {
+          "type": "string"
         },
-        "004": {
-          "$ref": "#/$defs/layer_004_business_architecture"
+        "status": {
+          "$ref": "#/$defs/status"
         },
-        "005": {
-          "$ref": "#/$defs/layer_005_critical_path"
+        "owner": {
+          "$ref": "#/$defs/reference"
         },
-        "006": {
-          "$ref": "#/$defs/layer_006_pnl_model"
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
         }
       }
-    }
-  },
-  "$defs": {
-    "layer_ref": {
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "product_definition_context_layer": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "layer_id",
         "layer_key",
-        "document_id",
-        "document_type"
+        "product",
+        "scope",
+        "out_of_scope"
       ],
       "properties": {
         "layer_id": {
           "type": "string",
-          "pattern": "^\\d{3}$"
+          "const": "001"
         },
         "layer_key": {
-          "type": "string"
-        },
-        "document_id": {
-          "type": "string"
-        },
-        "document_type": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "file": {
           "type": "string",
-          "description": "Relative file path to the source markdown or native format document."
+          "const": "product_definition_context"
         },
-        "role": {
+        "product": {
+          "$ref": "#/$defs/product"
+        },
+        "scope": {
+          "$ref": "#/$defs/product_scope"
+        },
+        "out_of_scope": {
+          "$ref": "#/$defs/out_of_scope"
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/product_module"
+          }
+        },
+        "external_systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/external_system"
+          }
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/channel"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/environment"
+          }
+        },
+        "ownership_zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ownership_zone"
+          }
+        },
+        "boundary_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/boundary_rule"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assumption"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constraint"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "product": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "mission"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "application",
+                "platform",
+                "internal_system",
+                "api_product",
+                "marketplace",
+                "service",
+                "product_family",
+                "subsystem",
+                "other"
+              ]
+            },
+            "mission": {
+              "type": "string"
+            },
+            "primary_repository": {
+              "type": "string"
+            },
+            "lifecycle_status": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "product_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "core_capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "included_modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "supported_channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "owned_interfaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "owned_data_domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "owned_operational_responsibilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        }
+      }
+    },
+    "out_of_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "excluded_capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "external_responsibilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "unsupported_channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "non_product_domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        }
+      }
+    },
+    "product_module": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role_in_product": {
+              "type": "string"
+            },
+            "has_own_smm": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "external_system": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "relationship_to_product": {
+              "type": "string",
+              "enum": [
+                "dependency",
+                "integration",
+                "shared_platform",
+                "third_party_service",
+                "regulatory_context",
+                "adjacent_product",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "channel": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "channel_type": {
+              "type": "string",
+              "enum": [
+                "web_app",
+                "admin_interface",
+                "public_api",
+                "internal_api",
+                "cli",
+                "mobile_app",
+                "integration",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "environment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "environment_type": {
+              "type": "string",
+              "enum": [
+                "production",
+                "staging",
+                "development",
+                "test",
+                "customer_hosted",
+                "cloud_region",
+                "on_premise",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ownership_zone": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        }
+      ]
+    },
+    "boundary_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "rationale"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "affected_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "consequences": {
+          "type": "string"
+        }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "supported_entities": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "constraint_type": {
           "type": "string",
           "enum": [
-            "primary",
-            "supporting",
-            "reference"
-          ]
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "draft",
-            "active",
-            "deprecated",
-            "archived"
-          ]
-        },
-        "format": {
-          "type": "string",
-          "enum": [
-            "markdown",
-            "json",
-            "yaml",
-            "xml",
+            "technical",
+            "organizational",
+            "legal",
+            "compliance",
+            "economic",
+            "operational",
+            "data",
             "other"
           ]
         },
-        "references": {
+        "affected_entities": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "aeilus_value_streams_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "value_elements",
+        "converters",
+        "flows"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "002"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "aeilus_value_streams"
+        },
+        "value_elements": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/value_element"
+          }
+        },
+        "converters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/converter"
+          }
+        },
+        "flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_flow"
+          }
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_participant"
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metric"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
           }
         }
       }
     },
-    "layer_001_value_streams": {
+    "value_element": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "value",
+                "anti_value"
+              ]
+            },
+            "value_type": {
+              "type": "string",
+              "enum": [
+                "functional",
+                "economic",
+                "experiential",
+                "informational",
+                "strategic",
+                "risk_reduction",
+                "other"
+              ]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "measured_by": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "converter": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "converter_type": {
+              "type": "string",
+              "enum": [
+                "product_module",
+                "process",
+                "actor",
+                "system",
+                "function",
+                "external",
+                "other"
+              ]
+            },
+            "consumes": {
+              "$ref": "#/$defs/references"
+            },
+            "produces": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "value_flow": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "document",
-        "schema"
+        "id",
+        "name",
+        "source",
+        "target",
+        "value_elements"
       ],
       "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "001"
-                },
-                "layer_key": {
-                  "const": "aeilus_value_streams"
-                },
-                "document_type": {
-                  "const": "value_streams"
-                }
-              }
-            }
-          ]
+        "id": {
+          "$ref": "#/$defs/id"
         },
-        "schema": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "value_elements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "direction": {
           "type": "string",
-          "description": "Path to the canonical VSS schema file.",
-          "default": "vss.schema.json"
+          "enum": [
+            "directed"
+          ]
         },
-        "graph_kind": {
+        "metrics": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "value_participant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "participant_type": {
+              "type": "string",
+              "enum": [
+                "internal",
+                "external",
+                "human",
+                "system",
+                "conceptual",
+                "organization",
+                "other"
+              ]
+            },
+            "evaluates": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_by": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric_type": {
+              "type": "string",
+              "enum": [
+                "value",
+                "anti_value",
+                "efficiency",
+                "quality",
+                "economic",
+                "runtime",
+                "other"
+              ]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "formula": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "stakeholders_and_motivation_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "stakeholders",
+        "goals",
+        "value_perceptions"
+      ],
+      "properties": {
+        "layer_id": {
           "type": "string",
-          "const": "vss"
-        }
-      }
-    },
-    "layer_002_product_definition_context": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "document"
-      ],
-      "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "002"
-                },
-                "layer_key": {
-                  "const": "product_definition_context"
-                },
-                "document_type": {
-                  "const": "product_definition"
-                }
-              }
-            }
-          ]
+          "const": "003"
         },
-        "product_card_enabled": {
-          "type": "boolean",
-          "default": true
-        }
-      }
-    },
-    "layer_003_stakeholders": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "document"
-      ],
-      "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "003"
-                },
-                "layer_key": {
-                  "const": "stakeholders_and_motivation"
-                },
-                "document_type": {
-                  "const": "stakeholders"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "layer_004_business_architecture": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "document"
-      ],
-      "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "004"
-                },
-                "layer_key": {
-                  "const": "business_architecture_static"
-                },
-                "document_type": {
-                  "const": "business_architecture"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "layer_005_critical_path": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "document"
-      ],
-      "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "005"
-                },
-                "layer_key": {
-                  "const": "critical_path_high_level"
-                },
-                "document_type": {
-                  "const": "critical_path"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "layer_006_pnl_model": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "document"
-      ],
-      "properties": {
-        "document": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/layer_ref"
-            },
-            {
-              "properties": {
-                "layer_id": {
-                  "const": "006"
-                },
-                "layer_key": {
-                  "const": "product_pnl_model"
-                },
-                "document_type": {
-                  "const": "pnl_model"
-                }
-              }
-            }
-          ]
-        },
-        "schema": {
+        "layer_key": {
           "type": "string",
-          "description": "Path to the canonical P&L schema file.",
-          "default": "pnl.schema.json"
+          "const": "stakeholders_and_motivation"
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stakeholder"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stakeholder_role"
+          }
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/goal"
+          }
+        },
+        "motivations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/motivation"
+          }
+        },
+        "value_perceptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value_perception"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
         }
       }
+    },
+    "stakeholder": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "stakeholder_type": {
+              "type": "string",
+              "enum": [
+                "user",
+                "customer",
+                "operator",
+                "internal_team",
+                "external_organization",
+                "partner",
+                "regulator",
+                "system",
+                "other"
+              ]
+            },
+            "roles": {
+              "$ref": "#/$defs/references"
+            },
+            "goals": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "stakeholder_role": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        }
+      ]
+    },
+    "goal": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "success_criteria": {
+              "type": "string"
+            },
+            "driven_by": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "motivation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        }
+      ]
+    },
+    "value_perception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "stakeholder",
+        "perceived_value"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "stakeholder": {
+          "$ref": "#/$defs/reference"
+        },
+        "perceived_value": {
+          "$ref": "#/$defs/reference"
+        },
+        "perceived_anti_value": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        },
+        "evaluation_criteria": {
+          "type": "string"
+        }
+      }
+    },
+    "business_architecture_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "domains",
+        "capabilities",
+        "business_entities"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "004"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "business_architecture"
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_domain"
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_capability"
+          }
+        },
+        "business_entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/business_entity"
+          }
+        },
+        "ownership_zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ownership_zone"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "business_domain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "owned_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "related_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "business_capability": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "domain"
+          ],
+          "properties": {
+            "domain": {
+              "$ref": "#/$defs/reference"
+            },
+            "conceptual_inputs": {
+              "$ref": "#/$defs/references"
+            },
+            "conceptual_outputs": {
+              "$ref": "#/$defs/references"
+            },
+            "related_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "business_entity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role_in_business_logic": {
+              "type": "string"
+            },
+            "related_capabilities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "critical_path_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "primary_outcome",
+        "steps"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "005"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "critical_path"
+        },
+        "primary_outcome": {
+          "$ref": "#/$defs/critical_outcome"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/critical_step"
+          },
+          "minItems": 1
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/critical_dependency"
+          }
+        },
+        "bottlenecks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bottleneck"
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metric"
+          }
+        }
+      }
+    },
+    "critical_outcome": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "delivered_value": {
+              "$ref": "#/$defs/reference"
+            },
+            "economic_impact": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "critical_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description",
+        "order"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "inputs": {
+          "$ref": "#/$defs/references"
+        },
+        "outputs": {
+          "$ref": "#/$defs/references"
+        },
+        "related_capability": {
+          "$ref": "#/$defs/reference"
+        },
+        "related_control": {
+          "$ref": "#/$defs/reference"
+        },
+        "value_mapping": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "critical_dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from_step",
+        "to_step"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "from_step": {
+          "$ref": "#/$defs/reference"
+        },
+        "to_step": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "bottleneck": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "affected_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "bottleneck_type": {
+              "type": "string",
+              "enum": [
+                "resource",
+                "execution_delay",
+                "dependency_failure",
+                "capacity",
+                "quality",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "product_economics_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "currency",
+        "revenue_streams",
+        "costs"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "006"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "product_economics_model"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "revenue_streams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/revenue_stream"
+          }
+        },
+        "costs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cost_item"
+          }
+        },
+        "cost_drivers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_driver"
+          }
+        },
+        "revenue_drivers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_driver"
+          }
+        },
+        "profit_formulas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/profit_formula"
+          }
+        },
+        "economic_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/economic_unit"
+          }
+        }
+      }
+    },
+    "revenue_stream": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "revenue_type"
+          ],
+          "properties": {
+            "revenue_type": {
+              "type": "string",
+              "enum": [
+                "subscription",
+                "usage",
+                "transaction",
+                "licensing",
+                "ads",
+                "partnership",
+                "other"
+              ]
+            },
+            "pricing_model": {
+              "type": "string"
+            },
+            "unit_price": {
+              "type": "number"
+            },
+            "driver": {
+              "$ref": "#/$defs/reference"
+            },
+            "trigger_event": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "cost_item": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "cost_type"
+          ],
+          "properties": {
+            "cost_type": {
+              "type": "string",
+              "enum": [
+                "cogs",
+                "development",
+                "operations",
+                "product_management",
+                "security_compliance",
+                "data_ai",
+                "shared_allocated",
+                "other"
+              ]
+            },
+            "category": {
+              "type": "string"
+            },
+            "unit_cost": {
+              "type": "number"
+            },
+            "amount": {
+              "type": "number"
+            },
+            "driver": {
+              "$ref": "#/$defs/reference"
+            },
+            "trigger_event": {
+              "$ref": "#/$defs/reference"
+            },
+            "source_resource": {
+              "$ref": "#/$defs/reference"
+            },
+            "allocation_method": {
+              "type": "string",
+              "enum": [
+                "event_based",
+                "usage_based",
+                "fixed",
+                "percentage",
+                "manual",
+                "none"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "economic_driver": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "driver_type": {
+              "type": "string",
+              "enum": [
+                "event",
+                "control",
+                "resource",
+                "step",
+                "capability",
+                "usage",
+                "other"
+              ]
+            },
+            "linked_entity": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "profit_formula": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "formula"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "economic_unit": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "unit_type": {
+              "type": "string",
+              "enum": [
+                "per_user",
+                "per_transaction",
+                "per_workflow",
+                "per_api_call",
+                "per_subscription",
+                "per_time_period",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
     }
-  },
-  "examples": [
-    {
-      "bundle_id": "b0",
-      "bundle_key": "product_definition_value_economics_core",
-      "bundle_name": "Product Definition & Value-Economics Core",
-      "version": "1.0.0",
-      "status": "active",
-      "module_scope": "root",
-      "layers": {
-        "001": {
-          "document": {
-            "layer_id": "001",
-            "layer_key": "aeilus_value_streams",
-            "document_id": "value.streams.definition",
-            "document_type": "value_streams",
-            "title": "Aeilus Value Streams (VSS)",
-            "file": "Value_Streams.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown",
-            "references": [
-              "file:vss.schema.json"
-            ]
-          },
-          "schema": "vss.schema.json",
-          "graph_kind": "vss"
-        },
-        "002": {
-          "document": {
-            "layer_id": "002",
-            "layer_key": "product_definition_context",
-            "document_id": "product.definition.context",
-            "document_type": "product_definition",
-            "title": "Product Definition & Context",
-            "file": "Product-Definition-n-Context.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown"
-          },
-          "product_card_enabled": true
-        },
-        "003": {
-          "document": {
-            "layer_id": "003",
-            "layer_key": "stakeholders_and_motivation",
-            "document_id": "stakeholders.definition",
-            "document_type": "stakeholders",
-            "title": "Stakeholders and Motivation",
-            "file": "Stakeholders.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown"
-          }
-        },
-        "004": {
-          "document": {
-            "layer_id": "004",
-            "layer_key": "business_architecture_static",
-            "document_id": "business.architecture.core",
-            "document_type": "business_architecture",
-            "title": "Business Architecture (Static)",
-            "file": "Business-Architecture.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown"
-          }
-        },
-        "005": {
-          "document": {
-            "layer_id": "005",
-            "layer_key": "critical_path_high_level",
-            "document_id": "critical.path.primary",
-            "document_type": "critical_path",
-            "title": "Critical Path (High-Level)",
-            "file": "Critical-Path.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown"
-          }
-        },
-        "006": {
-          "document": {
-            "layer_id": "006",
-            "layer_key": "product_pnl_model",
-            "document_id": "economics.pnl.model",
-            "document_type": "pnl_model",
-            "title": "Product P&L Model",
-            "file": "PnL-Model.md",
-            "role": "primary",
-            "status": "active",
-            "format": "markdown",
-            "references": [
-              "file:pnl.schema.json"
-            ]
-          },
-          "schema": "pnl.schema.json"
-        }
-      }
-    }
-  ]
+  }
 }
