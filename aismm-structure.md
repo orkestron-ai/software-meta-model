@@ -2,7 +2,7 @@
 
 ## Overview
 
-AISMM (AI-driven Software Meta-Model) is a **block-based, machine-readable meta-model embedded in Markdown files**.
+AISMM (AI-driven Software Meta-Model) is a **block-based, machine-readable meta-model embedded in Markdown files**. This meta-model is explicitly designed for enterprise-grade, agent-driven software development operating within large-context environments.
 
 The core principle:
 
@@ -17,11 +17,7 @@ The core principle:
 
 Any file (`.md`, `.txt`, etc.) is treated as a **container of AISMM blocks**.
 
-AISMM Studio:
-
-```
-scan files → extract blocks → build graph → render model
-```
+Furthermore, AISMM operates within a higher-level architectural context governed by the **AIPLMM (AI Product Landscape Meta-Model)**. AIPLMM delineates the relationships across various products and their respective AISMM implementations. It formally describes cross-cutting entities, end-to-end business processes, shared test strategies, and other global landscape elements.
 
 ---
 
@@ -45,11 +41,11 @@ The fundamental unit of AISMM is a **block**.
 
 ### 2.1 Block Markers
 
-| Marker | Description |
-|------|-------------|
-| `AISMM:BEGIN` | Start of block |
-| `AISMM:META_END` | End of metadata |
-| `AISMM:END` | End of block |
+| Marker           | Description      |
+| ---------------- | ---------------- |
+| `AISMM:BEGIN`    | Start of block   |
+| `AISMM:META_END` | End of metadata  |
+| `AISMM:END`      | End of block     |
 
 ---
 
@@ -80,15 +76,15 @@ references:
 
 ## 3. Required Metadata Fields
 
-| Field | Description |
-|------|------------|
-| `type` | Block type |
-| `layer_id` | 3-digit layer identifier |
-| `layer_key` | Stable layer key |
-| `document_id` | Globally unique identifier |
-| `document_type` | Logical type of document |
-| `module_scope` | root or module |
-| `status` | lifecycle state |
+| Field           | Description                |
+| --------------- | -------------------------- |
+| `type`          | Block type                 |
+| `layer_id`      | 3-digit layer identifier   |
+| `layer_key`     | Stable layer key           |
+| `document_id`   | Globally unique identifier |
+| `document_type` | Logical type of document   |
+| `module_scope`  | root or module             |
+| `status`        | lifecycle state            |
 
 ---
 
@@ -107,15 +103,15 @@ references:
 
 ### 5.1 Core Types
 
-| Type | Description |
-|------|------------|
-| layer_document | Main document block |
-| entity_definition | Entity description |
-| rule_definition | Rules |
-| constraint_definition | Constraints |
-| assumption_definition | Assumptions |
-| prompt | Execution prompt |
-| schema_reference | JSON/YAML/BPMN reference |
+| Type                    | Description                |
+| ----------------------- | -------------------------- |
+| layer_document          | Main document block        |
+| entity_definition       | Entity description         |
+| rule_definition         | Rules                      |
+| constraint_definition   | Constraints                |
+| assumption_definition   | Assumptions                |
+| prompt                  | Execution prompt           |
+| schema_reference        | JSON/YAML/BPMN reference   |
 
 ---
 
@@ -165,13 +161,15 @@ critical.path.primary
 
 ## 9. Referencing
 
-### Cross-layer References
+### Entity References
+
+References point to entities defined in other blocks. They must be formed according to the rule: `<layer_id>-<entity_id>`.
 
 ```
 references:
-  - entity.workflow
-  - event.execution_completed
-  - control.assign_task
+  - 020-entity.workflow
+  - 105-event.execution_completed
+  - 310-control.assign_task
 ```
 
 ### External Files
@@ -183,18 +181,28 @@ references:
   - file:process.bpmn
 ```
 
+### External Repositories (Distributed AISMM)
+
+For layers isolated in separate repositories (e.g., for security reasons), references must include the repository identifier.
+
+```
+references:
+  - repo:secure-core-layer/001-entity.security_policy
+  - repo:finance-models/020-entity.pnl_schema
+```
+
 ---
 
 ## 10. Supported File Formats
 
-| Format | Use |
-|------|-----|
-| .md | default |
-| .json | schema/data |
-| .yaml | configs |
-| .bpmn | processes |
-| .xml | structured models |
-| .fig | UI models |
+| Format  | Use               |
+| ------- | ----------------- |
+| `.md`   | default           |
+| `.json` | schema/data       |
+| `.yaml` | configs           |
+| `.bpmn` | processes         |
+| `.xml`  | structured models |
+| `.fig`  | UI models         |
 
 ---
 
@@ -217,9 +225,9 @@ AISMM does NOT depend on folder structure but supports it.
 ### Module Structure
 
 ```
-.smm/
-  modules/
-    billing/
+modules/
+  billing/
+    .smm/
       bundles/
         b0/
 ```
@@ -234,6 +242,22 @@ repo/
   docs/
   .aismm/
   .smm/
+```
+
+---
+
+### Distributed Structure (Security/Scale)
+
+Layers can be isolated into separate repositories to enforce strict access controls or manage scale.
+
+```
+main-repo/
+  .aismm/
+    bundles/b0/002/
+
+secure-repo/
+  .aismm/
+    bundles/b0/001/  (Encrypted or restricted access)
 ```
 
 ---
@@ -265,13 +289,15 @@ metric.*
 
 ## 14. Parsing Rules
 
-AISMM Studio must:
+Any context extraction tool implementing the AISMM standard must:
 
-1. Scan all files
-2. Extract blocks
-3. Validate structure
-4. Build graph model
-5. Resolve references
+1. Fetch sources (including pulling from multiple external repositories if layers are distributed)
+2. Decrypt layers (if they were encrypted)
+3. Scan all files
+4. Extract blocks
+5. Validate structure
+6. Build graph model
+7. Resolve references
 
 ---
 
@@ -311,7 +337,7 @@ aismm-layers-prefs.md
 
 ## 17. Layer Specifications
 
-Each layer must have its own specification describing:
+Each layer have its own specification describing:
 
 - what to include
 - structure of content
@@ -328,7 +354,7 @@ See:
 ## 18. Composition
 
 ```
-blocks → layers → bundles → aismm.json
+blocks → layers → bundles → repositories (optional) → global graph (aismm.json)
 ```
 
 ---
@@ -336,7 +362,7 @@ blocks → layers → bundles → aismm.json
 ## 19. Decomposition
 
 ```
-aismm.json → bundles → layers → blocks → files
+aismm.json → bundles → layers → blocks
 ```
 
 ---
@@ -356,9 +382,7 @@ AISMM provides:
 - flexible file structure
 - strong typing via metadata
 - cross-layer graph linking
-
----
-
-## Final Definition
+- secure, multi-repo distribution
+- encrypted layer support
 
 AISMM is a block-based, layer-aware, graph-structured meta-model embedded in Markdown, designed for AI-native software development and orchestration.
