@@ -5,7 +5,8 @@ layer_key: aeilus_value_streams
 document_id: spec.aeilus.value.streams
 document_type: layer_specification
 module_scope: root
-status: draft
+status: stable
+spec_version: 1.0.0
 title: Aeilus Value Streams Layer Specification
 <!-- AISMM:META_END -->
 
@@ -259,7 +260,73 @@ Define measurable aspects:
 
 ---
 
-## 7. Relationships Inside the Layer
+## 7. Preferred Representation
+
+The semantic content of this layer is independent of any specific representation format.
+
+This layer defines **how value exists, flows, and transforms**, not how it must be visualized or stored.
+
+However, due to the inherently **graph-based nature of value systems**, the following representations are considered most suitable:
+
+- Graph-based representations (directed graphs) for modeling value flows and transformations  
+- Structured formats (JSON / YAML) for machine-readable value system definitions  
+- Visual diagrams for human understanding of value flows and transformations  
+- Markdown (`.md`) for descriptive explanations and contextual clarification  
+
+Typical graph concepts that representations should support:
+
+- nodes (value elements, converters, participants)  
+- edges (value flows)  
+- directionality  
+- multiple value types (value / anti-value)  
+- transformations and accumulation  
+
+---
+
+### Reference Representation (VSS)
+
+A commonly used and highly suitable representation for this layer is the **Value Stream Schema (VSS)**.
+
+The schema is defined in:
+
+vss.schema.json
+
+VSS provides:
+
+- a structured graph model of value systems  
+- explicit representation of converters, flows, and value elements  
+- compatibility with visual editors and tools  
+- the ability to view and manipulate the entire value system as a single coherent model  
+
+VSS is considered:
+
+- a **recommended representation** for this layer  
+- a **reference implementation of the value model**  
+- a **convenient format for both humans and tools**  
+
+However:
+
+- VSS is **not mandatory**  
+- the semantic model of this layer MUST NOT depend on VSS-specific constructs  
+- alternative representations MAY be used if they preserve the same semantics  
+
+---
+
+## Representation Guidelines
+
+Implementations:
+
+- SHOULD use graph-capable representations for clarity and completeness  
+- SHOULD prefer structured formats when machine processing is required  
+- MAY use VSS (`vss.schema.json`) as a primary working format  
+- MAY use alternative formats if they preserve semantic meaning  
+- MUST NOT encode semantics in representation-specific details  
+
+The correctness of this layer is determined by the consistency and completeness of the **value system model**, not by the chosen format.
+
+---
+
+## 8. Relationships Inside the Layer
 
 ```text
 converter → consumes → value
@@ -273,7 +340,7 @@ value → measured_by → metric
 
 ---
 
-## 8. Relationships With Other AISMM Layers
+## 9. Relationships With Other AISMM Layers
 
 ### Product Definition & Context
 
@@ -335,7 +402,7 @@ metric → monitoring
 
 ---
 
-## 9. Layer Boundaries
+## 10. Layer Boundaries
 
 This layer must not include:
 
@@ -347,7 +414,7 @@ This layer must not include:
 
 ---
 
-## 10. Recommended Block Types
+## 11. Recommended Block Types
 
 - layer_document
 - value_definition
@@ -357,7 +424,7 @@ This layer must not include:
 
 ---
 
-## 11. Minimal Valid Content
+## 12. Minimal Valid Content
 
 Must define:
 
@@ -367,7 +434,7 @@ Must define:
 
 ---
 
-## 12. Completeness Criteria
+## 13. Completeness Criteria
 
 A mature model includes:
 
@@ -379,7 +446,7 @@ A mature model includes:
 
 ---
 
-## 13. Example Identifiers
+## 14. Example Identifiers
 
 ```text
 value.execution_success
@@ -392,7 +459,7 @@ metric.success_rate
 
 ---
 
-## 14. Summary
+## 15. Summary
 
 This layer defines **how value exists and moves in the system**.
 
