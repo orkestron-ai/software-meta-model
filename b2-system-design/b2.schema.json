@@ -1,0 +1,1442 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b2.schema.json",
+  "title": "AISMM Bundle 2 — System Design Schema",
+  "description": "Full data schema for AISMM Bundle 2: System Design (Systems, Data, Interfaces & Integrations). This schema expands layers 201–204 into one machine-readable JSON structure.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b2"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "system_design"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "System Design (Systems, Data, Interfaces & Integrations)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "201_applications_and_system_architecture",
+        "202_data_and_information_architecture",
+        "203_api_and_interfaces",
+        "204_integrations"
+      ],
+      "properties": {
+        "201_applications_and_system_architecture": {
+          "$ref": "#/$defs/applications_system_architecture_layer"
+        },
+        "202_data_and_information_architecture": {
+          "$ref": "#/$defs/data_information_architecture_layer"
+        },
+        "203_api_and_interfaces": {
+          "$ref": "#/$defs/api_interfaces_layer"
+        },
+        "204_integrations": {
+          "$ref": "#/$defs/integrations_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "applications_system_architecture_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "systems",
+        "components"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "201"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "applications_and_system_architecture"
+        },
+        "systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/system"
+          },
+          "minItems": 1
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/application"
+          }
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/component"
+          },
+          "minItems": 1
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/service"
+          }
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/system_module"
+          }
+        },
+        "deployment_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deployment_unit"
+          }
+        },
+        "responsibilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/responsibility"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "system": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "system_type": {
+              "type": "string",
+              "enum": [
+                "product_system",
+                "internal_system",
+                "external_system",
+                "platform",
+                "subsystem",
+                "other"
+              ]
+            },
+            "boundaries": {
+              "type": "string"
+            },
+            "owned_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "contains_applications": {
+              "$ref": "#/$defs/references"
+            },
+            "connects_to_systems": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "application": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "system"
+          ],
+          "properties": {
+            "system": {
+              "$ref": "#/$defs/reference"
+            },
+            "application_type": {
+              "type": "string",
+              "enum": [
+                "web_app",
+                "backend_app",
+                "mobile_app",
+                "admin_app",
+                "worker",
+                "service_app",
+                "api_app",
+                "other"
+              ]
+            },
+            "responsibilities": {
+              "$ref": "#/$defs/references"
+            },
+            "contains_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "component": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "application": {
+              "$ref": "#/$defs/reference"
+            },
+            "component_type": {
+              "type": "string",
+              "enum": [
+                "ui_component",
+                "domain_component",
+                "application_component",
+                "infrastructure_component",
+                "integration_component",
+                "data_component",
+                "other"
+              ]
+            },
+            "responsibilities": {
+              "$ref": "#/$defs/references"
+            },
+            "implements_capabilities": {
+              "$ref": "#/$defs/references"
+            },
+            "executes_process_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "executes_critical_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "owns_data_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "reads_data_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "writes_data_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "exposes_apis": {
+              "$ref": "#/$defs/references"
+            },
+            "deployed_as": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "service": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "component": {
+              "$ref": "#/$defs/reference"
+            },
+            "service_type": {
+              "type": "string",
+              "enum": [
+                "domain_service",
+                "application_service",
+                "integration_service",
+                "worker_service",
+                "api_service",
+                "other"
+              ]
+            },
+            "implements_capabilities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "system_module": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_components": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_product_module": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "deployment_unit": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "deployment_unit_type": {
+              "type": "string",
+              "enum": [
+                "service",
+                "container",
+                "binary",
+                "function",
+                "job",
+                "static_asset",
+                "other"
+              ]
+            },
+            "contains_components": {
+              "$ref": "#/$defs/references"
+            },
+            "runtime_environment": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "responsibility": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "assigned_to": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_capability": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_process_step": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "data_information_architecture_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "data_domains",
+        "entities"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "202"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "data_and_information_architecture"
+        },
+        "data_domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_domain"
+          },
+          "minItems": 1
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_entity"
+          },
+          "minItems": 1
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_attribute"
+          }
+        },
+        "entity_relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity_relationship"
+          }
+        },
+        "datasets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dataset"
+          }
+        },
+        "data_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_flow"
+          }
+        },
+        "data_ownerships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_ownership"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "data_domain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "owned_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "owning_component": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "data_entity": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "domain"
+          ],
+          "properties": {
+            "domain": {
+              "$ref": "#/$defs/reference"
+            },
+            "entity_type": {
+              "type": "string",
+              "enum": [
+                "business_entity",
+                "system_entity",
+                "event_entity",
+                "reference_entity",
+                "aggregate",
+                "value_object",
+                "other"
+              ]
+            },
+            "attributes": {
+              "$ref": "#/$defs/references"
+            },
+            "represents_business_entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "owned_by_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "used_in_requests": {
+              "$ref": "#/$defs/references"
+            },
+            "used_in_responses": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "data_attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "entity",
+        "data_type",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "data_type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "classification": {
+          "type": "string",
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted",
+            "personal_data",
+            "financial_data",
+            "other"
+          ]
+        }
+      }
+    },
+    "entity_relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_entity",
+        "relation",
+        "target_entity"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "cardinality": {
+          "type": "string",
+          "enum": [
+            "one_to_one",
+            "one_to_many",
+            "many_to_one",
+            "many_to_many",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "dataset": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "contains_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "owner": {
+              "$ref": "#/$defs/reference"
+            },
+            "classification": {
+              "type": "string",
+              "enum": [
+                "public",
+                "internal",
+                "confidential",
+                "restricted",
+                "personal_data",
+                "financial_data",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "data_flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "source",
+        "target",
+        "transfers"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "transfers": {
+          "$ref": "#/$defs/references"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "directed",
+            "bidirectional"
+          ]
+        }
+      }
+    },
+    "data_ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "data_entity",
+        "owner"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "data_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "responsibilities": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "api_interfaces_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "apis",
+        "operations"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "203"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "api_and_interfaces"
+        },
+        "apis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api"
+          },
+          "minItems": 1
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_operation"
+          },
+          "minItems": 1
+        },
+        "requests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_request"
+          }
+        },
+        "responses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_response"
+          }
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_command"
+          }
+        },
+        "contracts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/api_contract"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "api": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "owner_component",
+            "exposure"
+          ],
+          "properties": {
+            "owner_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "exposure": {
+              "type": "string",
+              "enum": [
+                "internal",
+                "external",
+                "public",
+                "partner",
+                "private"
+              ]
+            },
+            "operations": {
+              "$ref": "#/$defs/references"
+            },
+            "interface_kind": {
+              "type": "string",
+              "enum": [
+                "api",
+                "cli",
+                "sdk",
+                "function_interface",
+                "command_interface",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "api_operation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "api",
+            "purpose"
+          ],
+          "properties": {
+            "api": {
+              "$ref": "#/$defs/reference"
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "accepts_request": {
+              "$ref": "#/$defs/reference"
+            },
+            "returns_response": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggers_command": {
+              "$ref": "#/$defs/reference"
+            },
+            "maps_to_control": {
+              "$ref": "#/$defs/reference"
+            },
+            "executed_by_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "used_by_process_steps": {
+              "$ref": "#/$defs/references"
+            },
+            "generates_cost_driver": {
+              "$ref": "#/$defs/reference"
+            },
+            "generates_revenue_driver": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "protocol"
+                ]
+              },
+              {
+                "required": [
+                  "endpoint_url"
+                ]
+              },
+              {
+                "required": [
+                  "queue"
+                ]
+              },
+              {
+                "required": [
+                  "topic"
+                ]
+              },
+              {
+                "required": [
+                  "external_system"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "api_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interface_field"
+          }
+        },
+        "uses_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "validation_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "api_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interface_field"
+          }
+        },
+        "uses_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "status_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interface_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "data_type",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data_type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "maps_to_attribute": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "api_command": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "maps_to_control": {
+              "$ref": "#/$defs/reference"
+            },
+            "input": {
+              "$ref": "#/$defs/reference"
+            },
+            "output": {
+              "$ref": "#/$defs/reference"
+            },
+            "side_effects": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "api_contract": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "defines_operations": {
+              "$ref": "#/$defs/references"
+            },
+            "input_contracts": {
+              "$ref": "#/$defs/references"
+            },
+            "output_contracts": {
+              "$ref": "#/$defs/references"
+            },
+            "validation_rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "compatibility_expectations": {
+              "type": "string"
+            },
+            "reference_specification": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "integrations_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "integrations",
+        "external_systems"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "204"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "integrations"
+        },
+        "integrations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration"
+          },
+          "minItems": 1
+        },
+        "external_systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_external_system"
+          },
+          "minItems": 1
+        },
+        "communication_patterns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/communication_pattern"
+          }
+        },
+        "protocols": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/protocol"
+          }
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_message"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_event"
+          }
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/integration_channel"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "integration": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "connected_systems",
+            "communication_pattern",
+            "protocol",
+            "channel"
+          ],
+          "properties": {
+            "connected_systems": {
+              "$ref": "#/$defs/references"
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "uses_apis": {
+              "$ref": "#/$defs/references"
+            },
+            "communication_pattern": {
+              "$ref": "#/$defs/reference"
+            },
+            "protocol": {
+              "$ref": "#/$defs/reference"
+            },
+            "channel": {
+              "$ref": "#/$defs/reference"
+            },
+            "exchanges_messages": {
+              "$ref": "#/$defs/references"
+            },
+            "exchanges_events": {
+              "$ref": "#/$defs/references"
+            },
+            "reliability_expectations": {
+              "type": "string"
+            },
+            "consistency_expectations": {
+              "type": "string"
+            },
+            "generates_cost": {
+              "$ref": "#/$defs/reference"
+            },
+            "affects_revenue": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "integration_external_system": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ownership": {
+              "type": "string",
+              "enum": [
+                "internal",
+                "external",
+                "shared",
+                "third_party",
+                "customer_owned",
+                "unknown"
+              ]
+            },
+            "responsibilities": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_context_external_system": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "communication_pattern": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "pattern_type"
+          ],
+          "properties": {
+            "pattern_type": {
+              "type": "string",
+              "enum": [
+                "synchronous",
+                "asynchronous",
+                "batch",
+                "streaming",
+                "webhook",
+                "polling",
+                "file_exchange",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "protocol": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "protocol_type"
+          ],
+          "properties": {
+            "protocol_type": {
+              "type": "string",
+              "enum": [
+                "http_rest",
+                "grpc",
+                "graphql",
+                "kafka",
+                "rabbitmq",
+                "webhook",
+                "file_transfer",
+                "database_replication",
+                "email",
+                "sms",
+                "other"
+              ]
+            },
+            "version": {
+              "type": "string"
+            },
+            "constraints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "integration_message": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "payload_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "destination": {
+              "$ref": "#/$defs/reference"
+            },
+            "schema_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "integration_event": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "event_type": {
+              "type": "string",
+              "enum": [
+                "domain_event",
+                "integration_event",
+                "system_event",
+                "message_event",
+                "external_event",
+                "other"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "destination": {
+              "$ref": "#/$defs/reference"
+            },
+            "payload_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "transported_via": {
+              "$ref": "#/$defs/reference"
+            },
+            "maps_to_event_contract": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "integration_channel": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "channel_type"
+          ],
+          "properties": {
+            "channel_type": {
+              "type": "string",
+              "enum": [
+                "endpoint",
+                "topic",
+                "queue",
+                "webhook",
+                "file_location",
+                "database_link",
+                "email",
+                "sms_gateway",
+                "other"
+              ]
+            },
+            "address": {
+              "type": "string"
+            },
+            "owned_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
