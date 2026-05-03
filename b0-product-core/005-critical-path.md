@@ -1,131 +1,344 @@
 <!-- AISMM:BEGIN -->
-type: layer_document
+type: layer_specification
 layer_id: 005
-layer_key: critical_path_high_level
-document_id: critical.path.primary
-document_type: critical_path
+layer_key: critical_path
+document_id: spec.critical.path
+document_type: layer_specification
 module_scope: root
-status: active
-title: Critical Path (High-Level)
+status: draft
+spec_version: 1.0.0
+title: Critical Path Layer Specification
 <!-- AISMM:META_END -->
 
-# Critical Path (High-Level)
+# 005 — Critical Path
 
-## Overview
-
-This document defines the **high-level critical path of the product**.
-
-The critical path represents the **minimum viable chain of actions and outcomes**
-required to deliver core value and generate economic results.
-
-AISMM Studio uses this layer to:
-- identify key value delivery flows
-- detect bottlenecks and failure points
-- link value streams (VSS) with execution and economics
+**Specification Version:** 1.0.0  
+**Status:** Draft
 
 ---
 
-## 1. Primary Outcome
+## 1. Purpose of the Layer
 
-Define the main outcome of the product:
+The **Critical Path** layer defines the minimal sequence of steps required to deliver core value of the product.
 
-- **Outcome ID:**
-- **Description:**
-- **Delivered Value:**
-- **Economic Impact:**
+It describes:
+
+- the shortest path from input to value outcome
+- key steps required to produce value
+- dependencies between steps
+- bottlenecks and constraints
+
+It answers:
+
+- What is the core flow that produces value?
+- What steps are essential?
+- What is the minimal working path?
+- Where are the bottlenecks?
+- What cannot be skipped?
 
 ---
 
-## 2. Critical Path Steps
+## 2. Layer Role in AISMM
 
-Define the ordered chain of steps required to achieve the outcome.
+This layer connects:
+
+```text
+Value → Execution (minimal form)
+```
+
+It is the **bridge between static structure and dynamic processes**.
+
+Other layers rely on it to:
+
+- identify key execution paths
+- prioritize optimization
+- understand system dependencies
+- derive processes and workflows
+
+This layer does NOT define:
+
+- full processes
+- alternative paths
+- UI flows
+- detailed system behavior
+
+It defines the **essential path only**.
+
+---
+
+## 3. Main Output of the Layer
+
+The output is a structured description of:
+
+- critical steps
+- their order
+- dependencies
+- inputs and outputs
+- value produced at each step
+
+---
+
+## 4. Core Concepts
+
+### 4.1 Critical Step
+
+A critical step is an essential unit of execution.
+
+It:
+
+- cannot be removed without breaking value delivery
+- contributes directly to value creation
+
+Example:
+
+```text
+step.create_task
+step.execute_workflow
+step.generate_result
+```
+
+---
+
+### 4.2 Sequence
+
+Defines the order of execution.
+
+Critical path is inherently sequential (even if system is parallel internally).
+
+---
+
+### 4.3 Dependency
+
+Defines that one step depends on another.
+
+---
+
+### 4.4 Input / Output
+
+Each step:
+
+- consumes input
+- produces output
+
+---
+
+### 4.5 Bottleneck
+
+A step that limits performance or value delivery.
+
+---
+
+### 4.6 Value Transition
+
+Each step should map to a value transformation.
+
+---
+
+## 5. Identifiable Entities
+
+| Entity Type | Identifier Prefix |
+| :---------- | :---------------- |
+| Step        | `step.*`          |
+| Dependency  | `dependency.*`    |
+| Input       | `input.*`         |
+| Output      | `output.*`        |
+| Bottleneck  | `bottleneck.*`    |
+
+---
+
+## 6. Required Content Structure
+
+---
+
+### 6.1 Critical Steps
+
+Define all essential steps.
 
 For each step:
 
-- **Step ID:**
-- **Name:**
-- **Description:**
-- **Input:**
-- **Output:**
-- **Related Capability:**
-- **Related Control (optional):**
+- identifier
+- description
+- role in value creation
 
 ---
 
-## 3. Critical Dependencies
+### 6.2 Sequence Definition
 
-Define what must exist or function correctly:
-
-- Required capabilities
-- Required systems
-- Required data
-- Required actors
+Define order of steps.
 
 ---
 
-## 4. Bottlenecks
+### 6.3 Dependencies
 
-Identify potential bottlenecks:
-
-- Resource constraints
-- Execution delays
-- Dependency failures
+Define dependencies between steps.
 
 ---
 
-## 5. Failure Modes
+### 6.4 Inputs and Outputs
 
-Define what breaks the critical path:
+Define:
 
-- Missing step execution
-- Invalid output
-- Dependency failure
-
----
-
-## 6. Critical Metrics
-
-Define how the health of the critical path is measured:
-
-- Completion rate
-- Success rate
-- Latency
-- Throughput
+- what each step consumes
+- what each step produces
 
 ---
 
-## 7. Mapping to Value Streams (VSS)
+### 6.5 Value Mapping
 
-- Step → VSS flow
-- Outcome → value node
-- Bottlenecks → anti-value
+Each step should map to value transformation.
 
 ---
 
-## 8. Mapping to Economics
+### 6.6 Bottlenecks
 
-- Steps → cost drivers
-- Outcome → revenue driver
-- Failures → losses
+Define known bottlenecks or constraints.
 
 ---
 
-## 9. Assumptions
+## 7. Preferred Representation
 
-- 
+The semantic content of this layer is independent of any specific representation format.
+
+This layer defines **the minimal execution path for value delivery**, not how it must be visualized or stored.
+
+Due to its semi-structural and sequential nature, the following representations are considered most suitable:
+
+- Markdown (`.md`) for describing steps, sequences, and dependencies  
+- Structured formats (JSON / YAML) for machine-readable path definitions  
+- Simple diagrams (flow diagrams, sequence diagrams) for visualization  
+
+This layer is intentionally simpler than full process modeling and SHOULD NOT be represented as full BPMN.
+
+Implementations:
+
+- SHOULD use simple and clear representations of sequence and dependencies  
+- SHOULD avoid overcomplicating the model  
+- MAY use diagrams to improve understanding  
+- MUST NOT encode semantics in format-specific constructs  
+
+The correctness of this layer is determined by the completeness and clarity of the **critical path definition**, not by the chosen representation.
 
 ---
 
-## 10. Constraints
+## 8. Relationships Inside the Layer
 
-- 
+```text
+step → depends_on → step
+step → consumes → input
+step → produces → output
+step → creates → value
+```
 
 ---
 
-## Notes
+## 9. Relationships With Other AISMM Layers
 
-- This is a **high-level representation**, not a detailed process map
-- Must include only **core value delivery chain**
-- Changes here indicate major product evolution
+### Value Streams
+
+```text
+step → maps_to → value transformation
+```
+
+---
+
+### Stakeholders
+
+```text
+step → impacts → stakeholder.*
+```
+
+---
+
+### Business Architecture
+
+```text
+step → uses → capability.*
+```
+
+---
+
+### Product Behavior
+
+```text
+control → implements → step
+event → represents → step execution
+```
+
+---
+
+### System Design
+
+```text
+component → executes → step
+```
+
+---
+
+### P&L Model
+
+```text
+step → generates → cost
+step → contributes_to → revenue
+```
+
+---
+
+## 10. Layer Boundaries
+
+This layer must not include:
+
+- full business processes
+- UI flows
+- API definitions
+- implementation details
+- branching logic (except minimal)
+
+---
+
+## 11. Recommended Block Types
+
+- layer_document
+- step_definition
+- dependency_definition
+
+---
+
+## 12. Minimal Valid Content
+
+Must define:
+
+- at least one step
+- at least one dependency
+
+---
+
+## 13. Completeness Criteria
+
+A mature model includes:
+
+- full minimal value path
+- step dependencies
+- value mapping
+- bottlenecks
+
+---
+
+## 14. Example Identifiers
+
+```text
+step.create_request
+step.process_request
+step.return_result
+dependency.request_to_processing
+bottleneck.processing_delay
+```
+
+---
+
+## 15. Summary
+
+This layer defines the **minimal path of value delivery**.
+
+It provides a simplified execution model that connects value to system behavior and prepares the foundation for full process modeling.
 
 <!-- AISMM:END -->
