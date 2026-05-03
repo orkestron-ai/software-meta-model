@@ -444,7 +444,31 @@ Detailed security, compliance, and performance constraints may be expanded in la
 
 ---
 
-## 7. Relationships Inside the Layer
+## 7. Preferred Representation
+
+The semantic content of this layer is independent of any specific representation format.
+
+This layer defines **what must be described**, not how it must be stored or visualized.
+
+However, for consistency, usability, and interoperability, the following representations are considered most suitable for this layer:
+
+- Markdown (`.md`) for narrative structure and contextual descriptions
+- Structured formats (JSON / YAML) for machine-readable product metadata
+- Simple diagrams or tabular representations for visualizing boundaries, modules, and context relationships
+
+These representations are **recommendations, not requirements**.
+
+Implementations:
+
+- SHOULD use the recommended formats for clarity and consistency
+- MAY use alternative formats if they preserve semantic meaning
+- MUST NOT encode semantics in format-specific constructs
+
+The correctness of this layer is determined исключительно by the completeness and consistency of its **semantic content**, not by the chosen representation format.
+
+---
+
+## 8. Relationships Inside the Layer
 
 This layer should describe relationships such as:
 
@@ -464,9 +488,9 @@ These relationships may be written in human-readable text, structured tables, or
 
 ---
 
-## 8. Relationships With Other AISMM Layers
+## 9. Relationships With Other AISMM Layers
 
-### 8.1 Value Streams Layer
+### 9.1 Value Streams Layer
 
 Product modules and external systems may be mapped to value converters or value context nodes.
 
@@ -477,7 +501,7 @@ external.* → VSS.external_converter
 
 ---
 
-### 8.2 Stakeholders and Motivation Layer
+### 9.2 Stakeholders and Motivation Layer
 
 Stakeholders refer to product context entities, channels, ownership zones, and external participants.
 
@@ -489,7 +513,7 @@ stakeholder.* → external.*
 
 ---
 
-### 8.3 Business Architecture Layer
+### 9.3 Business Architecture Layer
 
 Business domains and capabilities are grounded in product modules and boundaries defined here.
 
@@ -500,7 +524,7 @@ capability.* → module.*
 
 ---
 
-### 8.4 Critical Path Layer
+### 9.4 Critical Path Layer
 
 Critical path steps should use product modules, channels, and external systems defined here.
 
@@ -511,7 +535,7 @@ critical_step.* → external.*
 
 ---
 
-### 8.5 System Design Layer
+### 9.5 System Design Layer
 
 Applications, services, data stores, APIs, and integrations must map back to product modules and external systems.
 
@@ -523,7 +547,7 @@ api.* → channel.*
 
 ---
 
-### 8.6 Product Behavior Layer
+### 9.6 Product Behavior Layer
 
 Requirements and controls must reference product scope, modules, channels, and boundary rules.
 
@@ -535,7 +559,7 @@ control.* → boundary.*
 
 ---
 
-### 8.7 Operations and Runtime Layer
+### 9.7 Operations and Runtime Layer
 
 Runtime environments, ownership zones, and operational responsibilities originate here and are refined later.
 
@@ -546,13 +570,13 @@ operational_responsibility.* → ownership.*
 
 ---
 
-### 8.8 Knowledge and Traceability Layer
+### 9.8 Knowledge and Traceability Layer
 
 All identifiers defined here become valid targets for cross-layer traceability.
 
 ---
 
-## 9. Layer Boundaries
+## 10. Layer Boundaries
 
 This layer should not include:
 
@@ -572,7 +596,7 @@ This layer may reference them only at a high level.
 
 ---
 
-## 10. Recommended Block Types
+## 11. Recommended Block Types
 
 The layer may contain the following AISMM block types:
 
@@ -588,7 +612,7 @@ Structured JSON/YAML may be referenced if needed, but the layer is defined by it
 
 ---
 
-## 11. Minimal Valid Content
+## 12. Minimal Valid Content
 
 A minimal valid Product Definition & Context layer must define:
 
@@ -603,7 +627,7 @@ A minimal valid Product Definition & Context layer must define:
 
 ---
 
-## 12. Recommended Completeness Criteria
+## 13. Recommended Completeness Criteria
 
 A mature version of this layer should define:
 
@@ -620,7 +644,7 @@ A mature version of this layer should define:
 
 ---
 
-## 13. Example Entity Identifiers
+## 14. Example Entity Identifiers
 
 ```text
 product.orkestron_ai
@@ -640,7 +664,7 @@ constraint.eu_data_residency
 
 ---
 
-## 14. Example AISMM Block
+## 15. Example AISMM Block
 
 ```md
 <!-- AISMM:BEGIN -->
@@ -689,7 +713,7 @@ Native mobile applications are outside the current product boundary.
 
 ---
 
-## 15. Summary
+## 16. Summary
 
 The Product Definition & Context layer defines the product as a bounded system.
 
