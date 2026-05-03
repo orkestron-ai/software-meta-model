@@ -6,7 +6,7 @@ document_id: spec.processes
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 1.1.0
 title: Processes Layer Specification
 <!-- AISMM:META_END -->
 
@@ -14,24 +14,24 @@ title: Processes Layer Specification
 
 ## 1. Purpose of the Layer
 
-The **Processes** layer defines how the business operates through executable flows of work.
+The **Processes** layer defines how the product operates through **real executable workflows**.
 
 It describes:
 
-- business processes at different levels of abstraction
-- process steps, events, and decision points
-- roles and responsibilities within processes
-- inputs, outputs, and artifacts
-- hierarchy and decomposition of processes
-- relationships between processes
+- end-to-end business processes
+- hierarchical decomposition of processes
+- detailed execution flows
+- roles, systems, and interactions
+- branching logic and orchestration
+- real operational complexity
 
 It answers:
 
-- How does the product operate in reality?
-- What flows of work exist?
-- Who does what and when?
-- How do processes connect to each other?
-- How do high-level processes decompose into detailed ones?
+- How does the system actually work in reality?
+- What are the full execution flows?
+- How are decisions made during execution?
+- How do processes interact and compose?
+- How does execution scale and evolve?
 
 ---
 
@@ -39,40 +39,32 @@ It answers:
 
 This layer connects:
 
-```text
-Strategy → Execution Reality
-```
+Critical Path → Full Operational Execution
 
-It operationalizes initiatives and capabilities into **structured workflows**.
+IMPORTANT:
 
-Other layers rely on it to:
+Critical Path (005) ≠ Processes (103)
 
-- understand real execution flows
-- connect requirements to operations
-- define responsibilities and interactions
-- map system behavior to business operations
+- Critical Path = minimal required execution
+- Processes = full real-world execution
 
-This layer does NOT define:
+Processes include:
 
-- minimal value path (see Critical Path)
-- low-level code logic
-- UI structure
-- detailed technical architecture
-
-It defines **real operational processes**.
+- optional steps
+- parallel paths
+- exceptions
+- operational overhead
+- orchestration logic
 
 ---
 
-## 3. Main Output of the Layer
+## 3. Main Output
 
-The output is a **network of interconnected processes**, including:
-
-- high-level processes
-- sub-processes
-- detailed execution flows
-- process hierarchy
-- process relationships
-- mapping to roles, systems, and capabilities
+- process network
+- hierarchical processes
+- execution flows
+- orchestration logic
+- role/system interaction model
 
 ---
 
@@ -80,373 +72,217 @@ The output is a **network of interconnected processes**, including:
 
 ### 4.1 Process
 
-A process is a structured flow of work that produces an outcome.
-
-Examples:
-
-```text
-process.user_onboarding
-process.order_processing
-process.workflow_execution
-```
+A structured flow of execution producing an outcome.
 
 ---
 
-### 4.2 Sub-Process
+### 4.2 Process Hierarchy
 
-A sub-process is a decomposition of a higher-level process.
+Processes are hierarchical:
 
-Processes may form a hierarchy:
-
-```text
-process.onboarding
-  → process.onboarding.registration
-  → process.onboarding.activation
-```
+- L0 — end-to-end flows
+- L1 — domain processes
+- L2+ — detailed execution
 
 ---
 
 ### 4.3 Process Step
 
-A step is a unit of work within a process.
+Execution unit inside process.
 
 ---
 
 ### 4.4 Event
 
-An event triggers, starts, ends, or affects a process.
-
-Examples:
-
-- start event
-- end event
-- intermediate event
-- external trigger
+Triggers or affects execution.
 
 ---
 
-### 4.5 Gateway / Decision
+### 4.5 Gateway
 
-Represents branching logic within a process.
+Decision or branching logic.
 
 ---
 
 ### 4.6 Role / Actor
 
-Defines who performs a step:
-
-- user
-- system
-- external service
-- internal team
+Executor of steps.
 
 ---
 
-### 4.7 Input / Output
+### 4.7 Process Orchestration (NEW)
 
-Defines what enters and exits a process or step.
+Defines coordination between:
 
----
-
-### 4.8 Process Hierarchy
-
-Processes can be:
-
-- top-level (end-to-end flows)
-- mid-level (domain processes)
-- detailed (step-level execution)
+- steps
+- subprocesses
+- systems
 
 ---
 
-### 4.9 Process Relationship
+### 4.8 Exception Flow (NEW)
 
-Defines relationships between processes:
+Defines behavior outside normal execution:
 
-- parent → child
-- process → calls → process
-- process → depends_on → process
+- errors
+- retries
+- escalations
+
+---
+
+### 4.9 Parallel Execution (NEW)
+
+Defines concurrent flows.
 
 ---
 
 ## 5. Identifiable Entities
 
-| Entity Type  | Identifier Prefix  |
-| :----------- | :----------------- |
-| Process      | `process.*`        |
-| Sub-Process  | `process.*`        |
-| Step         | `step.*`           |
-| Event        | `event.*`          |
-| Gateway      | `gateway.*`        |
-| Role         | `role.*`           |
-| Input        | `input.*`          |
-| Output       | `output.*`         |
-| Process Link | `process_link.*`   |
+| Entity | Prefix |
+|--------|--------|
+| Process | process.* |
+| Step | step.* |
+| Event | event.* |
+| Gateway | gateway.* |
+| Role | role.* |
 
 ---
 
-## 6. Required Content Structure
+## 6. Required Structure
 
----
+### 6.1 Processes
 
-### 6.1 Process Definitions
-
-Each process should include:
-
-- identifier
-- name
-- description
-- level (high-level / mid-level / detailed)
-- parent process (if any)
+- id
+- level
+- parent
 - related processes
 
 ---
 
-### 6.2 Process Hierarchy
+### 6.2 Steps
 
-Define relationships:
-
-- parent → child
-- decomposition
-- aggregation
-
----
-
-### 6.3 Steps
-
-Each process defines:
-
-- steps
 - sequence
-- responsibilities
+- executor
+- input/output
 
 ---
 
-### 6.4 Events
+### 6.3 Events
 
-Define:
-
-- start conditions
 - triggers
-- end conditions
+- start/end
 
 ---
 
-### 6.5 Decisions / Gateways
+### 6.4 Gateways
 
-Define:
-
-- branching conditions
 - decision logic
 
 ---
 
-### 6.6 Roles
+### 6.5 Orchestration
 
-Define who executes steps.
-
----
-
-### 6.7 Inputs / Outputs
-
-Define:
-
-- what flows through the process
-- artifacts produced
+- process coordination
+- dependencies
 
 ---
 
-### 6.8 Process Links
+### 6.6 Exception Flows
 
-Define how processes interact:
+- failure paths
+- recovery behavior
 
-- call
-- trigger
-- dependency
+---
+
+### 6.7 Parallel Flows
+
+- concurrent execution
 
 ---
 
 ## 7. Preferred Representation
 
-The semantic content of this layer is independent of any specific representation format.
+PRIMARY:
 
-This layer defines **structured flows of work**, not how they must be stored.
+- BPMN 2.0 (.bpmn)
 
-Due to the process-oriented nature of this layer, the following representations are considered most suitable:
+ALTERNATIVE:
 
-- BPMN 2.0 (`.bpmn`) for detailed and formal process modeling  
-- Markdown (`.md`) for high-level descriptions and documentation  
-- Structured formats (JSON / YAML) for machine-readable process graphs  
+- Markdown for overview
+- JSON/YAML for machine representation
 
-Important considerations:
+RULES:
 
-- There may be **many process files**
-- Processes may be **distributed across modules**
-- Processes may have **hierarchical decomposition**
-- Processes must be **linked via identifiers**
-
-Implementations:
-
-- SHOULD use BPMN for detailed process modeling  
-- SHOULD maintain hierarchical relationships between processes  
-- SHOULD ensure consistent identifiers across files  
-- MAY use Markdown for high-level overviews  
-- MUST NOT depend solely on file structure to define relationships  
-
-The correctness of this layer is determined by the consistency, completeness, and connectivity of the process network.
+- processes may be distributed across files
+- hierarchy MUST be explicit
+- IDs MUST be consistent
+- relationships MUST NOT rely on file structure
 
 ---
 
-## 8. Relationships Inside the Layer
+## 8. Relationships
 
-```text
-process → contains → step
-process → decomposes_into → process
-process → calls → process
-step → triggered_by → event
-step → executed_by → role
-step → produces → output
-step → consumes → input
-gateway → controls → step flow
-```
+process → decomposes_into → process  
+process → contains → step  
+process → calls → process  
+step → triggered_by → event  
+step → executed_by → role  
+gateway → controls → flow  
 
 ---
 
-## 9. Relationships With Other AISMM Layers
+## 9. Cross-Layer Links
 
-### Strategy and Product Management
-
-```text
+Strategy:
 process → implements → initiative.*
-```
 
----
-
-### Business Hypotheses
-
-```text
-process → validates → hypothesis.*
-```
-
----
-
-### Critical Path
-
-```text
-process → includes → step.*
-```
-
----
-
-### Business Architecture
-
-```text
-process → uses → capability.*
-process → uses → entity.*
-```
-
----
-
-### Product Behavior
-
-```text
-step → invokes → control.*
-event → maps_to → event.*
-```
-
----
-
-### Value Streams
-
-```text
+Value:
 process → transforms → value.*
-```
 
----
+Business Architecture:
+process → uses → business_service.*
 
-### Stakeholders
+Critical Path:
+process → extends → step.*
 
-```text
-role → represents → stakeholder.*
-```
+Behavior:
+step → invokes → control.*
 
----
-
-### Economics
-
-```text
+Economics:
 process → generates → cost.*
-process → contributes_to → revenue.*
-```
 
 ---
 
-## 10. Layer Boundaries
+## 10. Boundaries
 
-This layer must not include:
+Does NOT include:
 
-- UI structure
-- API contracts
-- database schemas
-- implementation details
-- product strategy definition
-
----
-
-## 11. Recommended Block Types
-
-- layer_document
-- process_definition
-- step_definition
-- event_definition
-- role_definition
-- process_link_definition
+- minimal path (005)
+- implementation
+- UI
+- API
 
 ---
 
-## 12. Minimal Valid Content
+## 11. Minimal Valid Content
 
-Must define:
-
-- at least one process
-- at least one step
-- at least one role or event
+- one process
+- one step
 
 ---
 
-## 13. Completeness Criteria
+## 12. Completeness Criteria
 
-A mature model includes:
-
-- full process hierarchy
-- linked processes
-- clear roles
-- defined inputs and outputs
-- mapping to capabilities and strategy
+- full hierarchy
+- orchestration
+- exception flows
+- parallel execution
+- cross-layer links
 
 ---
 
-## 14. Example Identifiers
+## 13. Summary
 
-```text
-process.user_onboarding
-process.workflow_execution
-step.validate_input
-event.user_signup
-role.system
-process_link.onboarding_to_activation
-```
-
----
-
-## 15. Summary
-
-This layer defines **how the product operates through connected processes**.
-
-It provides a structured and scalable representation of execution flows, enabling:
-
-- operational clarity
-- system mapping
-- process optimization
-- alignment with strategy and value
+Defines **real execution complexity of the product**, beyond minimal path.
 
 <!-- AISMM:END -->
