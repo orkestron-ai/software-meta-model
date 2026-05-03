@@ -364,6 +364,8 @@ value → stakeholder perception
 
 ```text
 converter → business capability
+flow → supported_by → business_service.*
+flow → enabled_by → capability.*
 ```
 
 ---
