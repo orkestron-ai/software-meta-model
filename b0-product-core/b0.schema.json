@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "b0aismm.schema.json",
+  "$id": "b0.schema.json",
   "title": "AISMM Bundle 0 Schema",
   "description": "Schema for Bundle 0: Product Definition & Value-Economics Core. This bundle aggregates the core product definition, value, business, and economics layers into a single machine-readable section of AISMM.",
   "type": "object",
