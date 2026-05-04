@@ -1,0 +1,1532 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b9.schema.json",
+  "title": "AISMM Bundle 9 — Knowledge Traceability Schema",
+  "description": "Full data schema for AISMM Bundle 9: Knowledge Traceability (Index, Traceability Graph, Provenance, Confidence, Coverage and Consistency).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b9"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "knowledge_traceability"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "Knowledge Traceability"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "901_knowledge_index_and_navigation",
+        "902_traceability_graph",
+        "903_source_provenance_and_confidence",
+        "904_context_coverage_and_consistency"
+      ],
+      "properties": {
+        "901_knowledge_index_and_navigation": {
+          "$ref": "#/$defs/knowledge_index_navigation_layer"
+        },
+        "902_traceability_graph": {
+          "$ref": "#/$defs/traceability_graph_layer"
+        },
+        "903_source_provenance_and_confidence": {
+          "$ref": "#/$defs/source_provenance_confidence_layer"
+        },
+        "904_context_coverage_and_consistency": {
+          "$ref": "#/$defs/context_coverage_consistency_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. trace_link.requirement_to_component or coverage_map.requirements."
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "knowledge_index_navigation_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "knowledge_indexes",
+        "navigation_nodes"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "901"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "knowledge_index_and_navigation"
+        },
+        "knowledge_indexes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_index"
+          },
+          "minItems": 1
+        },
+        "navigation_nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/navigation_node"
+          },
+          "minItems": 1
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/topic"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_tag"
+          }
+        },
+        "search_profiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/search_profile"
+          }
+        },
+        "embedding_indexes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/embedding_index"
+          }
+        },
+        "document_maps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/document_map"
+          }
+        },
+        "navigation_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/navigation_path"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "knowledge_index": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "index_type": {
+              "type": "string",
+              "enum": [
+                "document",
+                "entity",
+                "relationship",
+                "semantic",
+                "hybrid",
+                "other"
+              ]
+            },
+            "indexed_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "indexed_documents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "search_profiles": {
+              "$ref": "#/$defs/references"
+            },
+            "embedding_indexes": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "navigation_node": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "node_type": {
+              "type": "string",
+              "enum": [
+                "bundle",
+                "layer",
+                "document",
+                "section",
+                "topic",
+                "entity",
+                "view",
+                "other"
+              ]
+            },
+            "references": {
+              "$ref": "#/$defs/references"
+            },
+            "parent_node": {
+              "$ref": "#/$defs/reference"
+            },
+            "children": {
+              "$ref": "#/$defs/references"
+            },
+            "topics": {
+              "$ref": "#/$defs/references"
+            },
+            "tags": {
+              "$ref": "#/$defs/references"
+            },
+            "links_to_trace_links": {
+              "$ref": "#/$defs/references"
+            },
+            "links_to_change_events": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "topic": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "topic_type": {
+              "type": "string",
+              "enum": [
+                "domain",
+                "feature",
+                "technology",
+                "process",
+                "risk",
+                "quality",
+                "other"
+              ]
+            },
+            "groups_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "groups_documents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "related_topics": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "knowledge_tag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "labels_entities": {
+          "$ref": "#/$defs/references"
+        },
+        "labels_documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "search_profile": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "profile_type": {
+              "type": "string",
+              "enum": [
+                "human_navigation",
+                "agent_retrieval",
+                "impact_analysis",
+                "onboarding",
+                "debugging",
+                "audit",
+                "other"
+              ]
+            },
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "filters": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "ranking_rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrieval_depth": {
+              "type": "string",
+              "enum": [
+                "shallow",
+                "medium",
+                "deep",
+                "adaptive",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "embedding_index": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "embedding_model": {
+              "type": "string"
+            },
+            "vector_store": {
+              "type": "string"
+            },
+            "represents_content": {
+              "$ref": "#/$defs/references"
+            },
+            "represents_documents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "chunking_strategy": {
+              "type": "string"
+            },
+            "last_updated": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "document_map": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "root_path": {
+              "type": "string"
+            },
+            "documents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hierarchy": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "mapped_layers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "navigation_path": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "path_type": {
+              "type": "string",
+              "enum": [
+                "predefined",
+                "dynamic",
+                "agent_generated",
+                "onboarding",
+                "impact_analysis",
+                "other"
+              ]
+            },
+            "nodes": {
+              "$ref": "#/$defs/references"
+            },
+            "purpose": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "traceability_graph_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "trace_nodes",
+        "trace_links"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "902"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "traceability_graph"
+        },
+        "trace_nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trace_node"
+          },
+          "minItems": 2
+        },
+        "trace_links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trace_link"
+          },
+          "minItems": 1
+        },
+        "trace_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trace_path"
+          }
+        },
+        "dependency_chains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dependency_chain"
+          }
+        },
+        "impact_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/impact_path"
+          }
+        },
+        "coverage_links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coverage_link"
+          }
+        },
+        "graph_views": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/graph_view"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "trace_node": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entity_reference": {
+              "$ref": "#/$defs/reference"
+            },
+            "entity_type": {
+              "type": "string"
+            },
+            "layer_id": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "bundle_id": {
+              "type": "string",
+              "pattern": "^b\\d+$"
+            },
+            "node_weight": {
+              "type": "number"
+            },
+            "confidence": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "trace_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "link_type": {
+          "type": "string",
+          "enum": [
+            "dependency",
+            "reference",
+            "causation",
+            "validation",
+            "coverage",
+            "implementation",
+            "impact",
+            "derivation",
+            "other"
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/reference"
+        },
+        "provenance": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "trace_path": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "path_type": {
+              "type": "string",
+              "enum": [
+                "dependency",
+                "impact",
+                "coverage",
+                "root_cause",
+                "value_flow",
+                "change_history",
+                "other"
+              ]
+            },
+            "nodes": {
+              "$ref": "#/$defs/references"
+            },
+            "links": {
+              "$ref": "#/$defs/references"
+            },
+            "start_node": {
+              "$ref": "#/$defs/reference"
+            },
+            "end_node": {
+              "$ref": "#/$defs/reference"
+            },
+            "purpose": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "dependency_chain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/trace_path"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "chain_type": {
+              "type": "string",
+              "enum": [
+                "technical",
+                "business",
+                "data",
+                "runtime",
+                "process",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "impact_path": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/trace_path"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "impact_type": {
+              "type": "string",
+              "enum": [
+                "change",
+                "risk",
+                "incident",
+                "requirement",
+                "release",
+                "quality",
+                "other"
+              ]
+            },
+            "impact_summary": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "coverage_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "covered_entity",
+        "covering_entity"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "covered_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "covering_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "coverage_type": {
+          "type": "string",
+          "enum": [
+            "test",
+            "requirement",
+            "implementation",
+            "documentation",
+            "monitoring",
+            "audit",
+            "other"
+          ]
+        },
+        "coverage_strength": {
+          "type": "string",
+          "enum": [
+            "weak",
+            "partial",
+            "strong",
+            "complete",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "graph_view": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "view_type": {
+              "type": "string",
+              "enum": [
+                "full",
+                "bundle",
+                "layer",
+                "impact",
+                "dependency",
+                "coverage",
+                "agent_context",
+                "other"
+              ]
+            },
+            "included_nodes": {
+              "$ref": "#/$defs/references"
+            },
+            "included_links": {
+              "$ref": "#/$defs/references"
+            },
+            "filters": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      ]
+    },
+    "source_provenance_confidence_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "sources",
+        "confidence_scores"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "903"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "source_provenance_and_confidence"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1
+        },
+        "source_references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_reference"
+          }
+        },
+        "provenance_records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/provenance_record"
+          }
+        },
+        "evidence_links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_link"
+          }
+        },
+        "confidence_scores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/confidence_score"
+          },
+          "minItems": 1
+        },
+        "verification_statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/verification_status"
+          }
+        },
+        "evidence_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_type"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "source": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "document",
+                "system",
+                "human",
+                "ai_agent",
+                "repository",
+                "runtime_signal",
+                "external",
+                "other"
+              ]
+            },
+            "origin": {
+              "type": "string"
+            },
+            "owner": {
+              "$ref": "#/$defs/reference"
+            },
+            "reliability": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "authoritative",
+                "unknown"
+              ]
+            },
+            "references": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "source_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "reference"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "reference_type": {
+          "type": "string",
+          "enum": [
+            "url",
+            "file",
+            "system_record",
+            "commit",
+            "ticket",
+            "message",
+            "metric",
+            "other"
+          ]
+        },
+        "access_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "provenance_record": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "knowledge_entity": {
+              "$ref": "#/$defs/reference"
+            },
+            "derived_from_sources": {
+              "$ref": "#/$defs/references"
+            },
+            "derivation_steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "transformations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "linked_trace_nodes": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "evidence_link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "knowledge_entity",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "knowledge_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "evidence": {
+          "$ref": "#/$defs/reference"
+        },
+        "evidence_type": {
+          "$ref": "#/$defs/reference"
+        },
+        "supports_audit": {
+          "$ref": "#/$defs/reference"
+        },
+        "strength": {
+          "type": "string",
+          "enum": [
+            "weak",
+            "medium",
+            "strong",
+            "conclusive",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "assigned_to",
+        "score"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "assigned_to": {
+          "$ref": "#/$defs/reference"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ]
+        },
+        "reasoning": {
+          "type": "string"
+        },
+        "computed_from": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "verification_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "knowledge_entity",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "knowledge_entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "unverified",
+            "partially_verified",
+            "verified",
+            "rejected",
+            "unknown"
+          ]
+        },
+        "verified_by": {
+          "$ref": "#/$defs/reference"
+        },
+        "verified_at": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence_type": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "empirical",
+            "analytical",
+            "expert_judgment",
+            "derived",
+            "automated_check",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "context_coverage_consistency_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "coverage_maps",
+        "consistency_checks"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "904"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "context_coverage_and_consistency"
+        },
+        "coverage_maps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coverage_map"
+          },
+          "minItems": 1
+        },
+        "missing_contexts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/missing_context"
+          }
+        },
+        "inconsistencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inconsistency"
+          }
+        },
+        "staleness_indicators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/staleness_indicator"
+          }
+        },
+        "context_gaps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/context_gap"
+          }
+        },
+        "consistency_checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/consistency_check"
+          },
+          "minItems": 1
+        },
+        "coverage_metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coverage_metric"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "coverage_map": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "coverage_scope": {
+              "$ref": "#/$defs/references"
+            },
+            "covered_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "missing_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "coverage_percentage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "coverage_metrics": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "missing_context": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "gap_type": {
+              "type": "string",
+              "enum": [
+                "missing_requirement",
+                "missing_link",
+                "missing_validation",
+                "missing_source",
+                "missing_owner",
+                "missing_test",
+                "missing_runtime_signal",
+                "other"
+              ]
+            },
+            "affected_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "recommended_action": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "inconsistency": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inconsistency_type": {
+              "type": "string",
+              "enum": [
+                "conflicting_requirements",
+                "mismatched_data",
+                "incompatible_assumptions",
+                "stale_reference",
+                "broken_link",
+                "schema_mismatch",
+                "other"
+              ]
+            },
+            "conflicting_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "detected_via_trace_links": {
+              "$ref": "#/$defs/references"
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "resolution_status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "under_review",
+                "resolved",
+                "accepted",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "staleness_indicator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "entity",
+        "reason"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "entity": {
+          "$ref": "#/$defs/reference"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "related_change_event": {
+          "$ref": "#/$defs/reference"
+        },
+        "staleness_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "unknown"
+          ]
+        },
+        "last_verified_at": {
+          "type": "string"
+        }
+      }
+    },
+    "context_gap": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "decision_blocked": {
+              "type": "boolean"
+            },
+            "affected_decisions": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_agents": {
+              "$ref": "#/$defs/references"
+            },
+            "required_context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "temporary_assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "consistency_check": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "check_type"
+          ],
+          "properties": {
+            "check_type": {
+              "type": "string",
+              "enum": [
+                "schema",
+                "link",
+                "coverage",
+                "staleness",
+                "semantic",
+                "traceability",
+                "provenance",
+                "other"
+              ]
+            },
+            "validation_rule": {
+              "type": "string"
+            },
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "last_result": {
+              "type": "string",
+              "enum": [
+                "passed",
+                "failed",
+                "warning",
+                "not_run",
+                "unknown"
+              ]
+            },
+            "detected_inconsistencies": {
+              "$ref": "#/$defs/references"
+            },
+            "detected_missing_contexts": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "coverage_metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric_type": {
+              "type": "string",
+              "enum": [
+                "requirements_coverage",
+                "test_coverage",
+                "traceability_coverage",
+                "source_coverage",
+                "confidence_coverage",
+                "runtime_coverage",
+                "other"
+              ]
+            },
+            "value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "measured_scope": {
+              "$ref": "#/$defs/references"
+            },
+            "measured_at": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
