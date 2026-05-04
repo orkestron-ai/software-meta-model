@@ -1,207 +1,661 @@
-# AISMM — AI Software Meta Model
+# AI-driven Software Meta-Model (AISMM)
 
-## Overview
+## What is AISMM?
 
-AISMM (AI Software Meta Model) is a **unified, structured, machine-readable model** that describes a software system across:
+**AISMM (AI-driven Software Meta-Model)** is a structured, machine-readable and human-readable way to describe a software product as a complete system.
+
+It is not just documentation.
+
+AISMM is a **product knowledge model** that connects:
+
+- why the product exists
+- what business value it creates
+- how the system is designed
+- how behavior is specified
+- how the code is implemented
+- how the system runs in production
+- how quality, risk and compliance are controlled
+- how changes are planned and released
+- how knowledge is indexed, traced and trusted
+
+In simple terms:
+
+```text
+AISMM = full structured context of a software product
+```
+
+It is designed to be stored in Git, reviewed like code, used by humans, and processed by AI agents.
+
+---
+
+## Why AISMM is needed
+
+Modern software products are not just code.
+
+A real product includes:
+
+- business goals
+- value streams
+- stakeholders
+- requirements
+- architecture
+- data models
+- APIs
+- integrations
+- processes
+- UX scenarios
+- runtime infrastructure
+- monitoring
+- incidents
+- tests
+- risks
+- security controls
+- release history
+- decisions
+- hidden context in tasks and discussions
+
+Most companies keep this knowledge scattered across many systems:
+
+```text
+Jira + Git + Confluence + Figma + BPMN + Grafana + CI/CD + Slack + people's heads
+```
+
+This creates several problems:
+
+- AI agents cannot understand the full product context.
+- New developers need too much time to understand the system.
+- Architecture decisions lose their original reasoning.
+- Requirements drift away from implementation.
+- Tests are not clearly linked to behavior.
+- Incidents are not clearly linked to releases and changes.
+- Product value is disconnected from technical work.
+- Knowledge becomes too large, noisy and hard to retrieve.
+
+AISMM solves this by turning scattered product knowledge into a **connected semantic model**.
+
+---
+
+## Core idea
+
+AISMM treats a software system as:
+
+```text
+Value + Structure + Behavior + Execution + Change + Knowledge
+```
+
+Or more explicitly:
+
+```text
+Software System =
+  Business Value
+  + Product Behavior
+  + System Design
+  + Implementation
+  + Runtime Reality
+  + Quality / Risk / Compliance
+  + SDLC History
+  + Traceable Knowledge
+```
+
+This allows both humans and AI agents to reason about the product as a whole.
+
+---
+
+## What AISMM gives you
+
+### 1. Full Context Development
+
+AISMM supports **Full Context Development (FCD)**: development where every change is made with full awareness of product context.
+
+Instead of giving an AI agent or developer only a task description, AISMM provides:
+
+- related requirements
+- affected components
+- relevant APIs
+- data entities
+- domain rules
+- previous decisions
+- related risks
+- tests and acceptance criteria
+- release and runtime context
+
+This improves the quality of both human and AI-driven development.
+
+---
+
+### 2. Traceability from value to code
+
+AISMM makes it possible to trace chains like:
+
+```text
+business hypothesis
+  → requirement
+  → domain rule
+  → component
+  → API
+  → code module
+  → test case
+  → release
+  → runtime metric
+  → incident
+```
+
+This supports:
+
+- impact analysis
+- root cause analysis
+- auditability
+- change planning
+- risk control
+- AI reasoning
+
+---
+
+### 3. AI-ready product context
+
+AISMM is designed for AI agents and RAG systems.
+
+It provides:
+
+- stable IDs
+- structured layers
+- traceability graph
+- source provenance
+- confidence scores
+- retrieval units
+- context packages
+- coverage and consistency checks
+
+This helps AI agents answer not only:
+
+```text
+What should I change?
+```
+
+but also:
+
+```text
+Why does this exist?
+What will be affected?
+Which context is missing?
+How confident are we?
+```
+
+---
+
+### 4. Product memory
+
+AISMM preserves not only the current state of the product, but also the reasoning behind it.
+
+This is especially important for long-lived products.
+
+AISMM keeps:
+
+- change history
+- decision logs
+- rejected alternatives
+- implementation reasoning
+- release history
+- incident links
+- knowledge summaries
+
+This creates a product memory that survives team changes and supports AI reasoning.
+
+---
+
+### 5. Value-based knowledge retention
+
+AISMM does not store all history equally.
+
+Historical data is compressed based on:
 
 - business value
-- system design
-- implementation
-- behavior
-- runtime
-- quality
-- change (SDLC)
-- knowledge
-- traceability
-
-It is designed to support:
-
-- human understanding
-- AI agent reasoning
-- RAG-based workflows
-- full-context development (FCD)
-
----
-
-## Core Idea
-
-Traditional systems describe **code and architecture**.
-
-AISMM describes:
+- complexity
+- system impact
+- knowledge density
 
 ```text
-System = Code + Behavior + Runtime + Change + Knowledge
+Retention Priority = f(Value, Complexity, Impact, Knowledge Density)
 ```
+
+High-value and complex changes retain more context. Low-value noise is compressed aggressively.
 
 ---
 
-## Structure
+## How AISMM is structured
 
-AISMM is organized into bundles:
+AISMM is organized into bundles.
+
+Each bundle contains:
+
+- layer specifications
+- machine-readable schema
+- preferred representations
+- cross-layer links
+
+---
+
+## Bundles
 
 ### b0 — Product Core
-Value, stakeholders, business architecture, economics
+
+Defines the product foundation:
+
+- product definition and context
+- value streams
+- stakeholders and motivation
+- business architecture
+- critical path
+- economics model
+
+Purpose:
+
+```text
+Why does the product exist and what value does it create?
+```
+
+---
 
 ### b1 — Business Dynamics
-Strategy, hypotheses, processes
+
+Defines how the business evolves:
+
+- business hypotheses
+- strategy and product management
+- business processes
+
+Purpose:
+
+```text
+How does the product move through business reality?
+```
+
+---
 
 ### b2 — System Design
-Architecture, data, APIs, integrations
+
+Defines how the system is structured:
+
+- applications and system architecture
+- data and information architecture
+- API and interfaces
+- integrations
+
+Purpose:
+
+```text
+How is the product designed as a system?
+```
+
+---
 
 ### b3 — Implementation
-Technology, code, build, deployment
+
+Defines how the system becomes executable software:
+
+- technology architecture
+- code and implementation
+- build, deployment and runtime artifacts
+
+Purpose:
+
+```text
+How is the system implemented and delivered?
+```
+
+---
 
 ### b4 — Product Behavior
-Requirements, domain model, access, NFR
+
+Defines what the system must do:
+
+- requirements
+- domain model and business rules
+- access rights
+- NFR and quality attributes
+
+Purpose:
+
+```text
+What behavior must the product provide?
+```
+
+---
 
 ### b5 — User Interaction
-UX logic, navigation, UI structure
+
+Defines how users interact with the product:
+
+- user scenarios and UX logic
+- interface structure and navigation
+- screens, forms and UI states
+
+Purpose:
+
+```text
+How does the user experience system behavior?
+```
+
+---
 
 ### b6 — Runtime Operations
-Infrastructure, monitoring, incidents, SLA/SLO
 
-### b7 — Quality, Risk, Compliance
-Testing, risk, security, compliance
+Defines how the system lives in production:
 
-### b8 — Change Execution (SDLC)
-Work items, planning, testing execution, releases, history, knowledge retention
+- runtime environment and topology
+- observability and monitoring
+- incident management and response
+- SLA, SLO and operational governance
+
+Purpose:
+
+```text
+How does the system operate in reality?
+```
+
+---
+
+### b7 — Quality, Risk & Compliance
+
+Defines assurance and control:
+
+- quality assurance and testing
+- risk management
+- security and privacy
+- compliance and audit
+
+Purpose:
+
+```text
+How do we prove the system is correct, safe and compliant?
+```
+
+---
+
+### b8 — Change Execution
+
+Defines SDLC and product evolution:
+
+- work items and change requests
+- planning and delivery flow
+- testing and acceptance execution
+- release, version and rollout management
+- change history and decision log
+- knowledge retention and history compaction
+
+Purpose:
+
+```text
+How does the product change over time?
+```
+
+---
 
 ### b9 — Knowledge Traceability
-Indexing, graph, provenance, confidence, coverage, consistency
 
----
+Defines how knowledge is connected and trusted:
 
-## Key Principles
+- knowledge index and navigation
+- traceability graph
+- source provenance and confidence
+- context coverage and consistency
+- context retrieval and RAG
 
-### 1. Full Context
-
-All aspects of the system are described in a **single unified model**.
-
----
-
-### 2. Traceability
-
-Everything is connected:
+Purpose:
 
 ```text
-hypothesis → requirement → component → code → release → incident
+How does the system know what it knows?
 ```
 
 ---
 
-### 3. Knowledge as First-Class Entity
+## Block-based model
 
-System knowledge is:
+AISMM is not file-based.
 
-- stored
-- structured
-- evaluated
-- compressed
+AISMM is **block-based**.
 
----
-
-### 4. Value-Driven
-
-All elements are connected to business value.
-
----
-
-### 5. Machine-Readable
-
-AISMM is designed for:
-
-- AI agents
-- automated analysis
-- RAG systems
-- orchestration
-
----
-
-## SDLC Integration
-
-AISMM includes full SDLC modeling:
+Any Markdown or structured file can contain AISMM blocks:
 
 ```text
-Intent → Work → Execution → Validation → Release → History → Knowledge
+<!-- AISMM:BEGIN -->
+type: layer_specification
+layer_id: 401
+layer_key: requirements
+document_id: spec.requirements
+document_type: layer_specification
+module_scope: root
+status: stable
+spec_version: 1.0.0
+<!-- AISMM:META_END -->
+
+# Human-readable content
+
+...
+
+<!-- AISMM:END -->
+```
+
+This means AISMM can be embedded into normal project documentation while still remaining machine-readable.
+
+---
+
+## Repository-native by design
+
+AISMM is intended to live in Git.
+
+This gives:
+
+- versioning
+- review process
+- branching
+- pull requests
+- CI validation
+- traceability between model and code
+
+A typical repository may look like:
+
+```text
+repo/
+  README.md
+  aismm-structure.md
+  aismm-security.md
+  aismm-unified-id-strategy.md
+
+  b0-product-core/
+    README.md
+    b0.schema.json
+    001-product-definition-context.md
+    ...
+
+  b1-business-dynamics/
+    README.md
+    b1.schema.json
+    ...
+
+  b9-knowledge-traceability/
+    README.md
+    b9.schema.json
+    ...
 ```
 
 ---
 
-## Knowledge Model
+## Machine-readable schemas
 
-AISMM treats knowledge as structured and measurable:
+Each bundle has a JSON Schema:
 
 ```text
-Index → Graph → Provenance → Coverage
+b0.schema.json
+b1.schema.json
+...
+b9.schema.json
+```
+
+These schemas define the expected structure of the corresponding bundle.
+
+They can be used for:
+
+- validation
+- agent input/output contracts
+- CI checks
+- repository health checks
+- automated documentation generation
+
+---
+
+## Preferred representations
+
+AISMM defines semantic layers first. Specific formats are only preferred representations.
+
+Examples:
+
+| Domain | Preferred Representation |
+|---|---|
+| Value streams | VSS / Æilus value stream model |
+| Processes | BPMN |
+| REST API | OpenAPI |
+| Events | AsyncAPI |
+| Data model | JSON Schema / CSDL / ER |
+| UI | Figma / IFML / UI registry |
+| Tests | Gherkin / test management exports |
+| Runtime metrics | Prometheus / Grafana / OpenTelemetry |
+| Traceability | Graph model / JSON graph / Neo4j |
+
+Important principle:
+
+```text
+Format is not the model.
+Format is only a representation of the model.
 ```
 
 ---
 
-## Retention Model
+## AISMM and AI agents
 
-History is not stored by time.
+AISMM itself does not define agent contracts.
+
+Agent capabilities, result contracts and execution interfaces should live in separate repositories.
+
+AISMM provides the structured product context that agents consume and update.
 
 ```text
-Retention = f(Value, Complexity, Impact, Density)
+AISMM = product/system knowledge
+Agent contracts = how agents work with that knowledge
 ```
+
+This separation keeps AISMM focused on product knowledge and allows agent contracts to evolve independently.
 
 ---
 
-## What AISMM Enables
+## AISMM and RAG
 
-- AI-native development
-- agent-based workflows
-- traceable decision-making
+AISMM can be used as a high-quality source for RAG.
+
+But AISMM is more than a vector database.
+
+A proper AISMM RAG pipeline should preserve:
+
+- entity IDs
+- source references
+- traceability links
+- confidence
+- coverage
+- consistency warnings
+- missing context
+
+RAG should not flatten AISMM into anonymous chunks.
+
+AISMM retrieval should produce context packages that remain connected to the semantic graph.
+
+---
+
+## Who benefits from AISMM?
+
+### Product leaders
+
+Understand how strategy, value, requirements and releases are connected.
+
+### CTOs and architects
+
+See system structure, dependencies, risks, runtime reality and evolution history.
+
+### Developers
+
+Get full context for tasks and understand why the system is built the way it is.
+
+### QA engineers
+
+Trace tests to requirements, rules, user scenarios and releases.
+
+### DevOps / SRE
+
+Connect runtime signals, incidents, releases and operational policies.
+
+### Security and compliance teams
+
+Trace controls, risks, evidence, audits and privacy requirements.
+
+### AI agents
+
+Retrieve structured context, reason over graph relationships and perform safer changes.
+
+---
+
+## Practical use cases
+
+AISMM can be used for:
+
+- AI-assisted development
+- architecture documentation
+- onboarding
 - impact analysis
-- system reasoning
-- knowledge preservation
-- scalable RAG
+- change planning
+- release preparation
+- root cause analysis
+- compliance evidence
+- risk analysis
+- test coverage analysis
+- product knowledge preservation
+- full-context development
 
 ---
 
-## What AISMM Is Not
+## What AISMM is not
 
-AISMM is NOT:
+AISMM is not:
 
-- a framework
 - a programming language
-- a tool
+- a framework
+- a replacement for Git, Jira, Figma or CI/CD
+- a documentation-only method
+- a vector database
 
-It is a **meta-model**.
-
----
-
-## Integration
-
-AISMM integrates with:
-
-- Git (source of truth)
-- CI/CD
-- issue trackers
-- monitoring systems
-- knowledge bases
-- vector databases
-
----
-
-## Positioning
-
-```text
-Traditional:
-Code + Docs
-
-AISMM:
-Structured System Knowledge
-```
+AISMM is a **meta-model** that connects these systems into a coherent product knowledge structure.
 
 ---
 
 ## Summary
 
-AISMM defines a software system as:
+AISMM defines software as a connected system of:
 
 ```text
-Value + Structure + Behavior + Execution + Knowledge + Traceability
+Value
++ Business Dynamics
++ System Design
++ Implementation
++ Behavior
++ User Interaction
++ Runtime
++ Quality / Risk / Compliance
++ Change Execution
++ Knowledge Traceability
 ```
 
-It is designed to become the **foundation for AI-driven software engineering**.
+In one sentence:
+
+```text
+AISMM is a structured, Git-native, AI-ready product knowledge model for full-context software development.
+```
+
+Its goal is to make software systems understandable, traceable, evolvable and ready for AI-driven engineering.
