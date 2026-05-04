@@ -1,0 +1,1633 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b6.schema.json",
+  "title": "AISMM Bundle 6 — Runtime Operations Schema",
+  "description": "Full data schema for AISMM Bundle 6: Runtime Operations (Runtime Topology, Observability, Incident Management, SLA/SLO and Operational Governance).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b6"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "runtime_operations"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "Runtime Operations (Topology, Observability, Incidents & Governance)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "601_runtime_environment_and_topology",
+        "602_observability_and_monitoring",
+        "603_incident_management_and_response",
+        "604_sla_slo_and_operational_governance"
+      ],
+      "properties": {
+        "601_runtime_environment_and_topology": {
+          "$ref": "#/$defs/runtime_environment_topology_layer"
+        },
+        "602_observability_and_monitoring": {
+          "$ref": "#/$defs/observability_monitoring_layer"
+        },
+        "603_incident_management_and_response": {
+          "$ref": "#/$defs/incident_management_response_layer"
+        },
+        "604_sla_slo_and_operational_governance": {
+          "$ref": "#/$defs/sla_slo_operational_governance_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. runtime_instance.api_01 or metric.api_latency_p95."
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "runtime_environment_topology_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "runtime_instances",
+        "service_instances"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "601"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "runtime_environment_and_topology"
+        },
+        "runtime_instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_instance"
+          },
+          "minItems": 1
+        },
+        "service_instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/service_instance"
+          },
+          "minItems": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runtime_node"
+          }
+        },
+        "clusters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cluster"
+          }
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/region"
+          }
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/zone"
+          }
+        },
+        "deployment_topologies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/deployment_topology"
+          }
+        },
+        "network_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/network_path"
+          }
+        },
+        "scaling_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/scaling_model"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "runtime_instance": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "deployment_unit": {
+              "$ref": "#/$defs/reference"
+            },
+            "environment": {
+              "$ref": "#/$defs/reference"
+            },
+            "node": {
+              "$ref": "#/$defs/reference"
+            },
+            "cluster": {
+              "$ref": "#/$defs/reference"
+            },
+            "region": {
+              "$ref": "#/$defs/reference"
+            },
+            "zone": {
+              "$ref": "#/$defs/reference"
+            },
+            "runtime_status": {
+              "type": "string",
+              "enum": [
+                "running",
+                "stopped",
+                "degraded",
+                "failed",
+                "unknown"
+              ]
+            },
+            "observed_by_metrics": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "service_instance": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "runtime_instance": {
+              "$ref": "#/$defs/reference"
+            },
+            "implements_component": {
+              "$ref": "#/$defs/reference"
+            },
+            "service_role": {
+              "type": "string"
+            },
+            "communicates_with": {
+              "$ref": "#/$defs/references"
+            },
+            "network_paths": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "runtime_node": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "node_type": {
+              "type": "string",
+              "enum": [
+                "vm",
+                "container_host",
+                "bare_metal",
+                "serverless_host",
+                "edge_node",
+                "other"
+              ]
+            },
+            "capacity": {
+              "type": "string"
+            },
+            "cluster": {
+              "$ref": "#/$defs/reference"
+            },
+            "zone": {
+              "$ref": "#/$defs/reference"
+            },
+            "uses_technologies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "cluster": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cluster_type": {
+              "type": "string",
+              "enum": [
+                "kubernetes",
+                "nomad",
+                "ecs",
+                "swarm",
+                "vm_cluster",
+                "database_cluster",
+                "other"
+              ]
+            },
+            "nodes": {
+              "$ref": "#/$defs/references"
+            },
+            "region": {
+              "$ref": "#/$defs/reference"
+            },
+            "orchestration": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "region": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "provider": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "zones": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "zone": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "region": {
+              "$ref": "#/$defs/reference"
+            },
+            "redundancy_role": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "secondary",
+                "standby",
+                "active_active",
+                "unknown",
+                "other"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "deployment_topology": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "topology_type": {
+              "type": "string",
+              "enum": [
+                "single_region",
+                "multi_region",
+                "active_passive",
+                "active_active",
+                "blue_green",
+                "canary",
+                "other"
+              ]
+            },
+            "runtime_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "service_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "dependencies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "network_path": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "protocol": {
+          "$ref": "#/$defs/reference"
+        },
+        "integration": {
+          "$ref": "#/$defs/reference"
+        },
+        "latency_expectation": {
+          "type": "string"
+        },
+        "security_zone": {
+          "type": "string"
+        }
+      }
+    },
+    "scaling_model": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scaling_type": {
+              "type": "string",
+              "enum": [
+                "horizontal",
+                "vertical",
+                "auto_scaling",
+                "manual",
+                "scheduled",
+                "none",
+                "other"
+              ]
+            },
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "trigger_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "scale_up_rule": {
+              "type": "string"
+            },
+            "scale_down_rule": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "observability_monitoring_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "metrics",
+        "alerts"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "602"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "observability_and_monitoring"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metric"
+          },
+          "minItems": 1
+        },
+        "logs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/log_signal"
+          }
+        },
+        "traces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trace"
+          }
+        },
+        "spans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/span"
+          }
+        },
+        "signals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observable_signal"
+          }
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/alert"
+          },
+          "minItems": 1
+        },
+        "alert_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/alert_rule"
+          }
+        },
+        "dashboards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dashboard"
+          }
+        },
+        "instrumentation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/instrumentation"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "metric_type": {
+              "type": "string",
+              "enum": [
+                "latency",
+                "throughput",
+                "error_rate",
+                "availability",
+                "resource_usage",
+                "business",
+                "custom"
+              ]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "collected_from": {
+              "$ref": "#/$defs/references"
+            },
+            "query": {
+              "type": "string"
+            },
+            "validates_slo": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "log_signal": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "structure": {
+              "type": "string"
+            },
+            "log_level": {
+              "type": "string",
+              "enum": [
+                "debug",
+                "info",
+                "warn",
+                "error",
+                "fatal",
+                "unknown"
+              ]
+            },
+            "generated_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "trace": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "spans": {
+              "$ref": "#/$defs/references"
+            },
+            "follows_components": {
+              "$ref": "#/$defs/references"
+            },
+            "follows_operations": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "span": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "trace": {
+              "$ref": "#/$defs/reference"
+            },
+            "operation": {
+              "$ref": "#/$defs/reference"
+            },
+            "service_instance": {
+              "$ref": "#/$defs/reference"
+            },
+            "parent_span": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "observable_signal": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "signal_type": {
+              "type": "string",
+              "enum": [
+                "metric",
+                "log",
+                "trace",
+                "event",
+                "synthetic_check",
+                "other"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "meaning": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "alert": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "severity": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggered_by_rule": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggered_by_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggers_incident_type": {
+              "$ref": "#/$defs/reference"
+            },
+            "notification_channel": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "alert_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "condition"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "metric": {
+          "$ref": "#/$defs/reference"
+        },
+        "severity": {
+          "$ref": "#/$defs/reference"
+        },
+        "for_duration": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "dashboard": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "visualizes_metrics": {
+              "$ref": "#/$defs/references"
+            },
+            "visualizes_alerts": {
+              "$ref": "#/$defs/references"
+            },
+            "dashboard_url": {
+              "type": "string"
+            },
+            "owner_team": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "instrumentation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "instrumentation_type": {
+              "type": "string",
+              "enum": [
+                "prometheus",
+                "opentelemetry",
+                "logging_agent",
+                "synthetic_check",
+                "custom"
+              ]
+            },
+            "collects": {
+              "$ref": "#/$defs/references"
+            },
+            "from_runtime_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "configuration_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "incident_management_response_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "incident_types",
+        "runbooks"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "603"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "incident_management_and_response"
+        },
+        "incidents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/incident"
+          }
+        },
+        "incident_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/incident_type"
+          },
+          "minItems": 1
+        },
+        "severities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/severity"
+          }
+        },
+        "detections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/detection"
+          }
+        },
+        "triages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/triage"
+          }
+        },
+        "response_plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/response_plan"
+          }
+        },
+        "runbooks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/runbook"
+          },
+          "minItems": 1
+        },
+        "oncall_policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/oncall_policy"
+          }
+        },
+        "escalation_policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/escalation_policy"
+          }
+        },
+        "postmortems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/postmortem"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "incident": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "incident_type": {
+              "$ref": "#/$defs/reference"
+            },
+            "severity": {
+              "$ref": "#/$defs/reference"
+            },
+            "incident_status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "investigating",
+                "mitigated",
+                "resolved",
+                "closed",
+                "postmortem_pending",
+                "unknown"
+              ]
+            },
+            "triggered_by_alert": {
+              "$ref": "#/$defs/reference"
+            },
+            "affects_runtime_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "violates_slos": {
+              "$ref": "#/$defs/references"
+            },
+            "response_plan": {
+              "$ref": "#/$defs/reference"
+            },
+            "postmortem": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "incident_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "outage",
+                "performance_degradation",
+                "data_issue",
+                "security",
+                "availability",
+                "integration_failure",
+                "other"
+              ]
+            },
+            "default_severity": {
+              "$ref": "#/$defs/reference"
+            },
+            "default_runbook": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "severity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "level",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "SEV1",
+            "SEV2",
+            "SEV3",
+            "SEV4",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "response_time_target": {
+          "type": "string"
+        }
+      }
+    },
+    "detection": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "alert",
+                "user_report",
+                "synthetic_check",
+                "anomaly_detection",
+                "manual",
+                "other"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "triggers_incident_type": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "triage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "incident",
+        "impact"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "incident": {
+          "$ref": "#/$defs/reference"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string"
+        }
+      }
+    },
+    "response_plan": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "incident_types": {
+              "$ref": "#/$defs/references"
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "runbooks": {
+              "$ref": "#/$defs/references"
+            },
+            "escalation_policy": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "runbook": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "runbook_type": {
+              "type": "string",
+              "enum": [
+                "diagnostic",
+                "mitigation",
+                "rollback",
+                "recovery",
+                "communication",
+                "other"
+              ]
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "applies_to_incident_types": {
+              "$ref": "#/$defs/references"
+            },
+            "document_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "oncall_policy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "team": {
+              "$ref": "#/$defs/reference"
+            },
+            "schedule_reference": {
+              "type": "string"
+            },
+            "covered_services": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "escalation_policy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "levels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "applies_to_severities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "postmortem": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "incident": {
+              "$ref": "#/$defs/reference"
+            },
+            "root_cause": {
+              "type": "string"
+            },
+            "impact": {
+              "type": "string"
+            },
+            "timeline": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "lessons_learned": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "action_items": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "sla_slo_operational_governance_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "slos",
+        "operational_policies"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "604"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "sla_slo_and_operational_governance"
+        },
+        "slas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sla"
+          }
+        },
+        "slos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slo"
+          },
+          "minItems": 1
+        },
+        "error_budgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/error_budget"
+          }
+        },
+        "operational_policies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operational_policy"
+          },
+          "minItems": 1
+        },
+        "compliance_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/compliance_requirement"
+          }
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operational_risk"
+          }
+        },
+        "audits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audit"
+          }
+        },
+        "governance_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/governance_model"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "sla": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "service": {
+              "$ref": "#/$defs/reference"
+            },
+            "based_on_slos": {
+              "$ref": "#/$defs/references"
+            },
+            "target_metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "guaranteed_value": {
+              "type": "string"
+            },
+            "linked_value": {
+              "$ref": "#/$defs/reference"
+            },
+            "external_commitment": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "slo": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "service": {
+              "$ref": "#/$defs/reference"
+            },
+            "metric": {
+              "$ref": "#/$defs/reference"
+            },
+            "target": {
+              "type": "string"
+            },
+            "measurement_period": {
+              "type": "string"
+            },
+            "evaluated_by_metrics": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "error_budget": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "slo": {
+              "$ref": "#/$defs/reference"
+            },
+            "allowed_failure": {
+              "type": "string"
+            },
+            "time_window": {
+              "type": "string"
+            },
+            "impacted_by_incidents": {
+              "$ref": "#/$defs/references"
+            },
+            "remaining_budget_formula": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "operational_policy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "policy_type": {
+              "type": "string",
+              "enum": [
+                "deployment",
+                "maintenance",
+                "scaling",
+                "security",
+                "change_management",
+                "incident",
+                "backup",
+                "other"
+              ]
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "applies_to_runtime_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "constrains_deployments": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "compliance_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "requirement_type": {
+              "type": "string",
+              "enum": [
+                "regulatory",
+                "internal",
+                "security",
+                "privacy",
+                "availability",
+                "audit",
+                "other"
+              ]
+            },
+            "validation_method": {
+              "type": "string"
+            },
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "validated_by_audits": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "operational_risk": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "risk_type": {
+              "type": "string",
+              "enum": [
+                "availability",
+                "security",
+                "performance",
+                "data_loss",
+                "compliance",
+                "cost",
+                "dependency",
+                "other"
+              ]
+            },
+            "probability": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "unknown"
+              ]
+            },
+            "impact": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "affects_services": {
+              "$ref": "#/$defs/references"
+            },
+            "mitigated_by_policies": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "audit": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "audit_type": {
+              "type": "string",
+              "enum": [
+                "compliance",
+                "security",
+                "operational",
+                "process",
+                "other"
+              ]
+            },
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "performed_at": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "governance_model": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "decision_rights": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "governed_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "policies": {
+              "$ref": "#/$defs/references"
+            },
+            "review_cadence": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
