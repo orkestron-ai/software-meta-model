@@ -1,0 +1,1186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b5.schema.json",
+  "title": "AISMM Bundle 5 — User Interaction Schema",
+  "description": "Full data schema for AISMM Bundle 5: User Interaction (User Scenarios, Interface Structure, Screens, Forms and UI States).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b5"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "user_interaction"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "User Interaction (Scenarios, Navigation, Screens & UI States)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "501_user_scenarios_and_ux_logic",
+        "502_interface_structure_and_navigation",
+        "503_screens_forms_and_ui_states"
+      ],
+      "properties": {
+        "501_user_scenarios_and_ux_logic": {
+          "$ref": "#/$defs/user_scenarios_ux_logic_layer"
+        },
+        "502_interface_structure_and_navigation": {
+          "$ref": "#/$defs/interface_structure_navigation_layer"
+        },
+        "503_screens_forms_and_ui_states": {
+          "$ref": "#/$defs/screens_forms_ui_states_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. user_scenario.create_account or screen.login."
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "user_scenarios_ux_logic_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "user_scenarios",
+        "interaction_flows"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "501"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "user_scenarios_and_ux_logic"
+        },
+        "user_goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/user_goal"
+          }
+        },
+        "user_scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/user_scenario"
+          },
+          "minItems": 1
+        },
+        "interaction_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interaction_flow"
+          },
+          "minItems": 1
+        },
+        "user_journeys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/user_journey"
+          }
+        },
+        "touchpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/touchpoint"
+          }
+        },
+        "ux_decisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ux_decision"
+          }
+        },
+        "edge_case_scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge_case_scenario"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "user_goal": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actor": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_stakeholder": {
+              "$ref": "#/$defs/reference"
+            },
+            "achieved_by_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "related_value": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "user_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "context": {
+              "type": "string"
+            },
+            "goal": {
+              "$ref": "#/$defs/reference"
+            },
+            "actor": {
+              "$ref": "#/$defs/reference"
+            },
+            "interaction_flow": {
+              "$ref": "#/$defs/reference"
+            },
+            "scenario_type": {
+              "type": "string",
+              "enum": [
+                "normal",
+                "edge_case",
+                "exception",
+                "onboarding",
+                "support",
+                "administration",
+                "other"
+              ]
+            },
+            "implements_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "constrained_by_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "requires_permissions": {
+              "$ref": "#/$defs/references"
+            },
+            "supported_by_pages": {
+              "$ref": "#/$defs/references"
+            },
+            "supported_by_screens": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "interaction_flow": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "steps": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/interaction_step"
+              }
+            },
+            "decision_points": {
+              "$ref": "#/$defs/references"
+            },
+            "mirrors_processes": {
+              "$ref": "#/$defs/references"
+            },
+            "starts_at_touchpoint": {
+              "$ref": "#/$defs/reference"
+            },
+            "ends_at_touchpoint": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "interaction_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "order",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "actor_action": {
+          "type": "string"
+        },
+        "system_response": {
+          "type": "string"
+        },
+        "screen": {
+          "$ref": "#/$defs/reference"
+        },
+        "page": {
+          "$ref": "#/$defs/reference"
+        },
+        "requires_permission": {
+          "$ref": "#/$defs/reference"
+        },
+        "invokes_operation": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "user_journey": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actor": {
+              "$ref": "#/$defs/reference"
+            },
+            "scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "touchpoints": {
+              "$ref": "#/$defs/references"
+            },
+            "journey_stage": {
+              "type": "string"
+            },
+            "pain_points": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "success_criteria": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "touchpoint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "touchpoint_type": {
+              "type": "string",
+              "enum": [
+                "web",
+                "mobile",
+                "email",
+                "chat",
+                "api",
+                "support",
+                "offline",
+                "other"
+              ]
+            },
+            "channel": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_pages": {
+              "$ref": "#/$defs/references"
+            },
+            "related_screens": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "ux_decision": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "decision_type": {
+              "type": "string",
+              "enum": [
+                "simplification",
+                "prioritization",
+                "tradeoff",
+                "navigation",
+                "feedback",
+                "accessibility",
+                "other"
+              ]
+            },
+            "rationale": {
+              "type": "string"
+            },
+            "affects_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "affects_pages": {
+              "$ref": "#/$defs/references"
+            },
+            "affects_screens": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "edge_case_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/user_scenario"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "edge_case_type": {
+              "type": "string",
+              "enum": [
+                "validation_error",
+                "permission_denied",
+                "network_failure",
+                "empty_data",
+                "conflict",
+                "timeout",
+                "other"
+              ]
+            },
+            "expected_recovery": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "interface_structure_navigation_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "pages",
+        "routes"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "502"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "interface_structure_and_navigation"
+        },
+        "interface_areas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interface_area"
+          }
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/page"
+          },
+          "minItems": 1
+        },
+        "navigation_nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/navigation_node"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/route"
+          },
+          "minItems": 1
+        },
+        "layout_regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/layout_region"
+          }
+        },
+        "navigation_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/navigation_flow"
+          }
+        },
+        "navigation_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/navigation_constraint"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "interface_area": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "area_type": {
+              "type": "string",
+              "enum": [
+                "dashboard",
+                "admin_panel",
+                "public_site",
+                "profile",
+                "workspace",
+                "settings",
+                "other"
+              ]
+            },
+            "contained_pages": {
+              "$ref": "#/$defs/references"
+            },
+            "primary_actor": {
+              "$ref": "#/$defs/reference"
+            },
+            "purpose": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "page": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "route": {
+              "$ref": "#/$defs/reference"
+            },
+            "interface_area": {
+              "$ref": "#/$defs/reference"
+            },
+            "layout_regions": {
+              "$ref": "#/$defs/references"
+            },
+            "supports_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "accessible_for_roles": {
+              "$ref": "#/$defs/references"
+            },
+            "contains_screens": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "navigation_node": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "node_type": {
+              "type": "string",
+              "enum": [
+                "menu_item",
+                "link",
+                "tab",
+                "breadcrumb",
+                "button",
+                "route",
+                "other"
+              ]
+            },
+            "links_to_page": {
+              "$ref": "#/$defs/reference"
+            },
+            "parent_node": {
+              "$ref": "#/$defs/reference"
+            },
+            "children": {
+              "$ref": "#/$defs/references"
+            },
+            "restricted_by_roles": {
+              "$ref": "#/$defs/references"
+            },
+            "visible_condition": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "path",
+        "target_page"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "type": "string"
+        },
+        "target_page": {
+          "$ref": "#/$defs/reference"
+        },
+        "route_type": {
+          "type": "string",
+          "enum": [
+            "public",
+            "private",
+            "protected",
+            "dynamic",
+            "redirect",
+            "other"
+          ]
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "guards": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "layout_region": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "region_type": {
+              "type": "string",
+              "enum": [
+                "header",
+                "sidebar",
+                "content",
+                "footer",
+                "modal",
+                "drawer",
+                "toolbar",
+                "other"
+              ]
+            },
+            "contained_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "navigation_flow": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "from_page": {
+              "$ref": "#/$defs/reference"
+            },
+            "to_page": {
+              "$ref": "#/$defs/reference"
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "condition": {
+              "type": "string"
+            },
+            "supports_interaction_flow": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "navigation_constraint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "constraint_type": {
+              "type": "string",
+              "enum": [
+                "role_based",
+                "state_based",
+                "condition_based",
+                "feature_flag",
+                "environment",
+                "other"
+              ]
+            },
+            "applies_to_routes": {
+              "$ref": "#/$defs/references"
+            },
+            "applies_to_pages": {
+              "$ref": "#/$defs/references"
+            },
+            "rule": {
+              "type": "string"
+            },
+            "related_permission": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_domain_state": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "screens_forms_ui_states_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "screens"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "503"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "screens_forms_ui_states"
+        },
+        "screens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/screen"
+          },
+          "minItems": 1
+        },
+        "forms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form"
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form_field"
+          }
+        },
+        "ui_components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ui_component"
+          }
+        },
+        "ui_states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ui_state"
+          }
+        },
+        "validation_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ui_validation_rule"
+          }
+        },
+        "feedback_messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/feedback_message"
+          }
+        },
+        "interaction_states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interaction_state"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "screen": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "page": {
+              "$ref": "#/$defs/reference"
+            },
+            "purpose": {
+              "type": "string"
+            },
+            "contains_components": {
+              "$ref": "#/$defs/references"
+            },
+            "contains_forms": {
+              "$ref": "#/$defs/references"
+            },
+            "supports_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "states": {
+              "$ref": "#/$defs/references"
+            },
+            "figma_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "form": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "screen": {
+              "$ref": "#/$defs/reference"
+            },
+            "fields": {
+              "$ref": "#/$defs/references"
+            },
+            "validation_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "submits_to_operation": {
+              "$ref": "#/$defs/reference"
+            },
+            "requires_permission": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "form_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "field_type"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "field_type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "number",
+            "email",
+            "password",
+            "select",
+            "checkbox",
+            "radio",
+            "textarea",
+            "date",
+            "file",
+            "hidden",
+            "other"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maps_to_attribute": {
+          "$ref": "#/$defs/reference"
+        },
+        "validation_rules": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    },
+    "ui_component": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "component_type": {
+              "type": "string",
+              "enum": [
+                "button",
+                "table",
+                "card",
+                "modal",
+                "drawer",
+                "list",
+                "chart",
+                "input",
+                "navigation",
+                "notification",
+                "other"
+              ]
+            },
+            "reusable": {
+              "type": "boolean"
+            },
+            "visible_for_roles": {
+              "$ref": "#/$defs/references"
+            },
+            "invokes_operation": {
+              "$ref": "#/$defs/reference"
+            },
+            "reflects_domain_state": {
+              "$ref": "#/$defs/reference"
+            },
+            "states": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "ui_state": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state_type": {
+              "type": "string",
+              "enum": [
+                "loading",
+                "success",
+                "error",
+                "empty",
+                "disabled",
+                "active",
+                "readonly",
+                "hidden",
+                "custom"
+              ]
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "affects_components": {
+              "$ref": "#/$defs/references"
+            },
+            "reflects_domain_state": {
+              "$ref": "#/$defs/reference"
+            },
+            "feedback_message": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "ui_validation_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rule",
+        "applies_to"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/references"
+        },
+        "message": {
+          "$ref": "#/$defs/reference"
+        },
+        "maps_to_business_rule": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "feedback_message": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "message_type": {
+              "type": "string",
+              "enum": [
+                "success",
+                "error",
+                "warning",
+                "info",
+                "hint",
+                "empty",
+                "other"
+              ]
+            },
+            "text": {
+              "type": "string"
+            },
+            "condition": {
+              "type": "string"
+            },
+            "shown_in_states": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "interaction_state": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state_type": {
+              "type": "string",
+              "enum": [
+                "disabled",
+                "active",
+                "hovered",
+                "focused",
+                "selected",
+                "expanded",
+                "collapsed",
+                "dragging",
+                "other"
+              ]
+            },
+            "applies_to_components": {
+              "$ref": "#/$defs/references"
+            },
+            "trigger": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
