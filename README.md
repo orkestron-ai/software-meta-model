@@ -28,6 +28,18 @@ It is designed to be stored in Git, reviewed like code, used by humans, and proc
 
 ---
 
+## AISMM at a glance
+
+<p align="center">
+  <img src="./assets/aismm-diagram.png" alt="AISMM Structure" width="100%">
+</p>
+
+<p align="center">
+  <em>AISMM connects value, system design, execution and knowledge into a unified model for AI-driven software engineering.</em>
+</p>
+
+---
+
 ## Why AISMM is needed
 
 Modern software products are not just code.
