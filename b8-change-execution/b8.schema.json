@@ -1990,6 +1990,42 @@
           "items": {
             "$ref": "#/$defs/relationship"
           }
+        },
+        "knowledge_values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_value"
+          }
+        },
+        "complexity_weights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/complexity_weight"
+          }
+        },
+        "impact_weights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/impact_weight"
+          }
+        },
+        "knowledge_densities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/knowledge_density"
+          }
+        },
+        "retention_scores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/retention_score"
+          }
+        },
+        "compaction_strategies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/compaction_strategy"
+          }
         }
       }
     },
@@ -2015,20 +2051,47 @@
             "applies_to": {
               "$ref": "#/$defs/references"
             },
-            "time_window": {
-              "type": "string"
+            "retention_score": {
+              "$ref": "#/$defs/reference"
             },
-            "detail_level": {
+            "minimum_summary_level": {
               "$ref": "#/$defs/summary_level"
             },
-            "archive_after": {
-              "type": "string"
+            "default_compaction_strategy": {
+              "$ref": "#/$defs/reference"
             },
-            "delete_after": {
-              "type": "string"
+            "preserve_full_context_if": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "compress_if": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "archive_if": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "rationale": {
               "type": "string"
+            },
+            "time_window": {
+              "type": "string",
+              "description": "Optional secondary factor only. Time must not dominate value, complexity, impact, or knowledge density."
+            },
+            "archive_after": {
+              "type": "string",
+              "description": "Optional secondary operational rule."
+            },
+            "delete_after": {
+              "type": "string",
+              "description": "Optional exceptional rule. Prefer compaction and archive references over deletion."
             }
           }
         }
@@ -2069,14 +2132,34 @@
         {
           "type": "object",
           "properties": {
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "depends_on_retention_score": {
+              "$ref": "#/$defs/reference"
+            },
+            "score_min": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "score_max": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
             "source_level": {
               "$ref": "#/$defs/summary_level"
             },
             "target_level": {
               "$ref": "#/$defs/summary_level"
             },
+            "strategy": {
+              "$ref": "#/$defs/reference"
+            },
             "trigger": {
-              "type": "string"
+              "type": "string",
+              "description": "Trigger may be volume-based, score-based, release-based, or manual. Time-based triggers are secondary."
             },
             "method": {
               "type": "string",
@@ -2086,10 +2169,17 @@
                 "abstraction",
                 "deduplication",
                 "archiving",
+                "preserve_detail",
                 "other"
               ]
             },
             "preserve_fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "discard_fields": {
               "type": "array",
               "items": {
                 "type": "string"
@@ -2167,8 +2257,23 @@
             "applies_to": {
               "$ref": "#/$defs/references"
             },
-            "decay_after": {
-              "type": "string"
+            "based_on_retention_score": {
+              "$ref": "#/$defs/reference"
+            },
+            "max_volume_before_compaction": {
+              "type": "number",
+              "minimum": 0
+            },
+            "volume_unit": {
+              "type": "string",
+              "enum": [
+                "items",
+                "comments",
+                "tokens",
+                "documents",
+                "bytes",
+                "other"
+              ]
             },
             "decay_to_level": {
               "$ref": "#/$defs/summary_level"
@@ -2178,6 +2283,13 @@
             },
             "preserve_risks": {
               "type": "boolean"
+            },
+            "preserve_high_value_context": {
+              "type": "boolean"
+            },
+            "time_hint": {
+              "type": "string",
+              "description": "Optional secondary operational hint only."
             }
           }
         }
@@ -2211,6 +2323,350 @@
               "type": "string"
             },
             "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "retention_score": {
+              "$ref": "#/$defs/reference"
+            },
+            "knowledge_value": {
+              "$ref": "#/$defs/reference"
+            },
+            "compaction_strategy": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "knowledge_value": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "value_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "business_value_level": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "derived_from_values": {
+              "$ref": "#/$defs/references"
+            },
+            "derived_from_hypotheses": {
+              "$ref": "#/$defs/references"
+            },
+            "revenue_impact": {
+              "type": "string"
+            },
+            "cost_impact": {
+              "type": "string"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "complexity_weight": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "complexity_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "complexity_level": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "iteration_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "alternatives_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "discussion_volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "affected_systems_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "technical_depth": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "impact_weight": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "impact_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "impact_level": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "affected_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_components": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_apis": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_data_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_user_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "architectural_significance": {
+              "type": "boolean"
+            },
+            "ux_significance": {
+              "type": "boolean"
+            },
+            "runtime_significance": {
+              "type": "boolean"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "knowledge_density": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "density_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "density_level": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "meaningful_decisions_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "useful_context_units_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "raw_volume_estimate": {
+              "type": "number",
+              "minimum": 0
+            },
+            "signal_to_noise_rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "retention_score": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "target",
+            "score"
+          ],
+          "properties": {
+            "target": {
+              "$ref": "#/$defs/reference"
+            },
+            "knowledge_value": {
+              "$ref": "#/$defs/reference"
+            },
+            "complexity_weight": {
+              "$ref": "#/$defs/reference"
+            },
+            "impact_weight": {
+              "$ref": "#/$defs/reference"
+            },
+            "knowledge_density": {
+              "$ref": "#/$defs/reference"
+            },
+            "value_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "complexity_weight_value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "impact_weight_value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "density_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "age_penalty": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Optional secondary factor. Must not dominate value, complexity, impact, or density."
+            },
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "classification": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "formula": {
+              "type": "string"
+            },
+            "computed_at": {
+              "type": "string"
+            },
+            "computed_by": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "compaction_strategy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "strategy_type": {
+              "type": "string",
+              "enum": [
+                "aggressive_compaction",
+                "moderate_compaction",
+                "light_compaction",
+                "preserve_detail",
+                "preserve_full_context",
+                "archive_reference_only",
+                "custom"
+              ]
+            },
+            "target_summary_level": {
+              "$ref": "#/$defs/summary_level"
+            },
+            "preserve_raw_references": {
+              "type": "boolean"
+            },
+            "preserve_decisions": {
+              "type": "boolean"
+            },
+            "preserve_alternatives": {
+              "type": "boolean"
+            },
+            "preserve_discussion_summary": {
+              "type": "boolean"
+            },
+            "preserve_evidence_links": {
+              "type": "boolean"
+            },
+            "compression_instruction": {
+              "type": "string"
+            },
+            "applies_to_scores": {
               "$ref": "#/$defs/references"
             }
           }
