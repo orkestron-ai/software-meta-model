@@ -1,0 +1,1706 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "b7.schema.json",
+  "title": "AISMM Bundle 7 — Quality, Risk & Compliance Schema",
+  "description": "Full data schema for AISMM Bundle 7: Quality, Risk & Compliance (Quality Assurance, Risk Management, Security & Privacy, Compliance & Audit).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_id",
+    "bundle_key",
+    "bundle_name",
+    "schema_version",
+    "layers"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "const": "b7"
+    },
+    "bundle_key": {
+      "type": "string",
+      "const": "quality_risk_compliance"
+    },
+    "bundle_name": {
+      "type": "string",
+      "const": "Quality, Risk & Compliance (QA, Risk, Security, Privacy & Audit)"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/status"
+    },
+    "module_scope": {
+      "$ref": "#/$defs/module_scope"
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "701_quality_assurance_and_testing",
+        "702_risk_management",
+        "703_security_and_privacy",
+        "704_compliance_and_audit"
+      ],
+      "properties": {
+        "701_quality_assurance_and_testing": {
+          "$ref": "#/$defs/quality_assurance_testing_layer"
+        },
+        "702_risk_management": {
+          "$ref": "#/$defs/risk_management_layer"
+        },
+        "703_security_and_privacy": {
+          "$ref": "#/$defs/security_privacy_layer"
+        },
+        "704_compliance_and_audit": {
+          "$ref": "#/$defs/compliance_audit_layer"
+        }
+      }
+    },
+    "cross_layer_links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_layer_link"
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "archived"
+      ]
+    },
+    "module_scope": {
+      "type": "string",
+      "pattern": "^(root|module:[A-Za-z0-9._-]+)$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+      "description": "Stable AISMM identifier, e.g. risk.payment_failure or test_case.login_success."
+    },
+    "reference": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "tag_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "entity_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "references": {
+          "$ref": "#/$defs/references"
+        },
+        "tags": {
+          "$ref": "#/$defs/tag_list"
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "relation",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "source": {
+          "$ref": "#/$defs/reference"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/reference"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "cross_layer_link": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/relationship"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            },
+            "target_layer": {
+              "type": "string",
+              "pattern": "^\\d{3}$"
+            }
+          }
+        }
+      ]
+    },
+    "quality_assurance_testing_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "test_cases",
+        "quality_gates"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "701"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "quality_assurance_and_testing"
+        },
+        "test_strategies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_strategy"
+          }
+        },
+        "test_plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_plan"
+          }
+        },
+        "test_suites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_suite"
+          }
+        },
+        "test_cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_case"
+          },
+          "minItems": 1
+        },
+        "test_scenarios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_scenario"
+          }
+        },
+        "test_coverages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_coverage"
+          }
+        },
+        "defects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/defect"
+          }
+        },
+        "quality_gates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quality_gate"
+          },
+          "minItems": 1
+        },
+        "test_environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/test_environment"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "test_strategy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "test_levels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "test_types": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "tools": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "test_plan": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "schedule": {
+              "type": "string"
+            },
+            "environments": {
+              "$ref": "#/$defs/references"
+            },
+            "responsibilities": {
+              "$ref": "#/$defs/references"
+            },
+            "suites": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "test_suite": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "suite_type": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "integration",
+                "system",
+                "e2e",
+                "regression",
+                "smoke",
+                "performance",
+                "security",
+                "other"
+              ]
+            },
+            "test_cases": {
+              "$ref": "#/$defs/references"
+            },
+            "covers_components": {
+              "$ref": "#/$defs/references"
+            },
+            "covers_requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "test_case": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "required": [
+            "test_type"
+          ],
+          "properties": {
+            "test_type": {
+              "type": "string",
+              "enum": [
+                "unit",
+                "integration",
+                "system",
+                "e2e",
+                "contract",
+                "performance",
+                "security",
+                "manual",
+                "other"
+              ]
+            },
+            "preconditions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "expected_result": {
+              "type": "string"
+            },
+            "validates_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "validates_business_rules": {
+              "$ref": "#/$defs/references"
+            },
+            "validates_user_scenarios": {
+              "$ref": "#/$defs/references"
+            },
+            "executed_on_components": {
+              "$ref": "#/$defs/references"
+            },
+            "automation_status": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "automated",
+                "semi_automated",
+                "planned",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "test_scenario": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "flow": {
+              "$ref": "#/$defs/references"
+            },
+            "related_user_scenario": {
+              "$ref": "#/$defs/reference"
+            },
+            "related_process": {
+              "$ref": "#/$defs/reference"
+            },
+            "test_cases": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "test_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "coverage_type",
+        "covered_items"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "coverage_type": {
+          "type": "string",
+          "enum": [
+            "requirements",
+            "rules",
+            "code",
+            "scenarios",
+            "components",
+            "apis",
+            "data",
+            "other"
+          ]
+        },
+        "covered_items": {
+          "$ref": "#/$defs/references"
+        },
+        "covered_by_tests": {
+          "$ref": "#/$defs/references"
+        },
+        "coverage_value": {
+          "type": "number"
+        },
+        "coverage_unit": {
+          "type": "string"
+        }
+      }
+    },
+    "defect": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "blocker",
+                "unknown"
+              ]
+            },
+            "defect_status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "triaged",
+                "in_progress",
+                "fixed",
+                "verified",
+                "closed",
+                "reopened",
+                "unknown"
+              ]
+            },
+            "affects_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "affects_components": {
+              "$ref": "#/$defs/references"
+            },
+            "found_by_test": {
+              "$ref": "#/$defs/reference"
+            },
+            "may_cause_incidents": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "quality_gate": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "gate_type": {
+              "type": "string",
+              "enum": [
+                "release",
+                "merge",
+                "deployment",
+                "acceptance",
+                "security",
+                "performance",
+                "other"
+              ]
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "thresholds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "blocks_releases": {
+              "$ref": "#/$defs/references"
+            },
+            "required_coverages": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "test_environment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "environment_type": {
+              "type": "string",
+              "enum": [
+                "local",
+                "dev",
+                "test",
+                "staging",
+                "preprod",
+                "prod",
+                "synthetic",
+                "other"
+              ]
+            },
+            "runtime_environment": {
+              "$ref": "#/$defs/reference"
+            },
+            "test_data_sets": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "risk_management_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "risks",
+        "mitigations"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "702"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "risk_management"
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk"
+          },
+          "minItems": 1
+        },
+        "risk_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk_source"
+          }
+        },
+        "risk_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk_event"
+          }
+        },
+        "risk_assessments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk_assessment"
+          }
+        },
+        "mitigations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mitigation"
+          },
+          "minItems": 1
+        },
+        "risk_controls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk_control"
+          }
+        },
+        "residual_risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/residual_risk"
+          }
+        },
+        "risk_appetites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk_appetite"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "risk": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "risk_category": {
+              "type": "string",
+              "enum": [
+                "technical",
+                "business",
+                "operational",
+                "security",
+                "compliance",
+                "financial",
+                "external",
+                "other"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "risk_events": {
+              "$ref": "#/$defs/references"
+            },
+            "threatens_values": {
+              "$ref": "#/$defs/references"
+            },
+            "affects_components": {
+              "$ref": "#/$defs/references"
+            },
+            "may_cause_incidents": {
+              "$ref": "#/$defs/references"
+            },
+            "overlaps_with_threats": {
+              "$ref": "#/$defs/references"
+            },
+            "mitigations": {
+              "$ref": "#/$defs/references"
+            },
+            "residual_risk": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "risk_source": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "technical",
+                "business",
+                "operational",
+                "external",
+                "human",
+                "vendor",
+                "regulatory",
+                "other"
+              ]
+            },
+            "related_entities": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "risk_event": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "risk": {
+              "$ref": "#/$defs/reference"
+            },
+            "scenario": {
+              "type": "string"
+            },
+            "impact_description": {
+              "type": "string"
+            },
+            "triggers": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "risk_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "risk",
+        "probability",
+        "impact"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "risk": {
+          "$ref": "#/$defs/reference"
+        },
+        "probability": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ]
+        },
+        "impact": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "unknown"
+          ]
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "unknown"
+          ]
+        },
+        "assessment_date": {
+          "type": "string"
+        },
+        "assessed_by": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "mitigation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "avoid",
+                "reduce",
+                "transfer",
+                "accept",
+                "monitor",
+                "other"
+              ]
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "reduces_risks": {
+              "$ref": "#/$defs/references"
+            },
+            "implemented_by_controls": {
+              "$ref": "#/$defs/references"
+            },
+            "owner": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "risk_control": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "control_type": {
+              "type": "string",
+              "enum": [
+                "preventive",
+                "detective",
+                "corrective",
+                "compensating",
+                "manual",
+                "automated",
+                "other"
+              ]
+            },
+            "enforces_mitigations": {
+              "$ref": "#/$defs/references"
+            },
+            "constrains_processes": {
+              "$ref": "#/$defs/references"
+            },
+            "effectiveness_metric": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      ]
+    },
+    "residual_risk": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "original_risk": {
+              "$ref": "#/$defs/reference"
+            },
+            "remaining_level": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "accepted": {
+              "type": "boolean"
+            },
+            "accepted_by": {
+              "$ref": "#/$defs/reference"
+            },
+            "acceptance_rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "risk_appetite": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "accepted_level": {
+              "type": "string",
+              "enum": [
+                "none",
+                "low",
+                "medium",
+                "high",
+                "unknown"
+              ]
+            },
+            "rationale": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "security_privacy_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "assets",
+        "threats",
+        "security_controls"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "703"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "security_and_privacy"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/security_asset"
+          },
+          "minItems": 1
+        },
+        "threats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/threat"
+          },
+          "minItems": 1
+        },
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/vulnerability"
+          }
+        },
+        "security_controls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/security_control"
+          },
+          "minItems": 1
+        },
+        "trust_boundaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trust_boundary"
+          }
+        },
+        "privacy_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/privacy_requirement"
+          }
+        },
+        "data_protection_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/data_protection_rule"
+          }
+        },
+        "security_incidents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/security_incident"
+          }
+        },
+        "threat_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/threat_model"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "security_asset": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "asset_type": {
+              "type": "string",
+              "enum": [
+                "data",
+                "system",
+                "service",
+                "credential",
+                "infrastructure",
+                "user",
+                "process",
+                "other"
+              ]
+            },
+            "sensitivity": {
+              "type": "string",
+              "enum": [
+                "public",
+                "internal",
+                "confidential",
+                "restricted",
+                "critical",
+                "unknown"
+              ]
+            },
+            "maps_to_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "maps_to_components": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "threat": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "threat_type": {
+              "type": "string",
+              "enum": [
+                "spoofing",
+                "tampering",
+                "repudiation",
+                "information_disclosure",
+                "denial_of_service",
+                "elevation_of_privilege",
+                "social_engineering",
+                "other"
+              ]
+            },
+            "targets_assets": {
+              "$ref": "#/$defs/references"
+            },
+            "attack_vector": {
+              "type": "string"
+            },
+            "derived_from_risks": {
+              "$ref": "#/$defs/references"
+            },
+            "mitigated_by_controls": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "vulnerability": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "affected_components": {
+              "$ref": "#/$defs/references"
+            },
+            "affected_assets": {
+              "$ref": "#/$defs/references"
+            },
+            "exploitable_by_threats": {
+              "$ref": "#/$defs/references"
+            },
+            "remediation_actions": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "security_control": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "control_type": {
+              "type": "string",
+              "enum": [
+                "authentication",
+                "authorization",
+                "encryption",
+                "monitoring",
+                "segmentation",
+                "backup",
+                "validation",
+                "rate_limiting",
+                "other"
+              ]
+            },
+            "mitigates_threats": {
+              "$ref": "#/$defs/references"
+            },
+            "applied_to_runtime_instances": {
+              "$ref": "#/$defs/references"
+            },
+            "protects_assets": {
+              "$ref": "#/$defs/references"
+            },
+            "control_objectives": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "trust_boundary": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "separates_zones": {
+              "$ref": "#/$defs/references"
+            },
+            "crossed_by_flows": {
+              "$ref": "#/$defs/references"
+            },
+            "required_controls": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "privacy_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "data_types": {
+              "$ref": "#/$defs/references"
+            },
+            "protects_data_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "satisfies_compliance_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "basis": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "data_protection_rule": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "rule_type": {
+              "type": "string",
+              "enum": [
+                "collection",
+                "storage",
+                "processing",
+                "transmission",
+                "retention",
+                "deletion",
+                "access",
+                "other"
+              ]
+            },
+            "applies_to_data": {
+              "$ref": "#/$defs/references"
+            },
+            "required_controls": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "security_incident": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "related_incident": {
+              "$ref": "#/$defs/reference"
+            },
+            "affected_assets": {
+              "$ref": "#/$defs/references"
+            },
+            "related_threats": {
+              "$ref": "#/$defs/references"
+            },
+            "confidentiality_impact": {
+              "type": "boolean"
+            },
+            "integrity_impact": {
+              "type": "boolean"
+            },
+            "availability_impact": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "threat_model": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "$ref": "#/$defs/references"
+            },
+            "methodology": {
+              "type": "string",
+              "enum": [
+                "STRIDE",
+                "PASTA",
+                "LINDDUN",
+                "attack_tree",
+                "custom",
+                "other"
+              ]
+            },
+            "threats": {
+              "$ref": "#/$defs/references"
+            },
+            "controls": {
+              "$ref": "#/$defs/references"
+            },
+            "diagram_reference": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "compliance_audit_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_id",
+        "layer_key",
+        "compliance_requirements",
+        "evidence_items"
+      ],
+      "properties": {
+        "layer_id": {
+          "type": "string",
+          "const": "704"
+        },
+        "layer_key": {
+          "type": "string",
+          "const": "compliance_and_audit"
+        },
+        "compliance_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/compliance_requirement"
+          },
+          "minItems": 1
+        },
+        "control_objectives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/control_objective"
+          }
+        },
+        "evidence_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          },
+          "minItems": 1
+        },
+        "audits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audit"
+          }
+        },
+        "audit_findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audit_finding"
+          }
+        },
+        "remediation_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/remediation_action"
+          }
+        },
+        "audit_scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audit_scope"
+          }
+        },
+        "assurance_levels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assurance_level"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    "compliance_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "requirement_type": {
+              "type": "string",
+              "enum": [
+                "regulation",
+                "contract",
+                "internal_policy",
+                "standard",
+                "customer_requirement",
+                "other"
+              ]
+            },
+            "applicability": {
+              "type": "string"
+            },
+            "applies_to": {
+              "$ref": "#/$defs/references"
+            },
+            "satisfied_by_controls": {
+              "$ref": "#/$defs/references"
+            },
+            "related_privacy_requirements": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "control_objective": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "satisfies_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "proven_by_evidence": {
+              "$ref": "#/$defs/references"
+            },
+            "implemented_by_controls": {
+              "$ref": "#/$defs/references"
+            }
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "evidence_type": {
+              "type": "string",
+              "enum": [
+                "log",
+                "report",
+                "configuration",
+                "document",
+                "screenshot",
+                "metric",
+                "audit_record",
+                "other"
+              ]
+            },
+            "source": {
+              "$ref": "#/$defs/reference"
+            },
+            "storage_location": {
+              "type": "string"
+            },
+            "supports_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "supports_control_objectives": {
+              "$ref": "#/$defs/references"
+            },
+            "collected_at": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "audit": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "audit_type": {
+              "type": "string",
+              "enum": [
+                "internal",
+                "external",
+                "security",
+                "privacy",
+                "operational",
+                "compliance",
+                "other"
+              ]
+            },
+            "scope": {
+              "$ref": "#/$defs/reference"
+            },
+            "method": {
+              "type": "string"
+            },
+            "verifies_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "findings": {
+              "$ref": "#/$defs/references"
+            },
+            "result": {
+              "type": "string",
+              "enum": [
+                "passed",
+                "passed_with_findings",
+                "failed",
+                "in_progress",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "audit_finding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "severity": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical",
+                "unknown"
+              ]
+            },
+            "related_requirements": {
+              "$ref": "#/$defs/references"
+            },
+            "related_risks": {
+              "$ref": "#/$defs/references"
+            },
+            "requires_remediation": {
+              "$ref": "#/$defs/reference"
+            },
+            "finding_status": {
+              "type": "string",
+              "enum": [
+                "open",
+                "accepted",
+                "remediated",
+                "closed",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "remediation_action": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action_type": {
+              "type": "string",
+              "enum": [
+                "fix",
+                "control_update",
+                "process_change",
+                "documentation",
+                "risk_acceptance",
+                "other"
+              ]
+            },
+            "addresses_findings": {
+              "$ref": "#/$defs/references"
+            },
+            "owner": {
+              "$ref": "#/$defs/reference"
+            },
+            "due_date": {
+              "type": "string"
+            },
+            "action_status": {
+              "type": "string",
+              "enum": [
+                "planned",
+                "in_progress",
+                "done",
+                "cancelled",
+                "accepted_risk",
+                "unknown"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "audit_scope": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity_base"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "included_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "excluded_entities": {
+              "$ref": "#/$defs/references"
+            },
+            "period": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "assurance_level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "level",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "reasonable",
+            "limited",
+            "unknown"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "based_on_evidence": {
+          "$ref": "#/$defs/references"
+        }
+      }
+    }
+  }
+}
