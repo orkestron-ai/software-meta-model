@@ -163,6 +163,25 @@ Process → Component → API → Integration → Data
 
 ---
 
+## Data Responsibility Boundary
+
+```text
+b2 = WHAT the data model is (structure, schema, entities, relationships)
+b3 = HOW it is implemented, packaged and deployed (migrations, artifacts, code)
+b10 = HOW data assets evolve, flow, are measured, used for AI/ML and governed over time
+```
+
+Examples:
+
+```text
+data_entity.customer                    → defined in b2.202
+database_migration.add_customer_status  → implemented in b3.304 / b8.809
+schema_version.customer_v2             → governed in b10.1002
+data_quality_rule.customer_status_not_null → governed in b10.1008
+```
+
+---
+
 ## Summary
 
 Bundle 2 defines how the product becomes a **real, executable, distributed system**.

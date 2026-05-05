@@ -51,6 +51,14 @@
         },
         "303_build_deployment_runtime": {
           "$ref": "#/$defs/build_deployment_runtime_layer"
+        },
+        "304_dependency_inventory_sbom_and_reproducibility": {
+          "description": "Dependencies, SBOM, licenses, digests and build reproducibility",
+          "type": "object"
+        },
+        "305_configuration_feature_flags_and_environment_variants": {
+          "description": "Configuration items, feature flags, secrets and environment variants",
+          "type": "object"
         }
       }
     },

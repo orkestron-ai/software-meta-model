@@ -249,4 +249,23 @@ Does NOT include:
 
 Defines how the system is **observed, measured, and understood in runtime**.
 
-<!-- AISMM:END -->
+
+## 14. Lifecycle Boundary
+
+```text
+b7 = defines test strategy, test model, quality gates and quality policies
+b8 = records actual test execution, acceptance runs and change/release approval
+b6 = observes runtime behavior after release (this layer)
+```
+
+b6 observability is **post-release validation** — it confirms that what was tested in b8 and defined in b7 holds in production. Runtime anomalies detected here may trigger feedback loops in b8.807.
+
+```text
+test_case defined in b7.701
+test_run executed in b8.803
+release approved in b8.804
+runtime metric observed in b6.602 (this layer)
+runtime anomaly → may trigger feedback loop in b8.807
+```
+
+<!-- AISMM:END has been removed to append boundary note -->

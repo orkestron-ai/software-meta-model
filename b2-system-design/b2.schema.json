@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b2.schema.json",
-  "title": "AISMM Bundle 2 — System Design Schema",
-  "description": "Full data schema for AISMM Bundle 2: System Design (Systems, Data, Interfaces & Integrations). This schema expands layers 201–204 into one machine-readable JSON structure.",
+  "title": "AISMM Bundle 2 \u2014 System Design Schema",
+  "description": "Full data schema for AISMM Bundle 2: System Design (Systems, Data, Interfaces & Integrations). This schema expands layers 201\u2013204 into one machine-readable JSON structure.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -55,6 +55,18 @@
         },
         "204_integrations": {
           "$ref": "#/$defs/integrations_layer"
+        },
+        "205_external_systems_and_ecosystem_surface": {
+          "description": "External systems, contracts, SLAs and ecosystem surface",
+          "type": "object"
+        },
+        "206_event_catalog_and_event_mesh": {
+          "description": "Domain events, event schemas, producers, consumers and event mesh",
+          "type": "object"
+        },
+        "207_bounded_contexts_and_domain_architecture": {
+          "description": "Bounded contexts, subdomains, context maps and DDD strategic design",
+          "type": "object"
         }
       }
     },

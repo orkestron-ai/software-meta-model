@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b8.schema.json",
-  "title": "AISMM Bundle 8 — SDLC and Change Execution Schema",
+  "title": "AISMM Bundle 8 \u2014 SDLC and Change Execution Schema",
   "description": "Full data schema for AISMM Bundle 8: SDLC and Change Execution (Work Items, Planning, Testing Execution, Releases, Change History, Knowledge Retention and History Compaction).",
   "type": "object",
   "additionalProperties": false,
@@ -63,6 +63,18 @@
         },
         "806_knowledge_retention_and_history_compaction": {
           "$ref": "#/$defs/knowledge_retention_compaction_layer"
+        },
+        "807_feedback_loops_and_learning_cycles": {
+          "description": "Feedback loops, learning cycles, improvement actions and loop outcomes",
+          "type": "object"
+        },
+        "808_ci_cd_pipeline_and_automation": {
+          "description": "Pipelines, stages, automation gates, promotion rules and rollback triggers",
+          "type": "object"
+        },
+        "809_migration_backfill_and_long_running_refactors": {
+          "description": "Migration plans, schema migrations, backfills, compatibility windows and cutover plans",
+          "type": "object"
         }
       }
     },

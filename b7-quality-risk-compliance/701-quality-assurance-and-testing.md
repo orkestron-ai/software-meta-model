@@ -270,4 +270,16 @@ Does NOT include:
 
 Defines how the system is **verified and validated to ensure correctness, reliability, and release readiness**.
 
+---
+
+## 14. Lifecycle Boundary
+
+```text
+b7 = defines test strategy, test model, quality gates and quality policies (this layer)
+b8 = records actual test execution, acceptance runs and change/release approval (b8.803)
+b6 = observes runtime behavior after release (b6.602)
+```
+
+Test cases and quality policies are **defined** here. They are **executed** in b8.803 and **validated at runtime** in b6.602.
+
 <!-- AISMM:END -->

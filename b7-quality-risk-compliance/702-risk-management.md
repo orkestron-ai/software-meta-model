@@ -256,4 +256,21 @@ Does NOT include:
 
 Defines how risks are **identified, analyzed, and controlled to ensure system stability and business continuity**.
 
+## 14. Lifecycle Boundary
+
+```text
+b7 risk = potential future uncertainty (this layer)
+b6 incident = realized runtime event/problem that a risk may materialize as (b6.603)
+b8 feedback loop = structured response that a realized risk/incident triggers (b8.807)
+```
+
+Cross-layer lifecycle:
+
+```text
+b7.702 risk → may_materialize_as → b6.603 incident
+b6.603 incident → triggers → b8.807 feedback_loop
+b8.807 feedback_loop → creates → b8.801 change_request
+b8.801 change_request → implements → b7.702 mitigation
+```
+
 <!-- AISMM:END -->

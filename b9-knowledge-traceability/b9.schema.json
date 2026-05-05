@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b9.schema.json",
-  "title": "AISMM Bundle 9 — Knowledge Traceability Schema",
+  "title": "AISMM Bundle 9 \u2014 Knowledge Traceability Schema",
   "description": "Full data schema for AISMM Bundle 9: Knowledge Traceability (Index, Traceability Graph, Provenance, Confidence, Coverage and Consistency).",
   "type": "object",
   "additionalProperties": false,
@@ -55,6 +55,14 @@
         },
         "904_context_coverage_and_consistency": {
           "$ref": "#/$defs/context_coverage_consistency_layer"
+        },
+        "906_ontology_vocabulary_and_relationship_taxonomy": {
+          "description": "Ontology terms, relationship types, edge semantics and shared vocabulary",
+          "type": "object"
+        },
+        "905_context_retrieval_and_rag": {
+          "description": "Context retrieval, RAG packages, retrieval evaluation and invalidation rules",
+          "type": "object"
         }
       }
     },

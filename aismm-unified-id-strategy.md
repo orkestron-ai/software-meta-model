@@ -75,7 +75,20 @@ b9
 
 ### 4.2 Layer
 
-Three-digit layer identifier.
+Layer identifier. Supports 3-digit format for bundles b0–b9 and 4-digit format for bundles b10 and above.
+
+Format rule:
+
+```text
+b0–b9:   3-digit layer ID, e.g. 001, 401, 902
+b10+:    4-digit layer ID, e.g. 1001, 1104, 1206
+```
+
+Recommended regex:
+
+```regex
+^[0-9]{3,}$
+```
 
 Examples:
 
@@ -85,7 +98,12 @@ Examples:
 203
 806
 902
+1001
+1104
+1206
 ```
+
+> **Note:** Do not parse only the first 3 digits of a layer ID. `1001`, `1101`, and `1201` are distinct 4-digit IDs — they must not be interpreted as `100`, `110`, or `120`.
 
 ---
 
@@ -141,16 +159,30 @@ task_2026_05_01
 
 ## 5. JSON Schema Pattern
 
-Recommended ID pattern:
+Recommended ID pattern (supports 3-digit and 4-digit layer IDs):
 
 ```json
 {
   "type": "string",
-  "pattern": "^b[0-9]+\\.[0-9]{3}\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+  "pattern": "^b[0-9]+\\.[0-9]{3,}\\.[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
 }
 ```
 
-This stricter pattern is recommended for global AISMM IDs.
+This pattern allows:
+
+- 3-digit layer IDs for bundles b0–b9: `b4.401.requirement.user_login`
+- 4-digit layer IDs for bundles b10+: `b10.1004.model_version.fraud_detector_v3`
+
+Examples of valid global IDs:
+
+```text
+b4.401.requirement.user_login
+b9.902.trace_link.req_to_component
+b10.1001.data_product.customer_events
+b10.1004.model_version.fraud_detector_v3
+b11.1102.ownership.auth_service_team
+b12.1203.token_budget.rag_context_budget
+```
 
 For local files or backward compatibility, existing shorter IDs may remain temporarily, but cross-layer references SHOULD use global IDs.
 

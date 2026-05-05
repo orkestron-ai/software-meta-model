@@ -730,6 +730,31 @@ See [`aismm-agent-contract-references.md`](./aismm-agent-contract-references.md)
 
 ---
 
+## Consistency and Source of Truth
+
+AISMM v2 defines explicit source-of-truth rules across all bundles:
+
+- Each concept has exactly one owner bundle. Other bundles may project or reference it.
+- b9 is a graph/index/projection layer — it does not own business or system facts.
+- b11 owns organizational ownership; b9 projects ownership edges.
+- b0 owns product economics; b12 owns technical cost details.
+
+See [`aismm-consistency-rules.md`](./aismm-consistency-rules.md) for the full source-of-truth map, projection rules, conflict resolution, and lifecycle flows.
+
+---
+
+## Layer Inventory
+
+Every layer in AISMM is tracked in a complete inventory:
+
+- [`aismm-layer-inventory.md`](./aismm-layer-inventory.md) — all 82 layers across b0–b12 with README/schema status
+
+**Layer ID format:**
+- b0–b9: 3-digit IDs (e.g. `401`, `902`)
+- b10+: 4-digit IDs (e.g. `1001`, `1104`, `1206`) — do not truncate
+
+---
+
 ## Strict Mode, Semantic Diff and Health
 
 AISMM v2 adds governance tooling:
@@ -737,6 +762,20 @@ AISMM v2 adds governance tooling:
 - [`aismm-strict-mode.md`](./aismm-strict-mode.md) — Validation rules and CI enforcement
 - [`aismm-semantic-diff.md`](./aismm-semantic-diff.md) — Model-level PR review
 - [`aismm-health.md`](./aismm-health.md) — Repository health checks and `aismm.health.json`
+- [`aismm-consistency-checks.md`](./aismm-consistency-checks.md) — Repeatable consistency validation guidance
+
+---
+
+## Temporal Validity and Physical Identity
+
+- [`aismm-temporal-validity.md`](./aismm-temporal-validity.md) — `valid_from`, `valid_to`, release-bound validity, time-travel queries
+- [`aismm-physical-identity-binding.md`](./aismm-physical-identity-binding.md) — Linking logical IDs to code symbols, files, artifacts, and digests
+
+---
+
+## Feedback Loops
+
+- [`aismm-feedback-loops.md`](./aismm-feedback-loops.md) — Six canonical closed-loop learning paths (incident, metric, audit, customer, test, RAG)
 
 ---
 

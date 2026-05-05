@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b5.schema.json",
-  "title": "AISMM Bundle 5 — User Interaction Schema",
+  "title": "AISMM Bundle 5 \u2014 User Interaction Schema",
   "description": "Full data schema for AISMM Bundle 5: User Interaction (User Scenarios, Interface Structure, Screens, Forms and UI States).",
   "type": "object",
   "additionalProperties": false,
@@ -51,6 +51,14 @@
         },
         "503_screens_forms_and_ui_states": {
           "$ref": "#/$defs/screens_forms_ui_states_layer"
+        },
+        "504_design_system_and_ui_components": {
+          "description": "Design system, component library, design tokens, themes and style rules",
+          "type": "object"
+        },
+        "505_accessibility_localization_and_notifications": {
+          "description": "Accessibility requirements, locales, translation keys, notification channels",
+          "type": "object"
         }
       }
     },

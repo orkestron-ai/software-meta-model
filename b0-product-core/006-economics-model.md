@@ -314,4 +314,20 @@ impact.feature_x
 
 Defines how value becomes money and how economics constrain product evolution.
 
+## 16. Technical Economics Bridge
+
+This layer defines product-level economics: value targets, revenue model, product P&L expectations.
+
+**Technical-layer economics** — infrastructure costs, per-service costs, token/inference costs, and carbon accounting — are modeled in Bundle 12 (FinOps and Technical Economics).
+
+Cross-layer flow:
+
+```text
+b0.006 product margin target → constrains → b12.1205 service unit cost thresholds
+b12.1204 cost_of_incident → informs → b0.006 product economics model
+b12.1203 inference cost → feeds → b0.006 AI feature unit economics
+```
+
+See [`b12-finops-and-technical-economics/README.md`](../b12-finops-and-technical-economics/README.md).
+
 <!-- AISMM:END -->

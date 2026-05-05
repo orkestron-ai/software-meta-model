@@ -187,6 +187,27 @@ constraints + guardrails → decision boundaries
 
 ---
 
+## Economics Boundary: b0 vs b12
+
+```text
+b0 = product-level economics: value model, revenue streams, product P&L, value/cost expectations
+b12 = technical economics: infrastructure cost, service cost, tenant/request cost, token/inference cost, carbon/capacity economics
+```
+
+b0 defines **what value the product creates and what it should cost** at a product level. b12 measures **what the system actually costs to run** at a technical level.
+
+Cross-bundle economic flow:
+
+```text
+b12 service_unit_cost → feeds → b0 product margin
+b0 value target → constrains → b12 cost threshold
+b12 cost_of_incident → informs → b0 economics model
+```
+
+See [`b12-finops-and-technical-economics/README.md`](../b12-finops-and-technical-economics/README.md) for the technical economics model.
+
+---
+
 ## Summary
 
 Bundle 0 defines the product as a **value-driven, structured, executable, and economically constrained system**.
