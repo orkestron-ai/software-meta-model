@@ -256,22 +256,25 @@ AISMM layers are grouped into bundles.
 Canonical bundle range:
 
 ```text
-b0–b9
+b0–b12
 ```
 
 Current AISMM bundles:
 
 ```text
-b0 — Product Core
-b1 — Business Dynamics
-b2 — System Design
-b3 — Implementation
-b4 — Product Behavior
-b5 — User Interaction
-b6 — Runtime Operations
-b7 — Quality, Risk & Compliance
-b8 — Change Execution
-b9 — Knowledge Traceability
+b0  — Product Core
+b1  — Business Dynamics
+b2  — System Design
+b3  — Implementation
+b4  — Product Behavior
+b5  — User Interaction
+b6  — Runtime Operations
+b7  — Quality, Risk & Compliance
+b8  — Change Execution
+b9  — Knowledge Traceability
+b10 — Data and AI Lifecycle
+b11 — Organization, Ownership and Governance
+b12 — FinOps and Technical Economics
 ```
 
 ---
@@ -304,6 +307,9 @@ b9 — Knowledge Traceability
 202 — Data and Information Architecture
 203 — API and Interfaces
 204 — Integrations
+205 — External Systems and Ecosystem Surface
+206 — Event Catalog and Event Mesh
+207 — Bounded Contexts and Domain Architecture
 ```
 
 ### b3 — Implementation
@@ -312,6 +318,8 @@ b9 — Knowledge Traceability
 301 — Technology Architecture
 302 — Code and Implementation
 303 — Build, Deployment and Runtime Artifacts
+304 — Dependency Inventory, SBOM and Reproducibility
+305 — Configuration, Feature Flags and Environment Variants
 ```
 
 ### b4 — Product Behavior
@@ -321,6 +329,9 @@ b9 — Knowledge Traceability
 402 — Domain Model and Business Rules
 403 — Access Rights
 404 — NFR and Quality Attributes
+405 — State Machines and Lifecycles
+406 — Behavioral Contracts and Invariants
+407 — Error Taxonomy and Failure Behavior
 ```
 
 ### b5 — User Interaction
@@ -329,6 +340,8 @@ b9 — Knowledge Traceability
 501 — User Scenarios and UX Logic
 502 — Interface Structure and Navigation
 503 — Screens, Forms and UI States
+504 — Design System and UI Components
+505 — Accessibility, Localization and Notifications
 ```
 
 ### b6 — Runtime Operations
@@ -338,6 +351,9 @@ b9 — Knowledge Traceability
 602 — Observability and Monitoring
 603 — Incident Management and Response
 604 — SLA, SLO and Operational Governance
+605 — Capacity, Scaling and Performance Engineering
+606 — Disaster Recovery, Backup and Continuity
+607 — Operational Readiness and Drills
 ```
 
 ### b7 — Quality, Risk & Compliance
@@ -347,6 +363,9 @@ b9 — Knowledge Traceability
 702 — Risk Management
 703 — Security and Privacy
 704 — Compliance and Audit
+705 — Threat Modeling and Attack Surface
+706 — Vulnerability Management and Disclosure
+707 — Privacy Rights and DPIA
 ```
 
 ### b8 — Change Execution
@@ -358,6 +377,9 @@ b9 — Knowledge Traceability
 804 — Release, Version and Rollout Management
 805 — Change History and Decision Log
 806 — Knowledge Retention and History Compaction
+807 — Feedback Loops and Learning Cycles
+808 — CI/CD Pipeline and Automation
+809 — Migration, Backfill and Long-Running Refactors
 ```
 
 ### b9 — Knowledge Traceability
@@ -368,6 +390,42 @@ b9 — Knowledge Traceability
 903 — Source Provenance and Confidence
 904 — Context Coverage and Consistency
 905 — Context Retrieval and RAG
+906 — Ontology, Vocabulary and Relationship Taxonomy
+```
+
+### b10 — Data and AI Lifecycle
+
+```text
+1001 — Data Products and Contracts
+1002 — Data Lineage and Schema Evolution
+1003 — Feature and Embedding Lifecycle
+1004 — Model Registry and Versioning
+1005 — Training, Evaluation and Experimentation
+1006 — Drift, Monitoring and Retraining
+1007 — Labeling, Annotation and Ground Truth
+1008 — Data Quality and Observability
+```
+
+### b11 — Organization, Ownership and Governance
+
+```text
+1101 — Team Topology and RACI
+1102 — Ownership Graph
+1103 — Decision Rights and Governance
+1104 — Skills and Capability Matrix
+1105 — Vendors and External Responsibilities
+1106 — Capacity and Allocation
+```
+
+### b12 — FinOps and Technical Economics
+
+```text
+1201 — Cost Allocation and Showback
+1202 — Capacity and Commitment Management
+1203 — Token and Inference Economics
+1204 — Cost of Quality and Incident
+1205 — Unit Economics by Service, Tenant and Request
+1206 — Carbon and Sustainability Accounting
 ```
 
 ---

@@ -111,6 +111,56 @@ How do we preserve meaning while controlling data volume?
 
 ---
 
+### 807 — Feedback Loops and Learning Cycles
+
+Defines **how operational signals become structured change and knowledge**:
+
+- feedback loop records
+- feedback signals (incident, metric, audit, customer feedback, test failure, RAG evaluation)
+- learning cycles and outcomes
+- root cause links
+- improvement actions
+
+```text
+How does the product learn and improve from operational reality?
+```
+
+---
+
+### 808 — CI/CD Pipeline and Automation
+
+Defines **CI/CD pipelines as SDLC entities**:
+
+- pipeline definitions and stages
+- automation gates and quality checks
+- promotion rules and environment promotion
+- rollback triggers
+- pipeline runs and artifacts
+
+```text
+What automates validation and promotion of changes?
+```
+
+---
+
+### 809 — Migration, Backfill and Long-Running Refactors
+
+Defines **structural change operations that span multiple releases**:
+
+- migration plans
+- schema migrations
+- data backfills
+- compatibility windows and dual-write periods
+- cutover plans
+- refactor streams
+- technical debt burndown
+
+```text
+How do large structural changes proceed safely over time?
+```
+
+---
+
 ## Role of Bundle 8
 
 Bundle 8 defines the **closed loop of SDLC execution**:

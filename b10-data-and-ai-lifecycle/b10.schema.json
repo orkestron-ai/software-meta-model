@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/orkestron-ai/software-meta-model/b10-data-and-ai-lifecycle/b10.schema.json",
+  "title": "AISMM Bundle 10 — Data and AI Lifecycle",
+  "description": "Schema for Bundle 10: data products, lineage, features, models, training, drift, labeling, and data quality.",
+  "type": "object",
+  "properties": {
+    "bundle": { "type": "string", "const": "b10" },
+    "layers": {
+      "type": "object",
+      "properties": {
+        "1001": { "$ref": "#/definitions/layer_1001" },
+        "1002": { "$ref": "#/definitions/layer_1002" },
+        "1003": { "$ref": "#/definitions/layer_1003" },
+        "1004": { "$ref": "#/definitions/layer_1004" },
+        "1005": { "$ref": "#/definitions/layer_1005" },
+        "1006": { "$ref": "#/definitions/layer_1006" },
+        "1007": { "$ref": "#/definitions/layer_1007" },
+        "1008": { "$ref": "#/definitions/layer_1008" }
+      }
+    }
+  },
+  "definitions": {
+    "aismm_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+\\.[a-z0-9_]+\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    },
+    "layer_1001": {
+      "title": "Data Products and Contracts",
+      "type": "object",
+      "properties": {
+        "data_product": { "type": "object", "required": ["id", "name", "owner", "version", "status"] },
+        "data_contract": { "type": "object", "required": ["id", "data_product"] },
+        "data_consumer": { "type": "object", "required": ["id", "name"] },
+        "data_owner": { "type": "object", "required": ["id", "name"] },
+        "data_sla": { "type": "object", "required": ["id", "data_product"] }
+      }
+    },
+    "layer_1002": {
+      "title": "Data Lineage and Schema Evolution",
+      "type": "object",
+      "properties": {
+        "data_lineage": { "type": "object", "required": ["id"] },
+        "lineage_edge": { "type": "object", "required": ["id", "source", "target"] },
+        "schema_version": { "type": "object", "required": ["id", "version"] },
+        "schema_change": { "type": "object", "required": ["id", "change_type"] },
+        "backward_compatibility": { "type": "object", "required": ["id", "compatible"] }
+      }
+    },
+    "layer_1003": {
+      "title": "Feature and Embedding Lifecycle",
+      "type": "object",
+      "properties": {
+        "feature": { "type": "object", "required": ["id", "name"] },
+        "feature_store": { "type": "object", "required": ["id", "name"] },
+        "embedding_index": { "type": "object", "required": ["id", "name", "embedding_model"] },
+        "embedding_model": { "type": "object", "required": ["id", "name"] },
+        "index_refresh_policy": { "type": "object", "required": ["id"] },
+        "invalidation_rule": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1004": {
+      "title": "Model Registry and Versioning",
+      "type": "object",
+      "properties": {
+        "model": { "type": "object", "required": ["id", "name"] },
+        "model_version": { "type": "object", "required": ["id", "model", "version"] },
+        "model_card": { "type": "object", "required": ["id", "model_version"] },
+        "model_artifact": { "type": "object", "required": ["id", "model_version"] },
+        "inference_endpoint": { "type": "object", "required": ["id", "model_version"] }
+      }
+    },
+    "layer_1005": {
+      "title": "Training, Evaluation and Experimentation",
+      "type": "object",
+      "properties": {
+        "training_run": { "type": "object", "required": ["id", "model_version"] },
+        "evaluation_run": { "type": "object", "required": ["id", "model_version"] },
+        "experiment": { "type": "object", "required": ["id", "name"] },
+        "metric": { "type": "object", "required": ["id", "name", "value"] },
+        "golden_dataset": { "type": "object", "required": ["id", "name"] }
+      }
+    },
+    "layer_1006": {
+      "title": "Drift, Monitoring and Retraining",
+      "type": "object",
+      "properties": {
+        "drift_signal": { "type": "object", "required": ["id", "model_version"] },
+        "drift_check": { "type": "object", "required": ["id"] },
+        "retraining_trigger": { "type": "object", "required": ["id"] },
+        "model_monitor": { "type": "object", "required": ["id", "model_version"] },
+        "performance_regression": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1007": {
+      "title": "Labeling, Annotation and Ground Truth",
+      "type": "object",
+      "properties": {
+        "labeling_task": { "type": "object", "required": ["id", "name"] },
+        "annotation": { "type": "object", "required": ["id", "labeling_task"] },
+        "annotator": { "type": "object", "required": ["id"] },
+        "ground_truth": { "type": "object", "required": ["id", "dataset"] },
+        "label_quality": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1008": {
+      "title": "Data Quality and Observability",
+      "type": "object",
+      "properties": {
+        "data_quality_rule": { "type": "object", "required": ["id", "name"] },
+        "data_quality_metric": { "type": "object", "required": ["id", "name"] },
+        "data_observability_signal": { "type": "object", "required": ["id"] },
+        "data_incident": { "type": "object", "required": ["id", "title"] }
+      }
+    }
+  }
+}
