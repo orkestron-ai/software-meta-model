@@ -107,6 +107,18 @@ b10.schema.json
 
 ---
 
+## Data Responsibility Boundary
+
+```text
+b2 = WHAT the data model is (structure, schema, entities, relationships)
+b3 = HOW it is implemented, packaged and deployed (migrations, artifacts, code)
+b10 = HOW data assets evolve, flow, are measured, used for AI/ML and governed over time
+```
+
+b10 does not redefine data entities from b2. It tracks their operational lifecycle — schema evolution, lineage, quality, and use in ML/AI systems.
+
+---
+
 ## Summary
 
 Bundle 10 makes AI-native systems fully modelable in AISMM by treating data products, ML models, training pipelines, embeddings, and drift signals as governed, traceable entities — not invisible infrastructure.

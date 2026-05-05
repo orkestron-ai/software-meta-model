@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b7.schema.json",
-  "title": "AISMM Bundle 7 — Quality, Risk & Compliance Schema",
+  "title": "AISMM Bundle 7 \u2014 Quality, Risk & Compliance Schema",
   "description": "Full data schema for AISMM Bundle 7: Quality, Risk & Compliance (Quality Assurance, Risk Management, Security & Privacy, Compliance & Audit).",
   "type": "object",
   "additionalProperties": false,
@@ -55,6 +55,18 @@
         },
         "704_compliance_and_audit": {
           "$ref": "#/$defs/compliance_audit_layer"
+        },
+        "705_threat_modeling_and_attack_surface": {
+          "description": "Threat models, attack surfaces, attack trees, trust boundaries and abuse cases",
+          "type": "object"
+        },
+        "706_vulnerability_management_and_disclosure": {
+          "description": "Vulnerabilities, CVEs, patch plans, security advisories and responsible disclosure",
+          "type": "object"
+        },
+        "707_privacy_rights_and_dpia": {
+          "description": "DPIAs, data subject requests, consent scopes, privacy rights and deletion requests",
+          "type": "object"
         }
       }
     },

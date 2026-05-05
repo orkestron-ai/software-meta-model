@@ -90,6 +90,22 @@ b11.schema.json
 
 ---
 
+## Ownership Source of Truth
+
+**b11 is the source of truth for ownership.**
+
+Ownership relationships may also appear in the b9 traceability graph as `owns` edges. These are **projections** of b11 ownership records — they are not independent facts.
+
+```text
+b11.1102.ownership.auth_service_team
+  → projected as →
+b9.902.trace_link.team_owns_auth_service
+```
+
+If b11 and b9 disagree on who owns an entity, **b11 wins**. The b9 projection must be corrected.
+
+---
+
 ## Summary
 
 Bundle 11 connects the human organization to the technical model, ensuring that every component, service, data product, and decision has a clear owner, decision authority, and capacity context.

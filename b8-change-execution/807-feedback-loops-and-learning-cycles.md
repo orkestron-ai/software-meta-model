@@ -144,10 +144,20 @@ root_cause_link → points_to → entity (any layer)
 
 ## 10. Boundaries
 
+**Bundle responsibility boundaries for the risk/incident/feedback lifecycle:**
+
+```text
+b7 risk    = potential future uncertainty (defined in b7.702)
+b6 incident = realized runtime event/problem (recorded in b6.603)
+b8 feedback loop = structured learning/change cycle triggered by incidents, risks, tests, metrics or audits
+```
+
 - This layer tracks feedback loops and learning cycles.
+- Incident ownership and response playbooks belong in b6.603. Feedback loops reference incidents, they do not redefine them.
+- Risk ownership belongs in b7.702. Feedback loops reference risks, they do not redefine them.
 - Root cause analysis methodology is out of scope — this layer records outcomes, not process.
-- Incident response playbooks belong in b6.603.
 - Test failure details belong in b7.701 and b8.803.
+- b9 projects the feedback loop relationships into the traceability graph; it does not own them.
 
 ---
 

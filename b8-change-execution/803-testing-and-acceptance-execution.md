@@ -229,4 +229,16 @@ Does NOT include:
 
 Defines how testing is **executed and how acceptance decisions are made for real changes in SDLC**.
 
+---
+
+## 14. Lifecycle Boundary
+
+```text
+b7 = defines test strategy, test model, quality gates and quality policies
+b8 = records actual test execution, acceptance runs and change/release approval (this layer)
+b6 = observes runtime behavior after release
+```
+
+This layer records **execution results and acceptance decisions** for real SDLC changes. It does not own test definitions (b7.701) or runtime monitoring (b6.602).
+
 <!-- AISMM:END -->

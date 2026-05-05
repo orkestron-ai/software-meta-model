@@ -211,6 +211,18 @@ Defines:
 
 ---
 
+## Data Responsibility Boundary
+
+```text
+b2 = WHAT the data model is (structure, schema, entities, relationships)
+b3 = HOW it is implemented, packaged and deployed (migrations, artifacts, code)
+b10 = HOW data assets evolve, flow, are measured, used for AI/ML and governed over time
+```
+
+b3 owns the physical implementation of data structures — migration files, schema files, database packages. b2 owns the logical data model. b10 owns the operational lifecycle of data products after they exist.
+
+---
+
 ## Summary
 
 Bundle 3 defines how the system **becomes real, running software**.

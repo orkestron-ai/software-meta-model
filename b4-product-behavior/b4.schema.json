@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b4.schema.json",
-  "title": "AISMM Bundle 4 — Product Behavior Schema",
+  "title": "AISMM Bundle 4 \u2014 Product Behavior Schema",
   "description": "Full data schema for AISMM Bundle 4: Product Behavior (Requirements, Domain Model & Rules, Access Rights, NFR & Quality Attributes).",
   "type": "object",
   "additionalProperties": false,
@@ -55,6 +55,18 @@
         },
         "404_nfr_and_quality_attributes": {
           "$ref": "#/$defs/nfr_quality_layer"
+        },
+        "405_state_machines_and_lifecycles": {
+          "description": "State machines, states, transitions and entity lifecycles",
+          "type": "object"
+        },
+        "406_behavioral_contracts_and_invariants": {
+          "description": "Behavioral contracts, pre/postconditions, invariants and domain constraints",
+          "type": "object"
+        },
+        "407_error_taxonomy_and_failure_behavior": {
+          "description": "Error types, failure modes, recovery paths and error responses",
+          "type": "object"
         }
       }
     },

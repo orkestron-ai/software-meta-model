@@ -7,6 +7,64 @@ AISMM uses [Semantic Versioning](./aismm-versioning-and-conformance.md).
 
 ---
 
+## AISMM 2.0.1 — Consistency and Governance Fixes
+
+### Added
+
+- `b12-finops-and-technical-economics/README.md` — complete bundle README with layer overview, b0 vs b12 boundary statement, cross-bundle flow, and schema reference
+- `aismm-consistency-rules.md` — source-of-truth map for all concepts across b0–b12, projection rules, duplication rules, conflict resolution, and lifecycle flow rules
+- `aismm-consistency-checks.md` — repeatable consistency validation checks with pseudo-code, CI integration guidance, and layer inventory maintenance instructions
+- `aismm-layer-inventory.md` — complete inventory of all 82 layers across b0–b12 with README/schema coverage status
+
+### Changed
+
+**4-digit Layer ID support (b10+):**
+- `aismm-unified-id-strategy.md` — updated layer ID format to support 3+ digits; regex changed from `^[0-9]{3}$` to `^[0-9]{3,}$`; added b10/b11/b12 ID examples; added warning against 3-digit truncation
+- `aismm-strict-mode.md` — RULE-ID-002 now explicitly describes 4-digit layer IDs for b10+ bundles
+- `aismm-structure.md` — section 6 updated to describe both 3-digit and 4-digit layer ID formats
+
+**Schemas updated for new v2 layers:**
+- `b2.schema.json` — added layers 205, 206, 207
+- `b3.schema.json` — added layers 304, 305
+- `b4.schema.json` — added layers 405, 406, 407
+- `b5.schema.json` — added layers 504, 505
+- `b6.schema.json` — added layers 605, 606, 607
+- `b7.schema.json` — added layers 705, 706, 707
+- `b8.schema.json` — added layers 807, 808, 809
+- `b9.schema.json` — added layers 905, 906
+
+**Lifecycle boundary clarifications:**
+- `b8-change-execution/readme.md` — explicitly states b8 is the lifecycle orchestration layer; added 10-step closed-loop example
+- `b8-change-execution/807-feedback-loops-and-learning-cycles.md` — strengthened boundaries with risk/incident/feedback lifecycle roles
+- `b6-runtime-operations/603-incident-management-and-response.md` — added lifecycle boundary: b6 owns incidents, b8 owns learning cycles
+- `b7-quality-risk-compliance/702-risk-management.md` — added lifecycle boundary: b7 owns risk definitions, b6 records realization, b8 owns feedback
+- `b6-runtime-operations/602-observability-and-monitoring.md` — clarified b6 is post-release runtime validation
+- `b7-quality-risk-compliance/701-quality-assurance-and-testing.md` — clarified b7 defines test strategy; b8 records execution
+- `b8-change-execution/803-testing-and-acceptance-execution.md` — clarified b8 records test execution and acceptance decisions
+
+**Data responsibility boundary clarifications:**
+- `b2-system-design/readme.md` — added data boundary: b2=WHAT, b3=HOW, b10=lifecycle
+- `b3-implementation/readme.md` — added data boundary with same rule
+- `b10-data-and-ai-lifecycle/README.md` — added data boundary statement
+
+**Ownership source-of-truth clarifications:**
+- `b11-organization-ownership-governance/README.md` — states b11 is source of truth for ownership; b9 is projection
+- `b9-knowledge-traceability/readme.md` — states b9 ownership edges are projections; b11 wins in conflicts
+
+**Economics bridge clarifications:**
+- `b0-product-core/readme.md` — added b0 vs b12 economics boundary statement and cross-layer flow
+- `b0-product-core/006-economics-model.md` — added reference to b12 technical economics inputs
+
+**Documentation structure:**
+- `aismm-structure.md` — added section 28 (Consistency Rules and Source of Truth); renumbered sections to 29–31
+- `README.md` — added Consistency and Source of Truth, Layer Inventory, Temporal Validity, Physical Identity, and Feedback Loops sections with all required document links
+
+### Compatibility
+
+All changes are additive or clarifying. No entities removed. No schemas broken. Layer inventory confirms 82/82 layers are consistent across README/schema/file.
+
+---
+
 ## AISMM 2.0.0
 
 ### Added

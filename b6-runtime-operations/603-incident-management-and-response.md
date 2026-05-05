@@ -285,4 +285,22 @@ Does NOT include:
 
 Defines how the system and organization **detect, respond to, and learn from incidents** to ensure reliability and continuous improvement.
 
+## 14. Lifecycle Boundary
+
+```text
+b6 incident = realized runtime event/problem (this layer)
+b7 risk = potential future uncertainty that may materialize as an incident (b7.702)
+b8 feedback loop = structured learning/change cycle triggered by incidents (b8.807)
+```
+
+Cross-layer lifecycle:
+
+```text
+b7.702 risk → may_materialize_as → b6.603 incident
+b6.603 incident → triggers → b8.807 feedback_loop
+b8.807 feedback_loop → creates → b8.801 change_request
+```
+
+b6 records incidents and immediate response. b8 owns the structured learning and improvement cycle that follows.
+
 <!-- AISMM:END -->

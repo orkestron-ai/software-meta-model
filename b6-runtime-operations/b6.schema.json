@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "b6.schema.json",
-  "title": "AISMM Bundle 6 — Runtime Operations Schema",
+  "title": "AISMM Bundle 6 \u2014 Runtime Operations Schema",
   "description": "Full data schema for AISMM Bundle 6: Runtime Operations (Runtime Topology, Observability, Incident Management, SLA/SLO and Operational Governance).",
   "type": "object",
   "additionalProperties": false,
@@ -55,6 +55,18 @@
         },
         "604_sla_slo_and_operational_governance": {
           "$ref": "#/$defs/sla_slo_operational_governance_layer"
+        },
+        "605_capacity_scaling_and_performance_engineering": {
+          "description": "Capacity models, scaling rules, autoscaling policies and performance baselines",
+          "type": "object"
+        },
+        "606_disaster_recovery_backup_and_continuity": {
+          "description": "Backup policies, restore plans, RPO/RTO, DR plans and continuity scenarios",
+          "type": "object"
+        },
+        "607_operational_readiness_and_drills": {
+          "description": "Operational readiness reviews, game days, chaos experiments and DR drills",
+          "type": "object"
         }
       }
     },

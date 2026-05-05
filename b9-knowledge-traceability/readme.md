@@ -115,6 +115,19 @@ More precisely:
 Discovery → Traceability → Trust → Integrity
 ```
 
+### b9 is a Graph/Index/Projection Layer
+
+**b9 does not own business or system facts. It indexes, links, scores and projects facts from other bundles.**
+
+| Fact | Source Bundle | b9 Projection |
+|------|--------------|--------------|
+| Component ownership | b11.1102 | `owns` edge in 902 |
+| Requirement-to-test | b4.401 + b7.701 | `validates` edge in 902 |
+| Risk-to-control | b7.702 + b7.703 | `mitigates` edge in 902 |
+| Organizational ownership | b11.1102 | `owns` edge — b11 wins in conflict |
+
+When b9 ownership edges conflict with b11 ownership records, **b11 wins**.
+
 ---
 
 ## Key Concepts

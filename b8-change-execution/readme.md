@@ -163,6 +163,33 @@ How do large structural changes proceed safely over time?
 
 ## Role of Bundle 8
 
+**b8 is the lifecycle orchestration layer for product/system changes.**
+
+Bundle 8 coordinates the full SDLC by connecting signals from other bundles into structured execution:
+
+```text
+b6 owns runtime facts and incidents.
+b7 owns quality, risk and compliance policies.
+b8 owns change execution, planning, release, feedback loops and learning cycles.
+b9 owns traceability, indexing and knowledge projections.
+```
+
+### Closed-Loop Lifecycle Example
+
+```text
+1. b6 detects incident
+2. b6 records incident (b6.603)
+3. b8 feedback loop is triggered (b8.807)
+4. b8 creates change request / work item (b8.801)
+5. b4 requirement or behavior may be updated
+6. b7 tests/risk controls are updated
+7. b3 implementation changes
+8. b8 CI/CD pipeline validates (b8.808)
+9. b8 release is created (b8.804)
+10. b6 monitors runtime outcome (b6.602)
+11. b9 updates traceability and knowledge context
+```
+
 Bundle 8 defines the **closed loop of SDLC execution**:
 
 ```text

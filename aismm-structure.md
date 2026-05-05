@@ -104,7 +104,7 @@ A block may describe:
 ```text
 <!-- AISMM:BEGIN -->
 type: <block_type>
-layer_id: <3-digit>
+layer_id: <3-digit for b0–b9, 4-digit for b10+>
 layer_key: <string>
 document_id: <unique_id>
 document_type: <type>
@@ -154,7 +154,7 @@ references:
 | Field | Description |
 |---|---|
 | `type` | Block type |
-| `layer_id` | 3-digit layer identifier |
+| `layer_id` | Layer identifier: 3-digit for b0–b9 (e.g. `401`), 4-digit for b10+ (e.g. `1004`) |
 | `layer_key` | Stable layer key |
 | `document_id` | Globally unique document/block identifier |
 | `document_type` | Logical type of document |
@@ -224,11 +224,20 @@ Specialized types MAY include:
 
 ## 6. Layer Identification
 
-Layer identifiers use a 3-digit numeric format:
+Layer identifiers use a numeric format. The number of digits depends on the bundle:
 
 ```text
-001–999
+b0–b9:   3-digit layer IDs, range 001–999
+b10+:    4-digit layer IDs, range 1001+
 ```
+
+Recommended validation regex:
+
+```regex
+^[0-9]{3,}$
+```
+
+> **Important:** Do not parse only the first 3 digits of a layer ID. The IDs `1001`, `1101`, and `1201` are distinct 4-digit identifiers for bundles b10, b11, and b12 respectively. Truncating them to `100`, `110`, `120` would cause ID collisions.
 
 Layer IDs are stable and are used for:
 
@@ -1042,7 +1051,43 @@ See [`aismm-versioning-and-conformance.md`](./aismm-versioning-and-conformance.m
 
 ---
 
-## 28. Relationship to Agent Contracts
+## 28. Consistency Rules and Source of Truth
+
+AISMM v2 defines explicit source-of-truth boundaries across all bundles.
+
+### Key Rule
+
+> Each concept has exactly one owner bundle. Other bundles may project or reference it, but do not own it.
+
+### Source-of-Truth Summary
+
+| Concept | Source | Projection |
+|---------|--------|-----------|
+| Product value | b0 | b1, b8, b12 |
+| System structure | b2 | b3, b6, b9 |
+| Ownership | b11 | b9 (graph projection only) |
+| Technical cost | b12 | b0 |
+| Traceability graph | b9 | all bundles |
+
+### b9 is a Projection Layer
+
+b9 does not own business or system facts. It indexes, links, scores and projects facts from other bundles. When b9 ownership edges conflict with b11 ownership records, b11 wins.
+
+### Layer Inventory
+
+All layers are tracked in:
+
+```text
+aismm-layer-inventory.md
+```
+
+See [`aismm-consistency-rules.md`](./aismm-consistency-rules.md) for the full source-of-truth map, projection rules, conflict resolution, and lifecycle flows.
+
+See [`aismm-consistency-checks.md`](./aismm-consistency-checks.md) for repeatable validation guidance.
+
+---
+
+## 29. Relationship to Agent Contracts
 
 AISMM does not define agent contracts directly.
 
@@ -1057,7 +1102,7 @@ Agent contracts = how agents work with that knowledge
 
 ---
 
-## 29. Core Principle
+## 30. Core Principle
 
 > AISMM is a semantic graph embedded in human-readable and machine-readable project artifacts.
 
@@ -1072,7 +1117,7 @@ Knowledge is the result.
 
 ---
 
-## 30. Summary
+## 31. Summary
 
 AISMM provides:
 

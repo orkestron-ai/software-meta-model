@@ -43,7 +43,7 @@ validation_level: advisory | recommended | strict
 | Rule ID | Rule | Severity |
 |---------|------|----------|
 | `RULE-ID-001` | Every global ID must be unique across the repository. | critical |
-| `RULE-ID-002` | Every entity ID must conform to the AISMM ID strategy format. | error |
+| `RULE-ID-002` | Every entity ID must conform to the AISMM ID strategy format: `b{N}.{layer_id}.{entity_type}.{slug}` where `layer_id` is 3+ digits (`^[0-9]{3,}$`). For bundles b10+, layer IDs are 4 digits (e.g. `1001`, `1104`, `1206`) and must not be truncated or parsed as 3-digit IDs. | error |
 | `RULE-ID-003` | No entity may reference a non-existent ID. | critical |
 
 ### Cross-Layer Reference Rules
