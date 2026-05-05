@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/orkestron-ai/software-meta-model/b11-organization-ownership-governance/b11.schema.json",
+  "title": "AISMM Bundle 11 — Organization, Ownership and Governance",
+  "description": "Schema for Bundle 11: teams, ownership, decision rights, skills, vendors, and capacity.",
+  "type": "object",
+  "properties": {
+    "bundle": { "type": "string", "const": "b11" },
+    "layers": {
+      "type": "object",
+      "properties": {
+        "1101": { "$ref": "#/definitions/layer_1101" },
+        "1102": { "$ref": "#/definitions/layer_1102" },
+        "1103": { "$ref": "#/definitions/layer_1103" },
+        "1104": { "$ref": "#/definitions/layer_1104" },
+        "1105": { "$ref": "#/definitions/layer_1105" },
+        "1106": { "$ref": "#/definitions/layer_1106" }
+      }
+    }
+  },
+  "definitions": {
+    "layer_1101": {
+      "title": "Team Topology and RACI",
+      "type": "object",
+      "properties": {
+        "team": { "type": "object", "required": ["id", "name", "type"] },
+        "role": { "type": "object", "required": ["id", "name"] },
+        "raci_matrix": { "type": "object", "required": ["id", "scope", "accountable"] },
+        "responsibility": { "type": "object", "required": ["id"] },
+        "collaboration_mode": { "type": "object", "required": ["id", "type"] }
+      }
+    },
+    "layer_1102": {
+      "title": "Ownership Graph",
+      "type": "object",
+      "properties": {
+        "ownership": { "type": "object", "required": ["id", "owned_entity", "owner"] },
+        "owned_entity": { "type": "object", "required": ["id"] },
+        "owner": { "type": "object", "required": ["id"] },
+        "steward": { "type": "object", "required": ["id"] },
+        "supporting_team": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1103": {
+      "title": "Decision Rights and Governance",
+      "type": "object",
+      "properties": {
+        "decision_right": { "type": "object", "required": ["id", "decision_type", "authority"] },
+        "governance_body": { "type": "object", "required": ["id", "name"] },
+        "approval_policy": { "type": "object", "required": ["id", "required_approvers"] },
+        "review_board": { "type": "object", "required": ["id", "name"] },
+        "decision_authority": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1104": {
+      "title": "Skills and Capability Matrix",
+      "type": "object",
+      "properties": {
+        "skill": { "type": "object", "required": ["id", "name"] },
+        "capability": { "type": "object", "required": ["id", "name"] },
+        "competency_level": { "type": "object", "required": ["id", "name"] },
+        "team_capability": { "type": "object", "required": ["id", "team", "skill"] },
+        "skill_gap": { "type": "object", "required": ["id", "team", "skill", "severity"] }
+      }
+    },
+    "layer_1105": {
+      "title": "Vendors and External Responsibilities",
+      "type": "object",
+      "properties": {
+        "vendor": { "type": "object", "required": ["id", "name", "type"] },
+        "supplier": { "type": "object", "required": ["id", "name"] },
+        "external_responsibility": { "type": "object", "required": ["id"] },
+        "support_contract": { "type": "object", "required": ["id", "vendor"] },
+        "dependency_owner": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1106": {
+      "title": "Capacity and Allocation",
+      "type": "object",
+      "properties": {
+        "capacity": { "type": "object", "required": ["id", "team", "period"] },
+        "allocation": { "type": "object", "required": ["id", "team", "initiative"] },
+        "team_load": { "type": "object", "required": ["id", "team"] },
+        "reservation": { "type": "object", "required": ["id"] },
+        "forecast": { "type": "object", "required": ["id", "team"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/orkestron-ai/software-meta-model/b12-finops-and-technical-economics/b12.schema.json",
+  "title": "AISMM Bundle 12 — FinOps and Technical Economics",
+  "description": "Schema for Bundle 12: cost allocation, commitments, token economics, cost of quality, unit economics, and sustainability.",
+  "type": "object",
+  "properties": {
+    "bundle": { "type": "string", "const": "b12" },
+    "layers": {
+      "type": "object",
+      "properties": {
+        "1201": { "$ref": "#/definitions/layer_1201" },
+        "1202": { "$ref": "#/definitions/layer_1202" },
+        "1203": { "$ref": "#/definitions/layer_1203" },
+        "1204": { "$ref": "#/definitions/layer_1204" },
+        "1205": { "$ref": "#/definitions/layer_1205" },
+        "1206": { "$ref": "#/definitions/layer_1206" }
+      }
+    }
+  },
+  "definitions": {
+    "layer_1201": {
+      "title": "Cost Allocation and Showback",
+      "type": "object",
+      "properties": {
+        "cost_center": { "type": "object", "required": ["id", "name"] },
+        "cost_allocation": { "type": "object", "required": ["id", "cost_center"] },
+        "showback_report": { "type": "object", "required": ["id", "period"] },
+        "chargeback_rule": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1202": {
+      "title": "Capacity and Commitment Management",
+      "type": "object",
+      "properties": {
+        "capacity_commitment": { "type": "object", "required": ["id", "provider"] },
+        "reserved_capacity": { "type": "object", "required": ["id"] },
+        "cloud_commitment": { "type": "object", "required": ["id", "provider", "type"] },
+        "capacity_forecast": { "type": "object", "required": ["id", "period"] }
+      }
+    },
+    "layer_1203": {
+      "title": "Token and Inference Economics",
+      "type": "object",
+      "properties": {
+        "token_budget": { "type": "object", "required": ["id", "scope"] },
+        "inference_cost": { "type": "object", "required": ["id", "model"] },
+        "model_provider_cost": { "type": "object", "required": ["id", "provider"] },
+        "context_window_cost": { "type": "object", "required": ["id"] },
+        "agent_execution_cost": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1204": {
+      "title": "Cost of Quality and Incident",
+      "type": "object",
+      "properties": {
+        "cost_of_quality": { "type": "object", "required": ["id", "period"] },
+        "cost_of_incident": { "type": "object", "required": ["id", "incident"] },
+        "defect_cost": { "type": "object", "required": ["id"] },
+        "downtime_cost": { "type": "object", "required": ["id"] },
+        "rework_cost": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1205": {
+      "title": "Unit Economics by Service, Tenant and Request",
+      "type": "object",
+      "properties": {
+        "service_unit_cost": { "type": "object", "required": ["id", "service"] },
+        "tenant_unit_cost": { "type": "object", "required": ["id", "tenant"] },
+        "request_unit_cost": { "type": "object", "required": ["id"] },
+        "cost_driver": { "type": "object", "required": ["id", "name"] },
+        "margin_signal": { "type": "object", "required": ["id"] }
+      }
+    },
+    "layer_1206": {
+      "title": "Carbon and Sustainability Accounting",
+      "type": "object",
+      "properties": {
+        "carbon_metric": { "type": "object", "required": ["id", "period"] },
+        "energy_usage": { "type": "object", "required": ["id"] },
+        "co2e_estimate": { "type": "object", "required": ["id"] },
+        "sustainability_policy": { "type": "object", "required": ["id", "name"] }
+      }
+    }
+  }
+}

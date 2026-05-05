@@ -86,6 +86,21 @@ Is our knowledge complete and reliable?
 
 ---
 
+### 906 — Ontology, Vocabulary and Relationship Taxonomy
+
+Defines **the semantic foundation of the traceability graph**:
+
+- 23 canonical relationship types
+- relationship categories (structural, behavioral, causal, validation, ownership, risk, temporal, security, runtime)
+- required edge properties (relation_type, direction, weight, criticality, confidence, provenance)
+- shared AISMM vocabulary and ontology terms
+
+```text
+What do relationships mean semantically?
+```
+
+---
+
 ## Role of Bundle 9
 
 Bundle 9 defines the **quality of knowledge and reasoning in AISMM**:

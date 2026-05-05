@@ -292,6 +292,9 @@ Defines how the system is structured:
 - data and information architecture
 - API and interfaces
 - integrations
+- external systems and ecosystem surface *(v2)*
+- event catalog and event mesh *(v2)*
+- bounded contexts and domain architecture *(v2)*
 
 Purpose:
 
@@ -308,6 +311,8 @@ Defines how the system becomes executable software:
 - technology architecture
 - code and implementation
 - build, deployment and runtime artifacts
+- dependency inventory, SBOM and reproducibility *(v2)*
+- configuration, feature flags and environment variants *(v2)*
 
 Purpose:
 
@@ -325,6 +330,9 @@ Defines what the system must do:
 - domain model and business rules
 - access rights
 - NFR and quality attributes
+- state machines and lifecycles *(v2)*
+- behavioral contracts and invariants *(v2)*
+- error taxonomy and failure behavior *(v2)*
 
 Purpose:
 
@@ -341,6 +349,8 @@ Defines how users interact with the product:
 - user scenarios and UX logic
 - interface structure and navigation
 - screens, forms and UI states
+- design system and UI components *(v2)*
+- accessibility, localization and notifications *(v2)*
 
 Purpose:
 
@@ -358,6 +368,9 @@ Defines how the system lives in production:
 - observability and monitoring
 - incident management and response
 - SLA, SLO and operational governance
+- capacity, scaling and performance engineering *(v2)*
+- disaster recovery, backup and continuity *(v2)*
+- operational readiness and drills *(v2)*
 
 Purpose:
 
@@ -375,6 +388,9 @@ Defines assurance and control:
 - risk management
 - security and privacy
 - compliance and audit
+- threat modeling and attack surface *(v2)*
+- vulnerability management and disclosure *(v2)*
+- privacy rights and DPIA *(v2)*
 
 Purpose:
 
@@ -394,6 +410,9 @@ Defines SDLC and product evolution:
 - release, version and rollout management
 - change history and decision log
 - knowledge retention and history compaction
+- feedback loops and learning cycles *(v2)*
+- CI/CD pipeline and automation *(v2)*
+- migration, backfill and long-running refactors *(v2)*
 
 Purpose:
 
@@ -412,11 +431,71 @@ Defines how knowledge is connected and trusted:
 - source provenance and confidence
 - context coverage and consistency
 - context retrieval and RAG
+- ontology, vocabulary and relationship taxonomy *(v2)*
 
 Purpose:
 
 ```text
 How does the system know what it knows?
+```
+
+---
+
+### b10 — Data and AI Lifecycle *(v2)*
+
+Defines the operational lifecycle of data assets and AI/ML artifacts:
+
+- data products and contracts
+- data lineage and schema evolution
+- feature and embedding lifecycle
+- model registry and versioning
+- training, evaluation and experimentation
+- drift, monitoring and retraining
+- labeling, annotation and ground truth
+- data quality and observability
+
+Purpose:
+
+```text
+How are data and AI models created, governed, and maintained?
+```
+
+---
+
+### b11 — Organization, Ownership and Governance *(v2)*
+
+Defines the human organizational structure behind the product:
+
+- team topology and RACI
+- ownership graph
+- decision rights and governance
+- skills and capability matrix
+- vendors and external responsibilities
+- capacity and allocation
+
+Purpose:
+
+```text
+Who owns, decides, and has capacity to evolve the product?
+```
+
+---
+
+### b12 — FinOps and Technical Economics *(v2)*
+
+Defines the technical cost dimension of the product:
+
+- cost allocation and showback
+- capacity and commitment management
+- token and inference economics
+- cost of quality and incident
+- unit economics by service, tenant and request
+- carbon and sustainability accounting
+
+Purpose:
+
+```text
+What does the product cost to run, and where does that cost go?
 ```
 
 ---
@@ -611,6 +690,53 @@ Trace controls, risks, evidence, audits and privacy requirements.
 ### AI agents
 
 Retrieve structured context, reason over graph relationships and perform safer changes.
+
+---
+
+## AISMM v2 Additions
+
+AISMM v2 evolves the model from a product knowledge store into a **governed, lifecycle-aware, AI-ready meta-model**. Key additions:
+
+- **Three new bundles**: b10 (Data and AI Lifecycle), b11 (Organization, Ownership and Governance), b12 (FinOps and Technical Economics)
+- **Strict Mode**: enforceable validation rules, `aismm.validation.json` CI artifact
+- **Semantic Diff**: model-level PR review with `aismm.semantic_diff.json`
+- **Temporal Validity**: time-aware entities with `valid_from`, `valid_to`, and release-bound validity
+- **Physical Identity Binding**: logical-to-physical traceability linking IDs to code symbols, files, and digests
+- **Feedback Loops**: explicit closed-loop learning from incidents, metrics, audits, and RAG evaluation
+- **Conformance Levels**: L1–L5 staged implementation path
+- **Context Security**: block authorship classes and prompt injection defense for AI agent consumption
+- **AISMM Health Model**: self-observability with `aismm.health.json`
+- **Relationship Taxonomy**: 23 canonical typed relationships in b9.906
+- **Agent Contract References**: clean bridge to external agent contracts without embedding them
+
+See [`CHANGELOG.md`](./CHANGELOG.md) for the full list of changes and migration guidance.
+
+---
+
+## Agent Contract Boundary
+
+AISMM is consumed by AI agents as structured product context. However, **AISMM does not define agent contracts**.
+
+Agent capabilities, result schemas, and execution interfaces live in separate repositories.
+
+AISMM references agent contracts via lightweight reference entities and records the effects of agent operations on the product model.
+
+```text
+AISMM = product/system knowledge
+Agent contracts = how agents work with that knowledge
+```
+
+See [`aismm-agent-contract-references.md`](./aismm-agent-contract-references.md).
+
+---
+
+## Strict Mode, Semantic Diff and Health
+
+AISMM v2 adds governance tooling:
+
+- [`aismm-strict-mode.md`](./aismm-strict-mode.md) — Validation rules and CI enforcement
+- [`aismm-semantic-diff.md`](./aismm-semantic-diff.md) — Model-level PR review
+- [`aismm-health.md`](./aismm-health.md) — Repository health checks and `aismm.health.json`
 
 ---
 
