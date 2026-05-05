@@ -1,0 +1,27 @@
+{
+  "migration_id": "migration.aismm_v1_to_v2.versioning_and_conformance",
+  "from_version": "1.0.0",
+  "to_version": "2.0.0",
+  "change_type": "bundle_added",
+  "affected_layers": [],
+  "description": "Introduced AISMM versioning model, layer lifecycle statuses, migration policy, extension namespace, and five-level conformance framework. Added aismm-versioning-and-conformance.md as a root-level governance document.",
+  "migration_steps": [
+    {
+      "step": 1,
+      "action": "Add `aismm_version: 2.0.0` to the root README or aismm-manifest.yaml of each repository.",
+      "required": false
+    },
+    {
+      "step": 2,
+      "action": "Add a `status` field to each layer specification using one of the canonical lifecycle values.",
+      "required": false
+    },
+    {
+      "step": 3,
+      "action": "Declare a conformance level (L1–L5) in the repository README or aismm-manifest.yaml.",
+      "required": false
+    }
+  ],
+  "backward_compatible": true,
+  "notes": "This migration is fully additive. Existing v1 documents remain valid. New fields are optional at L1 and L2."
+}
