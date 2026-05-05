@@ -938,7 +938,53 @@ The graph enables:
 
 ---
 
-## 27. Relationship to Agent Contracts
+## 27. Versioning and Conformance
+
+AISMM is versioned using **semantic versioning** (`MAJOR.MINOR.PATCH`).
+
+Current version: **AISMM 2.0.0**
+
+### Layer Lifecycle
+
+Every layer specification carries a `status` field:
+
+```text
+draft → proposed → accepted → stable → deprecated → superseded → archived
+```
+
+Withdrawn layers exit the lifecycle at any point before `stable`.
+
+### Conformance Levels
+
+AISMM defines five staged conformance levels. Each level builds on the previous one.
+
+| Level | Name | Key Requirement |
+|-------|------|-----------------|
+| **L1** | Block Format | `aismm_meta` headers present, Markdown-first format |
+| **L2** | Typed Entities | Stable IDs, declared entity types, layer assignment |
+| **L3** | Traceability Graph | Typed cross-layer links, b9 populated, basic traceability |
+| **L4** | RAG-Ready Context | `summary` fields, bounded chunk sizes, retrieval metadata |
+| **L5** | Agent-Grade Governance | Audit trail, agent scopes, source provenance, no orphans |
+
+A repository declares its conformance level in its README or `aismm-manifest.yaml`.
+
+### Extension Namespace
+
+Safe extensions use the prefix:
+
+```text
+x-<organization>.<domain>.<entity>
+```
+
+Example: `x-datsteam.gameton.reward_model`
+
+AISMM tooling must ignore unknown extension fields.
+
+See [`aismm-versioning-and-conformance.md`](./aismm-versioning-and-conformance.md) for the complete specification including migration policy and migration record format.
+
+---
+
+## 28. Relationship to Agent Contracts
 
 AISMM does not define agent contracts directly.
 
@@ -953,7 +999,7 @@ Agent contracts = how agents work with that knowledge
 
 ---
 
-## 28. Core Principle
+## 29. Core Principle
 
 > AISMM is a semantic graph embedded in human-readable and machine-readable project artifacts.
 
@@ -968,7 +1014,7 @@ Knowledge is the result.
 
 ---
 
-## 29. Summary
+## 30. Summary
 
 AISMM provides:
 

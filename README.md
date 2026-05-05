@@ -647,6 +647,26 @@ AISMM is a **meta-model** that connects these systems into a coherent product kn
 
 ---
 
+## Versioning and Conformance
+
+AISMM uses **semantic versioning** (`MAJOR.MINOR.PATCH`).
+
+Current version: **AISMM 2.0.0**
+
+Repositories may declare a **conformance level** to indicate how fully they implement the meta-model:
+
+| Level | Name | Description |
+|-------|------|-------------|
+| L1 | Block Format | AISMM-compatible blocks with metadata headers |
+| L2 | Typed Entities | Explicitly typed and identifiable entities |
+| L3 | Traceability Graph | Cross-layer typed relationships |
+| L4 | RAG-Ready Context | Blocks optimized for retrieval-augmented generation |
+| L5 | Agent-Grade Governance | Full audit trail, agent scoping, and source provenance |
+
+See [`aismm-versioning-and-conformance.md`](./aismm-versioning-and-conformance.md) for the full versioning model, layer lifecycle statuses, migration policy, and extension namespace rules.
+
+---
+
 ## Summary
 
 AISMM defines software as a connected system of:
