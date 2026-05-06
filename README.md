@@ -31,7 +31,7 @@ It is designed to be stored in Git, reviewed like code, used by humans, and proc
 ## AISMM at a glance
 
 <p align="center">
-  <img src="./assets/aismm-diagram.png" alt="AISMM Structure" width="100%">
+  <img src="./assets/aismm-diagram-v2.png" alt="AISMM Structure v2" width="100%">
 </p>
 
 <p align="center">
