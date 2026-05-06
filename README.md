@@ -730,6 +730,65 @@ See [`aismm-agent-contract-references.md`](./aismm-agent-contract-references.md)
 
 ---
 
+## Distributed AISMM and Model Registry
+
+AISMM can be distributed across multiple repositories, restricted sources, and submodules. The **model registry** defines where all model content lives.
+
+```text
+aismm.registry.json
+```
+
+Every AISMM repository should provide this file at its root. Parsers and AI agents must start from the registry when loading a distributed model.
+
+- [`aismm-model-registry.md`](./aismm-model-registry.md) — registry specification, source types, completeness rules, and registry-first parsing pipeline
+- [`examples/aismm.registry.example.json`](./examples/aismm.registry.example.json) — complete registry example for copying into a product repository
+
+**Completeness Status:**
+
+| Status | Meaning |
+|--------|---------|
+| `complete` | All expected sources loaded |
+| `partial` | Some sources unavailable |
+| `partial_authorized` | Restricted sources known but inaccessible |
+| `unknown` | No registry, completeness unverified |
+| `invalid` | Required source missing |
+
+---
+
+## Product and Model Instance Identity
+
+Every AISMM block carries two stable UUID fields:
+
+```yaml
+product_id: 1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb
+model_instance_id: 5f7f6f89-8db2-4a5c-9a67-1c59d29fd001
+```
+
+- `product_id` — stable UUID for the product; survives renames and repository moves
+- `model_instance_id` — UUID for the specific AISMM model instance (main, experimental, restricted submodel)
+
+These fields prevent blocks from different products being accidentally merged. Cross-product references use qualified IDs:
+
+```text
+product:1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb/b4.401.requirement.user_login
+```
+
+---
+
+## Empty Layers vs Missing Layers
+
+```text
+missing layer = no file, not declared empty — unknown whether it exists
+empty layer   = file exists with completion_status: empty — expected but not yet populated
+```
+
+Every expected layer must be represented by either real content or an explicit empty layer block. Empty layers make incompleteness **visible and intentional**.
+
+- [`aismm-empty-layer-standard.md`](./aismm-empty-layer-standard.md) — empty layer block format, completion status values, and rules
+- [`examples/empty-layer.example.md`](./examples/empty-layer.example.md) — copy-paste empty layer template
+
+---
+
 ## Consistency and Source of Truth
 
 AISMM v2 defines explicit source-of-truth rules across all bundles:

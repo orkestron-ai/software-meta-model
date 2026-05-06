@@ -43,6 +43,29 @@ See also:
 |-------|-------------|----------|
 | `check_layer_in_readme` | Every layer file must appear in the bundle README | warning |
 | `check_layer_in_schema` | Every layer file must be represented in the bundle schema | warning |
+
+### 3. Registry and Completeness Checks
+
+| Check | Description | Severity |
+|-------|-------------|----------|
+| `check_registry_exists` | If distributed model, `aismm.registry.json` should exist | warning |
+| `check_registry_product_id` | Registry `product_id` must be a valid UUID | error |
+| `check_registry_model_instance_id` | Registry `model_instance_id` must be a valid UUID | error |
+| `check_registry_completeness_status` | Registry must declare `completeness_status` | warning |
+| `check_source_availability` | Every declared required source must be available or declared restricted | error |
+| `check_expected_layers_covered` | Every expected layer must have a real block or an empty layer block | error |
+| `check_empty_layer_format` | Empty layer blocks must include `completion_status` and `known_gaps` | warning |
+
+### 4. Product Identity Checks
+
+| Check | Description | Severity |
+|-------|-------------|----------|
+| `check_block_product_id` | Every AISMM block must declare `product_id` | error |
+| `check_block_model_instance_id` | Every AISMM block must declare `model_instance_id` | error |
+| `check_product_id_format` | `product_id` must be a valid UUID | error |
+| `check_model_instance_id_format` | `model_instance_id` must be a valid UUID | error |
+| `check_cross_product_merge` | Blocks with different `product_id` must not be merged without explicit registry mapping | critical |
+
 | `check_schema_layer_has_file` | Every schema layer property must have a corresponding layer file | error |
 | `check_layer_metadata_block` | Every layer file must contain a valid `<!-- AISMM:BEGIN -->` metadata block | error |
 | `check_layer_id_in_metadata` | The `layer_id` in the metadata block must match the filename prefix | error |
@@ -116,7 +139,44 @@ def check_4digit_layer_ids(root):
                         f"should be 4 digits. Expected e.g. '1{layer_file.layer_id}'"
                     )
 
-def check_global_id_uniqueness(root):
+def check_registry_and_completeness(root):
+    registry_path = root / "aismm.registry.json"
+    if not exists(registry_path):
+        report_warning("No aismm.registry.json found — completeness_status is unknown")
+        return
+    registry = load_json(registry_path)
+    if not is_valid_uuid(registry["product_id"]):
+        report_error("registry.product_id is not a valid UUID")
+    if not is_valid_uuid(registry["model_instance_id"]):
+        report_error("registry.model_instance_id is not a valid UUID")
+    for source in registry["sources"]:
+        if source["status"] == "missing":
+            report_error(f"Required source {source['id']} is missing")
+
+def check_expected_layers_covered(root, registry):
+    empty_declared = set(registry.get("declared_empty_layers", []))
+    for layer in registry.get("expected_layers", []):
+        has_real_block = any_real_block_for_layer(root, layer)
+        has_empty_block = layer in empty_declared or has_empty_layer_file(root, layer)
+        if not has_real_block and not has_empty_block:
+            report_error(f"Expected layer {layer} is missing — no real block and not declared empty")
+        elif not has_real_block and has_empty_block:
+            report_warning(f"Expected layer {layer} exists as empty — not yet populated")
+
+def check_product_identity(root):
+    for block in scan_all_blocks(root):
+        if not block.has_field("product_id"):
+            report_error(f"Block {block.id} missing product_id in {block.file}")
+        elif not is_valid_uuid(block.product_id):
+            report_error(f"Block {block.id} product_id is not a valid UUID")
+        if not block.has_field("model_instance_id"):
+            report_error(f"Block {block.id} missing model_instance_id in {block.file}")
+    # check for cross-product merge violations
+    product_ids = {b.product_id for b in scan_all_blocks(root) if b.has_field("product_id")}
+    if len(product_ids) > 1:
+        report_critical(f"Multiple product_ids found in repository: {product_ids}. Cross-product merge without registry mapping.")
+
+
     seen_ids = {}
     for entity in scan_all_entities(root):
         if entity.id in seen_ids:

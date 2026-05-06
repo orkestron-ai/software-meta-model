@@ -104,6 +104,9 @@ A block may describe:
 ```text
 <!-- AISMM:BEGIN -->
 type: <block_type>
+model_instance_id: <uuid>
+product_id: <uuid>
+product_key: <optional_string>
 layer_id: <3-digit for b0–b9, 4-digit for b10+>
 layer_key: <string>
 document_id: <unique_id>
@@ -111,6 +114,7 @@ document_type: <type>
 module_scope: <scope>
 status: <status>
 spec_version: <version>
+completion_status: <not_started|empty|partial|complete|not_applicable|deferred>
 title: <optional>
 references:
   - <refs>
@@ -123,6 +127,12 @@ references:
 <!-- AISMM:END -->
 ```
 
+**New in AISMM v2:**
+
+- `model_instance_id` — UUID identifying the specific AISMM model instance. Prevents accidental merging of blocks from different model instances.
+- `product_id` — UUID identifying the product. Stable across renames, repo moves, and reorganizations.
+- `completion_status` — Lifecycle status of this layer's population (`not_started`, `empty`, `partial`, `complete`, `not_applicable`, `deferred`).
+
 ---
 
 ### 2.3 Metadata Format
@@ -131,17 +141,21 @@ The metadata section SHOULD be YAML-compatible.
 
 It must be easy to parse without interpreting the human-readable body.
 
-Recommended metadata properties:
+Recommended metadata properties (AISMM v2 canonical form):
 
 ```yaml
 type: layer_specification
+model_instance_id: 5f7f6f89-8db2-4a5c-9a67-1c59d29fd001
+product_id: 1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb
+product_key: payment_platform
 layer_id: "401"
 layer_key: requirements
 document_id: spec.requirements
 document_type: layer_specification
 module_scope: root
 status: stable
-spec_version: 1.0.0
+spec_version: 2.0.0
+completion_status: partial
 title: Requirements Layer Specification
 references:
   - b4.401.requirement.user_login
@@ -154,6 +168,8 @@ references:
 | Field | Description |
 |---|---|
 | `type` | Block type |
+| `model_instance_id` | UUID of the AISMM model instance — prevents accidental cross-model merging |
+| `product_id` | UUID of the product — stable across renames and repo moves |
 | `layer_id` | Layer identifier: 3-digit for b0–b9 (e.g. `401`), 4-digit for b10+ (e.g. `1004`) |
 | `layer_key` | Stable layer key |
 | `document_id` | Globally unique document/block identifier |
@@ -1048,6 +1064,75 @@ Example: `x-datsteam.gameton.reward_model`
 AISMM tooling must ignore unknown extension fields.
 
 See [`aismm-versioning-and-conformance.md`](./aismm-versioning-and-conformance.md) for the complete specification including migration policy and migration record format.
+
+---
+
+## 27. Model Registry and Distributed Sources
+
+AISMM may be distributed across multiple repositories, modules, and restricted sources.
+
+The **model registry** (`aismm.registry.json`) is the entry point for discovering all AISMM sources for a given model instance.
+
+### Registry-First Parsing
+
+When loading a distributed AISMM model, parsers must follow this pipeline:
+
+```text
+1.  Locate aismm.registry.json
+2.  Load model_instance_id and product_id
+3.  Resolve all declared sources
+4.  Authenticate to restricted sources if possible
+5.  Fetch local and remote repositories
+6.  Decrypt encrypted sources if authorized
+7.  Scan all declared source paths for AISMM blocks
+8.  Validate product_id / model_instance_id consistency across blocks
+9.  Validate expected layers (real blocks OR empty layer blocks)
+10. Build traceability graph, indexes, and retrieval units
+11. Report completeness status
+```
+
+If no registry exists, `completeness_status` is `unknown`.
+
+See [`aismm-model-registry.md`](./aismm-model-registry.md) for the full specification.
+
+---
+
+## 27a. Product and Model Instance Identity
+
+Every AISMM block carries two stable identity fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `product_id` | UUID | Identifies the product. Stable across renames and repository moves. |
+| `model_instance_id` | UUID | Identifies the specific AISMM model instance (e.g. main, experimental, forked, restricted sub-model). |
+
+**Rules:**
+
+- Blocks with different `product_id` must not be merged into one model unless explicitly mapped.
+- Blocks with different `model_instance_id` must not be merged unless the registry allows it.
+- Global IDs are resolved within `product_id + model_instance_id` context.
+
+For cross-product references, use qualified IDs:
+
+```text
+product:<product_id>/b4.401.requirement.user_login
+model:<model_instance_id>/b4.401.requirement.user_login
+```
+
+---
+
+## 27b. Empty Layers vs Missing Layers
+
+```text
+missing layer = no layer file and not declared empty — unknown whether it exists
+empty layer   = layer file exists with completion_status: empty — intentionally not populated
+```
+
+Every expected layer declared in `aismm.registry.json` must have either:
+1. At least one real AISMM block, or
+2. An explicit empty layer block with `completion_status: empty`
+
+See [`aismm-empty-layer-standard.md`](./aismm-empty-layer-standard.md) for the empty layer block format and rules.
 
 ---
 

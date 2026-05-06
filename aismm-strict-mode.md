@@ -46,6 +46,37 @@ validation_level: advisory | recommended | strict
 | `RULE-ID-002` | Every entity ID must conform to the AISMM ID strategy format: `b{N}.{layer_id}.{entity_type}.{slug}` where `layer_id` is 3+ digits (`^[0-9]{3,}$`). For bundles b10+, layer IDs are 4 digits (e.g. `1001`, `1104`, `1206`) and must not be truncated or parsed as 3-digit IDs. | error |
 | `RULE-ID-003` | No entity may reference a non-existent ID. | critical |
 
+### Product and Model Instance Identity Rules
+
+| Rule ID | Rule | Severity |
+|---------|------|----------|
+| `RULE-PID-001` | Every AISMM block must declare `product_id`. | error |
+| `RULE-PID-002` | Every AISMM block must declare `model_instance_id`. | error |
+| `RULE-PID-003` | `product_id` must be a valid UUID. | error |
+| `RULE-PID-004` | `model_instance_id` must be a valid UUID. | error |
+| `RULE-PID-005` | Blocks with different `product_id` must not be merged into one model unless explicitly mapped by the registry. | critical |
+| `RULE-PID-006` | Blocks with different `model_instance_id` must not be merged unless the registry declares the merge allowed. | critical |
+
+### Registry and Completeness Rules
+
+| Rule ID | Rule | Severity |
+|---------|------|----------|
+| `RULE-REG-001` | If `aismm.registry.json` exists, it must be used as the model discovery root. | critical |
+| `RULE-REG-002` | If no registry exists, `completeness_status` must be reported as `unknown`. | warning |
+| `RULE-REG-003` | If an expected required source is unavailable, `completeness_status` must be `partial` or `invalid`. | error |
+| `RULE-REG-004` | AI context packages must include `model_completeness_status`. | warning |
+| `RULE-REG-005` | A parser must report which bundles/layers were loaded and which were unavailable. | warning |
+
+### Empty and Missing Layer Rules
+
+| Rule ID | Rule | Severity |
+|---------|------|----------|
+| `RULE-LAYER-001` | A required layer with no real block and no empty layer block declared in registry is **missing** → validation error. | error |
+| `RULE-LAYER-002` | A required layer with a valid empty layer block is **empty** → validation warning only. | warning |
+| `RULE-LAYER-003` | A layer with `completion_status: not_applicable` must include a rationale field. | warning |
+| `RULE-LAYER-004` | A layer with `completion_status: partial` must include `known_gaps`. | warning |
+| `RULE-LAYER-005` | A layer with `completion_status: complete` must satisfy its layer completeness criteria. | warning |
+
 ### Cross-Layer Reference Rules
 
 | Rule ID | Rule | Severity |
@@ -104,8 +135,15 @@ This file should not be committed to the repository but may be published as a CI
 {
   "validation_run_id": "validation.2026_05_05.main",
   "aismm_version": "2.0.0",
+  "model_instance_id": "5f7f6f89-8db2-4a5c-9a67-1c59d29fd001",
+  "product_id": "1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb",
   "validation_level": "strict",
   "status": "failed",
+  "model_completeness_status": "partial",
+  "loaded_sources": ["source.primary", "source.infra"],
+  "missing_sources": [],
+  "restricted_sources": ["source.security"],
+  "declared_empty_layers": ["b10", "b11", "b12"],
   "summary": {
     "total_checks": 142,
     "passed": 138,

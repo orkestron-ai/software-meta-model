@@ -7,6 +7,48 @@ AISMM uses [Semantic Versioning](./aismm-versioning-and-conformance.md).
 
 ---
 
+## AISMM 2.0.2 — Model Registry, Empty Layer Standard and Product Identity
+
+### Added
+
+- `aismm-model-registry.md` — full model registry specification: source discovery, source types (8), source status values (8), completeness status values (5), 14-step registry-first parsing pipeline, distributed multi-repo example, validation artifact extension
+- `aismm-empty-layer-standard.md` — empty layer block standard: completion status values (6 canonical), required metadata fields including `model_instance_id` and `product_id`, canonical empty layer block format, missing vs empty distinction, strict mode integration
+- `examples/aismm.registry.example.json` — complete registry example with b0–b12 bundle coverage, restricted source, module source, empty declared layers, and completeness status
+- `examples/empty-layer.example.md` — copy-paste empty layer template with `completion_status: empty`, product/model identity fields, known gaps, and expected structure
+
+### Changed
+
+**aismm-structure.md:**
+- Section 2.2 canonical block form now includes `model_instance_id`, `product_id`, `product_key`, `completion_status`
+- Section 2.3 metadata example updated to v2 canonical form
+- Section 3 field table updated with new required fields
+- New sections 27, 27a, 27b: Model Registry, Product Identity, Empty vs Missing Layers
+- Sections renumbered accordingly
+
+**aismm-unified-id-strategy.md:**
+- New section 17: Product and Model Instance Identity — product-local IDs, cross-product qualified references, required block fields, validation rules
+- Section 16 renamed to 18 Summary
+
+**aismm-strict-mode.md:**
+- New rule group: Product and Model Instance Identity Rules (RULE-PID-001 to RULE-PID-006)
+- New rule group: Registry and Completeness Rules (RULE-REG-001 to RULE-REG-005)
+- New rule group: Empty and Missing Layer Rules (RULE-LAYER-001 to RULE-LAYER-005)
+- Validation artifact example extended with `model_instance_id`, `product_id`, `model_completeness_status`, `loaded_sources`, `missing_sources`, `restricted_sources`, `declared_empty_layers`
+
+**aismm-consistency-checks.md:**
+- New check category 3: Registry and Completeness Checks
+- New check category 4: Product Identity Checks
+- New pseudo-code: `check_registry_and_completeness()`, `check_expected_layers_covered()`, `check_product_identity()`
+
+**README.md:**
+- New sections: Distributed AISMM and Model Registry, Product and Model Instance Identity, Empty Layers vs Missing Layers
+
+### Compatibility
+
+Fully additive. All existing v2.0.0 and v2.0.1 documents remain valid. New fields (`product_id`, `model_instance_id`, `completion_status`) are additive — existing blocks without them produce a validation warning, not an error, until the team migrates.
+
+---
+
 ## AISMM 2.0.1 — Consistency and Governance Fixes
 
 ### Added

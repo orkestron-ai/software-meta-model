@@ -1,0 +1,92 @@
+{
+  "_comment": "AISMM Model Registry — Example file. Copy, update UUIDs, and place at repository root as aismm.registry.json",
+
+  "model_instance_id": "5f7f6f89-8db2-4a5c-9a67-1c59d29fd001",
+  "product_id": "1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb",
+  "product_key": "payment_platform",
+  "product_name": "Payment Platform",
+  "organization_id": "org:acme-corp",
+
+  "aismm_version": "2.0.0",
+  "registry_version": "1.0.0",
+
+  "primary_repository": "https://github.com/acme-corp/payment-platform-aismm",
+  "completeness_status": "partial_authorized",
+  "last_verified_at": "2026-05-05T08:00:00Z",
+
+  "sources": [
+    {
+      "source_id": "src.main_repo",
+      "source_type": "local_path",
+      "path": ".",
+      "status": "available",
+      "required": true,
+      "bundles": ["b0", "b1", "b2", "b3", "b4", "b5", "b6", "b8", "b9", "b10", "b11", "b12"],
+      "description": "Primary AISMM model repository"
+    },
+    {
+      "source_id": "src.security_restricted",
+      "source_type": "restricted_repository",
+      "url": "https://github.com/acme-corp/payment-platform-security-aismm",
+      "status": "restricted",
+      "required": false,
+      "bundles": ["b7"],
+      "layers": ["703", "704", "705", "706", "707"],
+      "access_note": "Requires security team credentials. Contact security@acme-corp.com",
+      "description": "Restricted security and compliance layers"
+    },
+    {
+      "source_id": "src.fraud_module",
+      "source_type": "module_repository",
+      "url": "https://github.com/acme-corp/fraud-detection-module-aismm",
+      "status": "available",
+      "required": false,
+      "bundles": ["b10"],
+      "layers": ["1003", "1004", "1005", "1006"],
+      "description": "Fraud detection ML model lifecycle — submodule AISMM"
+    },
+    {
+      "source_id": "src.legacy_import",
+      "source_type": "git_repository",
+      "url": "https://github.com/acme-corp/legacy-checkout-aismm",
+      "status": "deprecated",
+      "required": false,
+      "bundles": ["b2", "b4"],
+      "description": "Legacy checkout system — deprecated, kept for migration traceability"
+    }
+  ],
+
+  "expected_bundles": [
+    "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11", "b12"
+  ],
+
+  "expected_layers": [
+    "001", "002", "003", "004", "005", "006",
+    "101", "102", "103",
+    "201", "202", "203", "204", "205", "206", "207",
+    "301", "302", "303", "304", "305",
+    "401", "402", "403", "404", "405", "406", "407",
+    "501", "502", "503", "504", "505",
+    "601", "602", "603", "604", "605", "606", "607",
+    "701", "702", "703", "704", "705", "706", "707",
+    "801", "802", "803", "804", "805", "806", "807", "808", "809",
+    "901", "902", "903", "904", "905", "906",
+    "1001", "1002", "1003", "1004", "1005", "1006", "1007", "1008",
+    "1101", "1102", "1103", "1104", "1105", "1106",
+    "1201", "1202", "1203", "1204", "1205", "1206"
+  ],
+
+  "declared_empty_layers": [
+    "1005",
+    "1006",
+    "1007",
+    "1206"
+  ],
+
+  "optional_sources": ["src.fraud_module", "src.legacy_import"],
+  "restricted_sources": ["src.security_restricted"],
+
+  "notes": "Security layers (b7.703-707) are in a restricted repository. Fraud detection ML layers (b10.1005-1007) are in a separate module. Layers 1005, 1006, 1007, 1206 are declared empty — not yet modeled.",
+
+  "schema_ref": "https://github.com/orkestron-ai/software-meta-model/blob/main/aismm-model-registry.md"
+}
