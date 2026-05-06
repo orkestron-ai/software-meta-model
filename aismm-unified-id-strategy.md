@@ -430,13 +430,70 @@ A valid AISMM repository SHOULD enforce:
 
 ---
 
-## 16. Summary
+## 17. Product and Model Instance Identity
+
+### Product-Local IDs
+
+Global AISMM IDs are **product-local by default**. The same ID pattern may exist in multiple products:
+
+```text
+b4.401.requirement.user_login   (in product A)
+b4.401.requirement.user_login   (in product B — different entity)
+```
+
+IDs are resolved within the context of `product_id + model_instance_id` declared in the block metadata and in `aismm.registry.json`.
+
+### Cross-Product References
+
+When referencing an entity from a different product or model instance, use the qualified reference format:
+
+```text
+product:<product_id>/b4.401.requirement.user_login
+model:<model_instance_id>/b4.401.requirement.user_login
+repo:<repo_id>/b4.401.requirement.user_login
+```
+
+Examples:
+
+```text
+b4.401.requirement.user_login
+product:1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb/b4.401.requirement.user_login
+model:5f7f6f89-8db2-4a5c-9a67-1c59d29fd001/b4.401.requirement.user_login
+```
+
+### Required Block Fields for Identity
+
+Every AISMM block must declare:
+
+```yaml
+model_instance_id: 5f7f6f89-8db2-4a5c-9a67-1c59d29fd001
+product_id: 1c936e9b-c9d8-4871-8d56-0b7e0b8b61fb
+```
+
+These fields anchor the block to a specific product context and prevent cross-product ID collisions.
+
+### Validation Rules for Product Identity
+
+Strict mode must validate:
+
+- every AISMM block has `model_instance_id`
+- every AISMM block has `product_id`
+- `product_id` is a valid UUID format
+- `model_instance_id` is a valid UUID format
+- blocks with different `product_id` must not be merged into one model unless the registry explicitly maps the sources
+- blocks with different `model_instance_id` must not be merged unless the registry allows it
+
+---
+
+## 18. Summary
 
 The unified ID strategy makes AISMM a stable, traceable, machine-readable model.
 
 ```text
 Files organize knowledge.
 IDs define identity.
+product_id anchors blocks to a product.
+model_instance_id anchors blocks to a model instance.
 Trace links define reasoning.
 ```
 
