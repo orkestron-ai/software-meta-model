@@ -529,7 +529,27 @@ Every product AISMM repository MUST contain a `00-meta` folder with two local re
 - `00-meta/software-meta-model-main` — the canon and source of truth for bundle/layer composition and the questions each layer must answer
 - `00-meta/software-meta-model-template-main` — a one-to-one structural mirror of the canon that contains formatting examples instead of canonical questions
 
-The product-specific AISMM content MUST live under `aismm/`.
+As of **v3**, a product repository ALSO contains a top-level **`00-policies/`** folder — the **product operating model**: the product's own normative content (`kind_class: normative`) such as ways of working, gating policies, methodologies, standards adopted from a shared baseline, and extraction recipes referenced by `b9.907`. It is a sibling of `00-meta/` and `aismm/`.
+
+> `00-meta/` = how the **model** works (the meta-model canon). `00-policies/` = how the **product/team** works (normative rules/methods/policies). `aismm/` = the **data** (descriptive + projection records). See [`aismm-content-classification.md`](./aismm-content-classification.md).
+
+The product-specific AISMM content (facts/records) MUST live under `aismm/`.
+
+A product repository therefore has three top-level surfaces:
+
+```text
+repo/
+  00-meta/                              # meta-model canon + template (how the model works)
+    software-meta-model-main/
+    software-meta-model-template-main/
+  00-policies/                          # product operating model — normative (v3): rules, methods, policies, recipes
+    README.md
+    ways-of-working/ delivery/ methods/ ingestion/ ...
+  aismm.registry.json
+  aismm/                               # product data — descriptive + projection records
+    b0-product-core/
+    ...
+```
 
 Inside `aismm/`:
 
