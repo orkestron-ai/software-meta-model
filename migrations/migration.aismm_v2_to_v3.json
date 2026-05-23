@@ -1,0 +1,86 @@
+{
+  "migration_id": "migration.aismm_v2_to_v3",
+  "from_version": "2.0.0",
+  "to_version": "3.0.0",
+  "change_type": "major",
+  "drivers": [
+    "field experience filling the DatsTech.TV product model",
+    "six analyst conclusions about rules-vs-data, retrospective, standards, domain knowledge, agent ingestion, owner validation"
+  ],
+  "affected_layers": ["b0.007", "b1.104", "b8.810", "b9.907", "b9.906"],
+  "new_surfaces": ["00-policies", "00-meta/software-meta-model-standards-main"],
+  "new_metadata_fields": [
+    "kind_class",
+    "derivation",
+    "validation_status",
+    "validated_by",
+    "validated_at",
+    "validation_scope",
+    "revalidate_by",
+    "owner_of_source",
+    "owner_of_record",
+    "inherits_from",
+    "override",
+    "scope"
+  ],
+  "description": "Adds content classification (kind_class), a product-level normative home (00-policies) and a shared standards baseline with inheritance, four new layers (subject domains, outcome validation, process retrospectives, ingestion bindings), the Outcome/Retrospective feedback loop, and a mandatory source-owner validation gate for derived records.",
+  "migration_steps": [
+    {
+      "step": 1,
+      "action": "Add `kind_class` to layer specs and record templates. Default by record kind: policy/rule/proc/standard/method/recipe -> normative; trace/link/edge/index/coverage -> projection; everything else -> descriptive.",
+      "required": true
+    },
+    {
+      "step": 2,
+      "action": "Create `00-policies/` at product-repo root (sibling of 00-meta and aismm). Move cross-cutting product policies/methods/recipes out of aismm/ data layers into it.",
+      "required": true
+    },
+    {
+      "step": 3,
+      "action": "Tag remaining domain-local normative records with `kind_class: normative` and group them under a `_normative/` subdirectory inside their layer directory.",
+      "required": false
+    },
+    {
+      "step": 4,
+      "action": "Create the four new layer directories under aismm/: b0/007, b1/104, b8/810, b9/907. Use empty-layer blocks where not yet populated.",
+      "required": true
+    },
+    {
+      "step": 5,
+      "action": "Add a `derivation` block and `validation_status: unvalidated` to all agent-produced (derived) records. Route validation to owner_of_source via b9.907 bindings + b11.1102.",
+      "required": true
+    },
+    {
+      "step": 6,
+      "action": "Create ingestion bindings in b9.907 for every agent-populated layer, referencing versioned recipes stored in 00-policies.",
+      "required": false
+    },
+    {
+      "step": 7,
+      "action": "Adopt shared baselines via `inherits_from: standard:<id>@<version>` in 00-policies; record only deviations as `override` with reasons.",
+      "required": false
+    },
+    {
+      "step": 8,
+      "action": "Extend b9.906 relationship taxonomy with: automates, realizes_domain, registered_as, evaluates, assesses_outcome_of, derived_from, ingested_from, attested_by, validates, disputes, inherits_from.",
+      "required": true
+    },
+    {
+      "step": 9,
+      "action": "Update strict mode and context-security: deny unvalidated/disputed/expired derived records from authoritative context packages and from status=stable.",
+      "required": true
+    }
+  ],
+  "backward_compatible": false,
+  "breaking_changes": [
+    "kind_class becomes an expected field (strict mode may require it)",
+    "derived records cannot reach status=stable or enter authoritative context without owner validation",
+    "cross-cutting normative content must relocate to 00-policies"
+  ],
+  "open_decisions": [
+    "Normative home placement: central-only (00-policies) vs hybrid (central + tagged domain-local). v3 recommends hybrid.",
+    "Standards placement: landscape/AIPLMM-level shared repo (recommended) vs local software-meta-model-standards-main mirror.",
+    "Owner-validation gate strength: hard gate at L5 (recommended) vs advisory below L5."
+  ],
+  "notes": "Not fully additive. L1/L2 repositories can defer kind_class and the validation gate; L4/L5 repositories must adopt them. The four new layers are additive and may be declared empty until populated."
+}

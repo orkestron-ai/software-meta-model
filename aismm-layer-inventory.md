@@ -4,24 +4,30 @@
 aismm_meta:
   document_type: inventory
   document_id: aismm.layer-inventory
-  spec_version: 2.0.0
+  spec_version: 3.0.0
   status: accepted
-  generated: "2025-01-01"
+  generated: "2026-05-23"
 ```
 
-This document lists every layer file across all AISMM bundles and their README/schema coverage.
-It is used to verify consistency and detect orphan or undocumented layers.
+This document lists every canonical layer specification file across all AISMM bundles and their README/schema coverage.
+It is used to verify consistency inside the canon and detect orphan or undocumented canonical layer specifications.
+
+Product repositories mirror this layer set as layer directories under `aismm/`; they are not required to store product facts as one file per layer.
+
+In addition to the bundle layers below, v3 introduces a product-level normative surface `00-policies/` (the product operating model) and a shared baseline tree `00-meta/software-meta-model-standards-main/`. These are not bundle layers; see `aismm-content-classification.md` and `aismm-standards-and-inheritance.md`.
 
 **Total bundles:** 13  
-**Total layers:** 82  
-**Fully consistent:** 82  
+**Total layers:** 86  
+**Fully consistent:** 86  
 **Issues:** 0
+
+**v3 layer additions:** `b0.007`, `b1.104`, `b8.810`, `b9.907`
 
 ---
 
 ## Layer Inventory
 
-| Bundle | Layer ID | Layer Key | Filename | README | Schema | Status |
+| Bundle | Layer ID | Layer Key | Canon Spec File | README | Schema | Status |
 |--------|----------|-----------|----------|--------|--------|--------|
 | b0 | `001` | `product_definition_context` | `001-product-definition-context.md` | true | true | ✅ ok |
 | b0 | `002` | `aeilus_value_streams` | `002-aeilus-value-streams.md` | true | true | ✅ ok |
@@ -29,9 +35,11 @@ It is used to verify consistency and detect orphan or undocumented layers.
 | b0 | `004` | `business_architecture` | `004-business-architecture.md` | true | true | ✅ ok |
 | b0 | `005` | `critical_path` | `005-critical-path.md` | true | true | ✅ ok |
 | b0 | `006` | `economics_model` | `006-economics-model.md` | true | true | ✅ ok |
+| b0 | `007` | `subject_domains_and_domain_knowledge` | `007-subject-domains-and-domain-knowledge.md` | true | true | ✅ ok *(v3)* |
 | b1 | `101` | `business_hypotheses` | `101-business-hypotheses.md` | true | true | ✅ ok |
 | b1 | `102` | `strategy_and_product_management` | `102-strategy-and-product-management.md` | true | true | ✅ ok |
 | b1 | `103` | `processes` | `103-processes.md` | true | true | ✅ ok |
+| b1 | `104` | `outcomes_and_hypothesis_validation` | `104-outcomes-and-hypothesis-validation.md` | true | true | ✅ ok *(v3)* |
 | b2 | `201` | `applications_and_system_architecture` | `201-applications-and-system-architecture.md` | true | true | ✅ ok |
 | b2 | `202` | `data_and_information_architecture` | `202-data-and-information-architecture.md` | true | true | ✅ ok |
 | b2 | `203` | `api_and_interfaces` | `203-api-and-interfaces.md` | true | true | ✅ ok |
@@ -79,12 +87,14 @@ It is used to verify consistency and detect orphan or undocumented layers.
 | b8 | `807` | `feedback_loops_and_learning_cycles` | `807-feedback-loops-and-learning-cycles.md` | true | true | ✅ ok |
 | b8 | `808` | `ci_cd_pipeline_and_automation` | `808-ci-cd-pipeline-and-automation.md` | true | true | ✅ ok |
 | b8 | `809` | `migration_backfill_and_long_running_refactors` | `809-migration-backfill-and-long-running-refactors.md` | true | true | ✅ ok |
+| b8 | `810` | `retrospectives_and_process_effectiveness` | `810-retrospectives-and-process-effectiveness.md` | true | true | ✅ ok *(v3)* |
 | b9 | `901` | `knowledge_index_and_navigation` | `901-knowledge-index-and-navigation.md` | true | true | ✅ ok |
 | b9 | `902` | `traceability_graph` | `902-traceability-graph.md` | true | true | ✅ ok |
 | b9 | `903` | `source_provenance_and_confidence` | `903-source-provenance-and-confidence.md` | true | true | ✅ ok |
 | b9 | `904` | `context_coverage_and_consistency` | `904-context-coverage-and-consistency.md` | true | true | ✅ ok |
 | b9 | `905` | `context_retrieval_and_rag` | `905-context-retrieval-and-rag.md` | true | true | ✅ ok |
 | b9 | `906` | `ontology_vocabulary_and_relationship_taxonomy` | `906-ontology-vocabulary-and-relationship-taxonomy.md` | true | true | ✅ ok |
+| b9 | `907` | `ingestion_bindings_and_extraction_recipes` | `907-ingestion-bindings-and-extraction-recipes.md` | true | true | ✅ ok *(v3)* |
 | b10 | `1001` | `data_products_and_contracts` | `1001-data-products-and-contracts.md` | true | true | ✅ ok |
 | b10 | `1002` | `data_lineage_and_schema_evolution` | `1002-data-lineage-and-schema-evolution.md` | true | true | ✅ ok |
 | b10 | `1003` | `feature_and_embedding_lifecycle` | `1003-feature-and-embedding-lifecycle.md` | true | true | ✅ ok |
@@ -112,10 +122,10 @@ It is used to verify consistency and detect orphan or undocumented layers.
 
 | Status | Meaning |
 |--------|---------|
-| `ok` | Layer file, README, and schema entry all present |
-| `no_schema` | Layer file and README present but not yet in schema |
-| `no_readme` | Layer file and schema present but bundle README missing |
-| `no_readme_no_schema` | Layer file exists with no README or schema entry |
+| `ok` | Canonical layer spec file, README, and schema entry all present |
+| `no_schema` | Canonical layer spec file and README present but not yet in schema |
+| `no_readme` | Canonical layer spec file and schema present but bundle README missing |
+| `no_readme_no_schema` | Canonical layer spec file exists with no README or schema entry |
 
 ---
 

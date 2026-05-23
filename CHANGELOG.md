@@ -7,6 +7,41 @@ AISMM uses [Semantic Versioning](./aismm-versioning-and-conformance.md).
 
 ---
 
+## AISMM 3.0.0 — Content Classification, Outcomes, Domain Knowledge, Governed Ingestion and Owner Validation
+
+MAJOR release. Driven by product-model field experience (DatsTech.TV) and six analyst conclusions.
+
+### Added
+
+- `aismm-content-classification.md` — `kind_class` (normative/descriptive/projection) and the `00-policies` product operating model (rules-vs-data split)
+- `aismm-standards-and-inheritance.md` — shared standards baseline + `inherits_from`/`override` inheritance contract; new tree `software-meta-model-standards-main/`
+- `aismm-ingestion-and-source-binding.md` — governed ingestion pipeline (owning system → MCP connector → versioned recipe → run provenance)
+- `aismm-owner-validation-and-attestation.md` — mandatory, source-owner-keyed validation gate for derived records; `derivation` block; `validation_status` lifecycle
+- `b0-product-core/007-subject-domains-and-domain-knowledge.md` — problem-space domain knowledge layer
+- `b1-business-dynamics/104-outcomes-and-hypothesis-validation.md` — value/outcome verdict layer
+- `b8-change-execution/810-retrospectives-and-process-effectiveness.md` — process-effectiveness retrospective layer
+- `b9-knowledge-traceability/907-ingestion-bindings-and-extraction-recipes.md` — ingestion binding layer
+- `migrations/migration.aismm_v2_to_v3.json` — migration map
+
+### Changed
+
+- `aismm-feedback-loops.md` — added loop 7 (Outcome/Retrospective), split into value branch (7a) and process branch (7b)
+- `aismm-layer-inventory.md` — 82 → 86 layers; added the four v3 layers; documented `00-policies` and the standards tree
+- `aismm-layer-artifact-naming.md` — new record kinds (`outcome`, `retro`, `binding`, `ingest`, `recipe`, `method`, `standard`, `validation`, `attestation`); layer mappings for 007/104/810/907
+- `aismm-consistency-rules.md` — source-of-truth rows for new layers + `00-policies`; problem-vs-solution, outcome-vs-process, normative-vs-descriptive boundary notes
+- `aismm-versioning-and-conformance.md` — version 3.0.0; MAJOR rationale
+- `README.md` — v3 additions section; new layers in bundle lists; version bump
+- `b9.906` (ontology) — relationship taxonomy to be extended with v3 typed relationships *(spec note in change spec; apply to file)*
+
+### Migration notes
+
+- `kind_class` becomes expected on records (defaulted by record kind during migration).
+- Cross-cutting product policies move from `aismm/` data layers into `00-policies`.
+- Derived records gain a `derivation` block and an owner-validation gate before reaching `stable`.
+- Owner-validation gate is part of conformance L5; ingestion bindings part of L4/L5.
+
+---
+
 ## AISMM 2.0.2 — Model Registry, Empty Layer Standard and Product Identity
 
 ### Added
