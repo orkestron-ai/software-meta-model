@@ -2,33 +2,33 @@
 
 ## Overview
 
-AISMM (AI-driven Software Meta-Model) is a **block-based, layer-aware, bundle-organized, machine-readable meta-model embedded in human-readable project materials**.
+AISMM (AI-driven Software Meta-Model) is a **layer-aware, bundle-organized, directory-structured, machine-readable meta-model embedded in human-readable project materials**.
 
 AISMM is designed for enterprise-grade, AI-native and agent-assisted software development operating in large-context environments.
 
 The core principle:
 
-> AISMM is not file-based.  
-> AISMM is **block-based** and extracted from arbitrary files.
+> Product AISMM repositories are **bundle-organized and layer-directory-based**.  
+> Artifact files inside those layer directories remain **AISMM block-compatible**.
 
-Files, folders, repositories and preferred formats are containers and representations. The real model is formed by AISMM blocks, their metadata, entities, references and the graph built from them.
+Folders, repositories, artifact files and preferred formats are containers and representations. The real model is formed by layer directories, artifact files, their metadata, entities, references and the graph built from them.
 
 ---
 
 ## 1. Core Concept
 
-### 1.1 File as Container
+### 1.1 Artifact File as Container
 
-Any file (`.md`, `.txt`, `.json`, `.yaml`, `.bpmn`, `.xml`, `.fig`, etc.) may be treated as a **container of AISMM blocks or AISMM-compatible representations**.
+Any artifact file (`.md`, `.txt`, `.json`, `.yaml`, `.bpmn`, `.xml`, `.fig`, etc.) inside a product AISMM layer directory may be treated as a **container of AISMM blocks or AISMM-compatible representations**.
 
-A Markdown file may contain one or many AISMM blocks. A structured file such as JSON, BPMN, OpenAPI, AsyncAPI, CSDL or VSS JSON may act as a preferred representation for a layer or a part of a layer.
+A Markdown artifact may contain one or many AISMM blocks. A structured file such as JSON, BPMN, OpenAPI, AsyncAPI, CSDL or VSS JSON may act as a preferred representation for an artifact or a part of a layer.
 
-AISMM therefore does not depend on one fixed file layout. The same product model may be distributed across:
+AISMM therefore standardizes the directory layout of the product model while still allowing flexible artifact formats inside each layer directory. The same product model may be distributed across:
 
 - one repository
 - multiple repositories
-- module-local `.smm` folders
-- root-level `.smm` folders
+- module-local `aismm/` folders
+- root-level `aismm/` folders
 - external schema or diagram files
 - generated indexes and graph artifacts
 
@@ -663,35 +663,54 @@ Preferred representation is defined inside each layer specification, not in a se
 
 ## 15. Folder Structure
 
-AISMM does NOT depend on folder structure, but it supports a recommended repository layout.
+AISMM product repositories depend on a canonical folder structure.
 
 ### 15.1 Root Structure
 
 ```text
 repo/
-  README.md
-  aismm-structure.md
-  aismm-security.md
-  aismm-unified-id-strategy.md
-
-  b0-product-core/
+  00-meta/
+    software-meta-model-main/
+    software-meta-model-template-main/
+  00-policies/                      # v3: product operating model (normative)
     README.md
-    b0.schema.json
-    001-product-definition-context.md
-    002-aeilus-value-streams.md
-    ...
-
-  b1-business-dynamics/
-    README.md
-    b1.schema.json
-    ...
-
-  b9-knowledge-traceability/
-    README.md
-    b9.schema.json
-    901-knowledge-index-and-navigation.md
-    ...
+    ways-of-working/
+      policy-YYMMDDNNNNN-definition-of-done.md
+    ingestion/
+      recipe-YYMMDDNNNNN-requirements-from-gitlab-issues.md
+  aismm.registry.json
+  aismm/
+    b0-product-core/
+      001-product-definition-context/
+        context-YYMMDDNNNNN-product-scope.md
+      002-aeilus-value-streams/
+        value-YYMMDDNNNNN-main-stream.md
+    b4-product-behavior/
+      401-requirements/
+        req-YYMMDDNNNNN-user-login.md
+      402-domain-model-and-business-rules/
+        rule-YYMMDDNNNNN-pricing-policy.md
 ```
+
+---
+
+### 15.1a Product Operating Model — `00-policies/` (v3)
+
+As of v3 a product repository has a third top-level surface alongside `00-meta/` and `aismm/`:
+
+```text
+00-meta/      → how the MODEL works (meta-model canon + template)
+00-policies/  → how the PRODUCT/TEAM works (normative: rules, methods, policies, standards, recipes)
+aismm/        → the DATA (descriptive facts + projection records)
+```
+
+`00-policies/` holds **cross-cutting** normative content (`kind_class: normative`): ways of working, gating/branching policy, hypothesis-validation and retrospective methods, the owner-validation policy, and the extraction recipes referenced by ingestion bindings in `b9.907`. Standards adopted from a shared baseline are recorded here via `inherits_from`/`override`.
+
+Domain-local normative content (e.g. a security control policy near `b7.703`) MAY instead stay inside its layer directory under a `_normative/` subfolder, still tagged `kind_class: normative`.
+
+Record files in `00-policies/` follow the same naming rule as `aismm/` records, using normative record kinds (`policy`, `rule`, `proc`, `standard`, `method`, `recipe`).
+
+See [`aismm-content-classification.md`](./aismm-content-classification.md), [`aismm-standards-and-inheritance.md`](./aismm-standards-and-inheritance.md), and [`aismm-ingestion-and-source-binding.md`](./aismm-ingestion-and-source-binding.md).
 
 ---
 
@@ -700,12 +719,13 @@ repo/
 ```text
 modules/
   billing/
-    .smm/
-      README.md
-      b0-product-core/
+    aismm/
       b2-system-design/
+        201-applications-and-system-architecture/
       b4-product-behavior/
+        401-requirements/
       b8-change-execution/
+        801-work-items-and-change-requests/
 ```
 
 ---
@@ -714,28 +734,32 @@ modules/
 
 ```text
 repo/
-  README.md
   docs/
   src/
-  .smm/
-  b0-product-core/
-  b1-business-dynamics/
+  00-meta/
+  00-policies/
+  aismm/
+    b0-product-core/
+    b1-business-dynamics/
 ```
 
 ---
 
 ### 15.4 Distributed Structure
 
-Layers can be isolated into separate repositories for security, scale or ownership reasons.
+Layers can be isolated into separate repositories for security, scale or ownership reasons, but each product repository still keeps the local canon and template in `00-meta/`.
 
 ```text
 main-repo/
-  b0-product-core/
-    002-aeilus-value-streams.md
+  00-meta/
+  aismm/
+    b0-product-core/
+      002-aeilus-value-streams/
 
 secure-repo/
-  b7-quality-risk-compliance/
-    703-security-and-privacy.md
+  aismm/
+    b7-quality-risk-compliance/
+      703-security-and-privacy/
 ```
 
 Distributed structures require explicit `repo:` references.
@@ -768,33 +792,17 @@ Restricted data must never be silently inserted into AI context.
 
 ## 17. Granularity Rules
 
-AISMM supports several granularity modes:
+AISMM product repositories use the following granularity rules:
 
-### 17.1 Single File
+### 17.1 Layer Directory
 
-All blocks are kept in one file.
+Each layer is represented by a dedicated directory.
 
-Useful for:
-
-- prototypes
-- small products
-- examples
+This is the canonical representation for product AISMM repositories.
 
 ---
 
-### 17.2 Layer Files
-
-Each layer has a dedicated file.
-
-Useful for:
-
-- standard AISMM repositories
-- medium-size products
-- version control clarity
-
----
-
-### 17.3 Multi-Document Layer
+### 17.2 Multi-Document Layer
 
 One layer may be represented by multiple files.
 
@@ -804,12 +812,13 @@ Useful for:
 - large API surfaces
 - large requirement sets
 - distributed teams
+- preserving immutable records of separate changes, risks, tasks, studies and decisions
 
 ---
 
-### 17.4 Modular AISMM
+### 17.3 Modular AISMM
 
-Each module may have its own `.smm` submodel.
+Each module may have its own `aismm/` submodel.
 
 Useful for:
 
@@ -817,6 +826,16 @@ Useful for:
 - monorepos
 - product platforms
 - teams with separate ownership
+
+---
+
+### 17.4 Canonical Rule for New Work
+
+Any new activity, change, addition, research item, risk, procedure, requirement refinement or similar unit of work MUST create a new artifact file inside the relevant layer directory.
+
+Artifact file identity must be preserved after creation. The file may evolve, but its artifact ID must not be reassigned to a different semantic unit.
+
+Artifact naming and artifact-file IDs are defined in [`aismm-layer-artifact-naming.md`](./aismm-layer-artifact-naming.md).
 
 ---
 
@@ -1124,8 +1143,8 @@ model:<model_instance_id>/b4.401.requirement.user_login
 ## 27b. Empty Layers vs Missing Layers
 
 ```text
-missing layer = no layer file and not declared empty — unknown whether it exists
-empty layer   = layer file exists with completion_status: empty — intentionally not populated
+missing layer = no layer directory and not declared empty — unknown whether it exists
+empty layer   = layer directory exists with an explicit empty-layer declaration — intentionally not populated
 ```
 
 Every expected layer declared in `aismm.registry.json` must have either:
