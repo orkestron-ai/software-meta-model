@@ -20,6 +20,18 @@ Without a shared vocabulary, relationship types become inconsistent, impact anal
 
 ---
 
+## 1A. Product Model Representation
+
+In a product repository, this layer is represented by the directory `aismm/b9-knowledge-traceability/906-ontology-vocabulary-and-relationship-taxonomy/`.
+
+The questions in this specification must be answered through one or more artifact files inside that directory, not through a single layer file.
+
+Each new semantic unit for this layer must create a new artifact file whose identity is preserved after creation.
+
+Artifact naming, file IDs and preferred artifact kinds for layer `906` are governed by [`../aismm-layer-artifact-naming.md`](../aismm-layer-artifact-naming.md).
+
+---
+
 ## 2. Layer Role in AISMM
 
 This layer is the **semantic foundation** of the traceability graph. It defines what relationships mean — not just that A links to B, but what kind of link it is and what that implies.
@@ -174,6 +186,29 @@ Layer 906 is referenced by:
 
 - This layer defines vocabulary and types; it does not store actual trace links (that is 902).
 - Domain-specific ontologies may extend this vocabulary using the `x-<org>.<domain>.<term>` convention.
+
+---
+
+## 10A. v3 Relationship Additions
+
+AISMM v3 adds the following canonical typed relationships (used by the new layers `b0.007`, `b1.104`, `b8.810`, `b9.907` and the validation/standards governance):
+
+| Relationship | Domain → Range | Meaning |
+|--------------|----------------|---------|
+| `automates` | subject_domain → bounded_context/component | a real-world domain is automated by a system surface |
+| `realizes_domain` | b4.402.rule → b0.007.domain_rule | an implemented rule realizes a real-world domain rule |
+| `registered_as` | b0.007.domain_term → b9.906.term | a domain term is registered as a canonical term |
+| `evaluates` | retrospective/outcome → work_item/release/hypothesis | an evaluative record assesses another record |
+| `assesses_outcome_of` | b1.104.outcome → hypothesis/goal/initiative | an outcome record assesses the result of a bet |
+| `derived_from` | record → source/ingestion_run | a record was derived from a source or ingestion run |
+| `ingested_from` | ingestion_run → ingestion_binding | a run executed a binding |
+| `attested_by` | record → attestation | a record is attested by an owner attestation |
+| `validates` | owner → record | a source owner validates a derived record |
+| `disputes` | owner → record | a source owner disputes a derived record |
+| `inherits_from` | policy → standard | a product policy inherits a baseline standard |
+| `paired_with` | b1.104.outcome ↔ b8.810.retrospective | value verdict paired with process retrospective for one initiative |
+
+These relationships are projection edges in `902` like all others; `derived_from`/`validates`/`disputes` additionally drive the owner-validation gate (`aismm-owner-validation-and-attestation.md`).
 
 ---
 
