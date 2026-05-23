@@ -85,6 +85,28 @@ retrieval_failure → rag_evaluation → context_gap → knowledge_update → re
 
 Layers involved: b9.905, b9.904, b9.901, b10.1003
 
+### 7. Outcome / Retrospective Loop *(v3)*
+
+The evaluative loop that closes value and process back to strategy. It has **two complementary branches** that must not be merged:
+
+**7a — Outcome (value) branch:**
+
+```text
+goal_or_hypothesis → initiative → delivery → measured_outcome → validation_verdict → value_realization → next_decision → strategy_update
+```
+
+Layers involved: b1.101, b8.801, b8.804, b1.104, b0.002, b8.805, b1.102
+
+**7b — Process (approach) branch:**
+
+```text
+initiative_or_cycle → process_assessment → lessons → improvement_action → policy_or_workitem_change → improvement_verification
+```
+
+Layers involved: b8.810, b8.802, b8.801, 00-policies, b11.1103
+
+> Why split: loop 7a evaluates whether the *bet paid off* (owned by product/strategy, in `b1.104`); loop 7b evaluates whether the *way we worked was good* (owned by delivery, in `b8.810`). The same initiative is evaluated by both, linked via `paired_with`. Collapsing them into one "retrospective" produces an unactionable mixed record — see the layer specs for `b1.104` and `b8.810`.
+
 ---
 
 ## See Also

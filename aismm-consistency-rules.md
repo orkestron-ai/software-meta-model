@@ -46,6 +46,18 @@ Each concept has exactly one **source of truth** bundle. Other bundles may **pro
 | Technical cost model | b12 | b0 |
 | Traceability graph and knowledge index | b9 | all bundles (projection only) |
 | Knowledge retrieval context | b9 | AI/RAG consumers |
+| Subject/problem-domain knowledge *(v3)* | b0.007 | b2.207, b4.402, b9.906 (consumers) |
+| Outcome / value realization of bets *(v3)* | b1.104 | b0, b1.102, b8.805 |
+| Process effectiveness / retrospectives *(v3)* | b8.810 | b8.802, 00-policies, b11.1103 |
+| Ingestion bindings and runs *(v3)* | b9.907 | b9.903, b2.204/205 |
+| Product normative content (rules/methods/policies) *(v3)* | 00-policies | all bundles (constraint, not data) |
+| Subject terminology canonical registry | b9.906 | b0.007 feeds it |
+
+> **Problem-space vs solution-space (v3):** `b0.007` owns the domain *as it exists in reality*; `b2.207` owns *how the system partitions it*; `b4.402` owns *the rules we implemented*; `b9.906` owns *the canonical term registry*. These four must never be merged.
+>
+> **Outcome vs process (v3):** `b1.104` owns the *value verdict* of an initiative; `b8.810` owns the *process effectiveness* of the same initiative. `b8.807` owns *mechanical feedback signals*. Three different concepts, three owners.
+>
+> **Normative vs descriptive (v3):** `00-policies` (and tagged domain-local normative records) own rules/methods/policies; `aismm/` data layers own facts. See `aismm-content-classification.md`.
 
 ---
 

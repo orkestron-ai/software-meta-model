@@ -29,7 +29,9 @@ AISMM uses **semantic versioning**:
 MAJOR.MINOR.PATCH
 ```
 
-Current version: **AISMM 2.0.0**
+Current version: **AISMM 3.0.0**
+
+> **3.0.0 is a MAJOR release.** It adds new mandatory metadata (`kind_class`), a mandatory owner-validation gate for derived records, four new layers (`b0.007`, `b1.104`, `b8.810`, `b9.907`), and a new product-level normative surface (`00-policies`) plus a shared standards baseline (`software-meta-model-standards-main`). See `CHANGELOG.md` and `migrations/migration.aismm_v2_to_v3.json`.
 
 ### Version Change Rules
 

@@ -247,6 +247,24 @@ Each bundle contains:
 
 ---
 
+## Canonical Operating Surfaces
+
+AISMM canon defines not only **what the model contains**, but also **how work must move through the model**.
+
+The primary operating surfaces are:
+
+- `Bootstraps/` for canonical upstream/downstream passes, write maps, and agent prompts
+- `aismm-repository-workflow.md` for repository, commit, backlog, and mirror-sync discipline
+- `aismm-consistency-checks.md` for repeatable structural validation
+- `aismm-health.md` for model health expectations
+
+This means AISMM governs both:
+
+- product knowledge structure
+- change execution and repository behavior around that knowledge
+
+---
+
 ## Bundles
 
 ### b0 — Product Core
@@ -259,6 +277,7 @@ Defines the product foundation:
 - business architecture
 - critical path
 - economics model
+- subject domains and domain knowledge *(v3)*
 
 Purpose:
 
@@ -275,6 +294,7 @@ Defines how the business evolves:
 - business hypotheses
 - strategy and product management
 - business processes
+- outcomes and hypothesis validation *(v3)*
 
 Purpose:
 
@@ -413,6 +433,7 @@ Defines SDLC and product evolution:
 - feedback loops and learning cycles *(v2)*
 - CI/CD pipeline and automation *(v2)*
 - migration, backfill and long-running refactors *(v2)*
+- retrospectives and process effectiveness *(v3)*
 
 Purpose:
 
@@ -432,6 +453,7 @@ Defines how knowledge is connected and trusted:
 - context coverage and consistency
 - context retrieval and RAG
 - ontology, vocabulary and relationship taxonomy *(v2)*
+- ingestion bindings and extraction recipes *(v3)*
 
 Purpose:
 
@@ -500,13 +522,30 @@ What does the product cost to run, and where does that cost go?
 
 ---
 
-## Block-based model
+## Canonical Product Model Layout
 
-AISMM is not file-based.
+Every product AISMM repository MUST contain a `00-meta` folder with two local reference trees:
 
-AISMM is **block-based**.
+- `00-meta/software-meta-model-main` — the canon and source of truth for bundle/layer composition and the questions each layer must answer
+- `00-meta/software-meta-model-template-main` — a one-to-one structural mirror of the canon that contains formatting examples instead of canonical questions
 
-Any Markdown or structured file can contain AISMM blocks:
+The product-specific AISMM content MUST live under `aismm/`.
+
+Inside `aismm/`:
+
+- bundles remain the top-level grouping mechanism
+- each layer is represented as a directory, not as a single layer file
+- each new task, change, research item, risk, requirement, procedure or similar activity creates a new record file inside the corresponding layer directory
+
+Canonical record file naming is defined in [`aismm-layer-artifact-naming.md`](./aismm-layer-artifact-naming.md).
+
+---
+
+## Document Model
+
+AISMM product repositories are directory-based at the bundle/layer level and block-compatible at the document level.
+
+Any record file may contain AISMM blocks:
 
 ```text
 <!-- AISMM:BEGIN -->
@@ -527,7 +566,7 @@ spec_version: 1.0.0
 <!-- AISMM:END -->
 ```
 
-This means AISMM can be embedded into normal project documentation while still remaining machine-readable.
+This means AISMM can be embedded into normal project documentation while still remaining machine-readable, while the overall product model still follows a canonical folder structure.
 
 ---
 
@@ -690,6 +729,25 @@ Trace controls, risks, evidence, audits and privacy requirements.
 ### AI agents
 
 Retrieve structured context, reason over graph relationships and perform safer changes.
+
+---
+
+## AISMM v3 Additions
+
+AISMM v3 makes the model **self-governing about how it is filled and trusted**. It formalizes the rules-vs-data split, closes the value/process feedback loop, grounds the product in real-world domains, and turns agent-driven ingestion into a governed, owner-validated pipeline. Key additions:
+
+- **Content classification (`kind_class`)**: every record is `normative`, `descriptive`, or `projection` — see [`aismm-content-classification.md`](./aismm-content-classification.md)
+- **`00-policies` product operating model**: a product-level normative home (rules/methods/policies/recipes) next to `00-meta`
+- **Shared standards baseline + inheritance**: [`software-meta-model-standards-main`](../software-meta-model-standards-main/README.md) with `inherits_from`/`override` — see [`aismm-standards-and-inheritance.md`](./aismm-standards-and-inheritance.md)
+- **Four new layers**: `b0.007` Subject Domains and Domain Knowledge, `b1.104` Outcomes and Hypothesis Validation, `b8.810` Retrospectives and Process Effectiveness, `b9.907` Ingestion Bindings and Extraction Recipes
+- **Outcome/Retrospective feedback loop (loop 7)**: value verdict (`b1.104`) and process effectiveness (`b8.810`) split into two owned branches
+- **Ingestion and source binding**: owning system → MCP connector → versioned recipe → run provenance — see [`aismm-ingestion-and-source-binding.md`](./aismm-ingestion-and-source-binding.md)
+- **Owner-validation gate**: derived records carry a `derivation` block and cannot be trusted until the **source owner** validates them — see [`aismm-owner-validation-and-attestation.md`](./aismm-owner-validation-and-attestation.md)
+- **Extended relationship taxonomy** in `b9.906`: `automates`, `realizes_domain`, `registered_as`, `evaluates`, `assesses_outcome_of`, `derived_from`, `ingested_from`, `attested_by`, `validates`, `disputes`, `inherits_from`
+
+See [`CHANGELOG.md`](./CHANGELOG.md), [`MIGRATION-v2-to-v3.md`](./MIGRATION-v2-to-v3.md) and [`migrations/migration.aismm_v2_to_v3.json`](./migrations/migration.aismm_v2_to_v3.json) for migration guidance.
+
+> **Previous version (v2) for history:** the complete v2 specification snapshot is preserved in the [`v2.0.0` branch](https://github.com/orkestron-ai/software-meta-model/tree/v2.0.0). `main` carries v3.
 
 ---
 
@@ -875,7 +933,7 @@ AISMM is a **meta-model** that connects these systems into a coherent product kn
 
 AISMM uses **semantic versioning** (`MAJOR.MINOR.PATCH`).
 
-Current version: **AISMM 2.0.0**
+Current version: **AISMM 3.0.0**
 
 Repositories may declare a **conformance level** to indicate how fully they implement the meta-model:
 
