@@ -1,5 +1,33 @@
 # AI-driven Software Meta-Model (AISMM)
 
+<p align="center">
+  <a href="./LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg"></a>
+  <img alt="AISMM version 3.0.0" src="https://img.shields.io/badge/AISMM-v3.0.0-1f6feb.svg">
+  <img alt="Spec status: stable" src="https://img.shields.io/badge/status-stable-brightgreen.svg">
+  <a href="./CONTRIBUTING.md"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
+  <a href="./CODE_OF_CONDUCT.md"><img alt="Contributor Covenant 2.1" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-blueviolet.svg"></a>
+</p>
+
+<p align="center">
+  <em>A structured, Git-native, AI-ready product knowledge model for full-context software development.</em>
+</p>
+
+## Contents
+
+- [What is AISMM?](#what-is-aismm)
+- [Quick start](#quick-start)
+- [Why AISMM is needed](#why-aismm-is-needed)
+- [Core idea](#core-idea) · [What AISMM gives you](#what-aismm-gives-you)
+- [How AISMM is structured](#how-aismm-is-structured) · [Bundles (b0–b12)](#bundles)
+- [Canonical product model layout](#canonical-product-model-layout) · [Document model](#document-model)
+- [Repository-native by design](#repository-native-by-design) · [Machine-readable schemas](#machine-readable-schemas)
+- [AISMM and AI agents](#aismm-and-ai-agents) · [AISMM and RAG](#aismm-and-rag)
+- [What's new in v3](#aismm-v3-additions) · [v2 additions](#aismm-v2-additions)
+- [How AISMM relates to other approaches](#how-aismm-relates-to-other-approaches)
+- [What AISMM is not](#what-aismm-is-not) · [Versioning and conformance](#versioning-and-conformance)
+- [FAQ](#faq)
+- [Contributing & community](#contributing--community) · [License](#license)
+
 ## What is AISMM?
 
 **AISMM (AI-driven Software Meta-Model)** is a structured, machine-readable and human-readable way to describe a software product as a complete system.
@@ -37,6 +65,42 @@ It is designed to be stored in Git, reviewed like code, used by humans, and proc
 <p align="center">
   <em>AISMM connects value, system design, execution and knowledge into a unified model for AI-driven software engineering.</em>
 </p>
+
+---
+
+## Quick start
+
+AISMM is a **specification**, not a package to install. "Getting started" means
+putting a product's knowledge under the model. The fastest path:
+
+1. **Vendor the meta-model into your product repo.** Add this canon as
+   `00-meta/software-meta-model-main/` (and the template tree alongside it) so
+   your repo carries the rules it conforms to. See
+   [Canonical product model layout](#canonical-product-model-layout).
+
+2. **Create the registry.** Copy
+   [`examples/aismm.registry.example.json`](./examples/aismm.registry.example.json)
+   to `aismm.registry.json` at your repo root and fill in your `product_id` and
+   sources. Parsers and agents start from this file — see
+   [`aismm-model-registry.md`](./aismm-model-registry.md).
+
+3. **Stand up the bundle/layer folders** under `aismm/` (b0–b12). For any layer
+   you'll need but haven't filled yet, drop an **explicit empty-layer block**
+   instead of leaving it missing — copy
+   [`examples/empty-layer.example.md`](./examples/empty-layer.example.md). See
+   [Empty layers vs missing layers](#empty-layers-vs-missing-layers).
+
+4. **Write your first real layer** — a good start is `b0.001` (product
+   definition) or `b4.401` (requirements). Add the AISMM block header (see
+   [Document model](#document-model)) and link it to related entities.
+
+5. **Validate and declare a level.** Run the consistency and health checks
+   ([`aismm-consistency-checks.md`](./aismm-consistency-checks.md),
+   [`aismm-health.md`](./aismm-health.md)) and declare a
+   [conformance level](#versioning-and-conformance) — start at L1.
+
+> New to the concepts? Read [What is AISMM?](#what-is-aismm) and
+> [Core idea](#core-idea) first, then come back here.
 
 ---
 
@@ -253,10 +317,9 @@ AISMM canon defines not only **what the model contains**, but also **how work mu
 
 The primary operating surfaces are:
 
-- `Bootstraps/` for canonical upstream/downstream passes, write maps, and agent prompts
-- `aismm-repository-workflow.md` for repository, commit, backlog, and mirror-sync discipline
-- `aismm-consistency-checks.md` for repeatable structural validation
-- `aismm-health.md` for model health expectations
+- [`aismm-consistency-checks.md`](./aismm-consistency-checks.md) for repeatable structural validation
+- [`aismm-health.md`](./aismm-health.md) for model health expectations
+- [`aismm-strict-mode.md`](./aismm-strict-mode.md) for enforceable validation rules and CI enforcement
 
 This means AISMM governs both:
 
@@ -758,7 +821,7 @@ AISMM v3 makes the model **self-governing about how it is filled and trusted**. 
 
 - **Content classification (`kind_class`)**: every record is `normative`, `descriptive`, or `projection` — see [`aismm-content-classification.md`](./aismm-content-classification.md)
 - **`00-policies` product operating model**: a product-level normative home (rules/methods/policies/recipes) next to `00-meta`
-- **Shared standards baseline + inheritance**: [`software-meta-model-standards-main`](../software-meta-model-standards-main/README.md) with `inherits_from`/`override` — see [`aismm-standards-and-inheritance.md`](./aismm-standards-and-inheritance.md)
+- **Shared standards baseline + inheritance**: a shared `software-meta-model-standards-main` tree with `inherits_from`/`override` — see [`aismm-standards-and-inheritance.md`](./aismm-standards-and-inheritance.md)
 - **Four new layers**: `b0.007` Subject Domains and Domain Knowledge, `b1.104` Outcomes and Hypothesis Validation, `b8.810` Retrospectives and Process Effectiveness, `b9.907` Ingestion Bindings and Extraction Recipes
 - **Outcome/Retrospective feedback loop (loop 7)**: value verdict (`b1.104`) and process effectiveness (`b8.810`) split into two owned branches
 - **Ingestion and source binding**: owning system → MCP connector → versioned recipe → run provenance — see [`aismm-ingestion-and-source-binding.md`](./aismm-ingestion-and-source-binding.md)
@@ -869,7 +932,7 @@ Every expected layer must be represented by either real content or an explicit e
 
 ## Consistency and Source of Truth
 
-AISMM v2 defines explicit source-of-truth rules across all bundles:
+AISMM defines explicit source-of-truth rules across all bundles:
 
 - Each concept has exactly one owner bundle. Other bundles may project or reference it.
 - b9 is a graph/index/projection layer — it does not own business or system facts.
@@ -884,7 +947,7 @@ See [`aismm-consistency-rules.md`](./aismm-consistency-rules.md) for the full so
 
 Every layer in AISMM is tracked in a complete inventory:
 
-- [`aismm-layer-inventory.md`](./aismm-layer-inventory.md) — all 82 layers across b0–b12 with README/schema status
+- [`aismm-layer-inventory.md`](./aismm-layer-inventory.md) — all 86 layers across b0–b12 with README/schema status
 
 **Layer ID format:**
 - b0–b9: 3-digit IDs (e.g. `401`, `902`)
@@ -894,7 +957,7 @@ Every layer in AISMM is tracked in a complete inventory:
 
 ## Strict Mode, Semantic Diff and Health
 
-AISMM v2 adds governance tooling:
+AISMM provides governance tooling:
 
 - [`aismm-strict-mode.md`](./aismm-strict-mode.md) — Validation rules and CI enforcement
 - [`aismm-semantic-diff.md`](./aismm-semantic-diff.md) — Model-level PR review
@@ -912,7 +975,7 @@ AISMM v2 adds governance tooling:
 
 ## Feedback Loops
 
-- [`aismm-feedback-loops.md`](./aismm-feedback-loops.md) — Six canonical closed-loop learning paths (incident, metric, audit, customer, test, RAG)
+- [`aismm-feedback-loops.md`](./aismm-feedback-loops.md) — Seven canonical closed-loop learning paths (incident, metric, audit, customer, test, RAG, and the v3 outcome/retrospective loop split into value (7a) and process (7b) branches)
 
 ---
 
@@ -949,6 +1012,28 @@ AISMM is a **meta-model** that connects these systems into a coherent product kn
 
 ---
 
+## How AISMM relates to other approaches
+
+AISMM does not compete with architecture or documentation methods — it is the
+connective layer **above** them. Most existing approaches describe one facet of
+a product; AISMM links those facets into a single traceable graph and keeps a
+machine-readable contract over the whole.
+
+| Approach | What it covers | Relationship to AISMM |
+| --- | --- | --- |
+| **C4 model** | Software architecture diagrams (context → containers → components → code) | A preferred representation for parts of `b2` (system design). AISMM links those views to requirements, runtime and change. |
+| **arc42** | Architecture documentation template | Overlaps `b2`–`b3` and parts of `b6`. AISMM is broader (value → runtime → knowledge) and machine-readable, not prose-first. |
+| **ADRs** (Architecture Decision Records) | Individual decisions and their rationale | AISMM keeps decision logs in `b8` and links them to the entities they affect, so a decision is traceable to code, tests and incidents. |
+| **OpenAPI / AsyncAPI** | API and event contracts | Preferred representations for `b2.203` / `b2.206`. AISMM references them and ties endpoints to behavior, tests and consumers. |
+| **SBOM** (SPDX / CycloneDX) | Dependency and component inventory | A preferred representation for `b3.304`. AISMM connects components to risks, runtime and ownership. |
+| **TOGAF / ArchiMate** | Enterprise architecture frameworks | Heavier and organization-wide. AISMM is product-scoped, Git-native and AI-first. |
+| **RAG / vector databases** | Retrieval over chunked text | AISMM is a *source* for RAG that preserves IDs, provenance and traceability — not anonymous chunks. See [AISMM and RAG](#aismm-and-rag). |
+
+In short: where these tools answer *"what does this one slice look like?"*, AISMM
+answers *"how does every slice connect, and why?"*.
+
+---
+
 ## Versioning and Conformance
 
 AISMM uses **semantic versioning** (`MAJOR.MINOR.PATCH`).
@@ -966,6 +1051,45 @@ Repositories may declare a **conformance level** to indicate how fully they impl
 | L5 | Agent-Grade Governance | Full audit trail, agent scoping, and source provenance |
 
 See [`aismm-versioning-and-conformance.md`](./aismm-versioning-and-conformance.md) for the full versioning model, layer lifecycle statuses, migration policy, and extension namespace rules.
+
+---
+
+## FAQ
+
+**Is AISMM a tool I install?**
+No. AISMM is a specification. You adopt it by structuring a product repository
+according to the model (see [Quick start](#quick-start)). Tooling that validates
+a repo against AISMM is on the [roadmap](./ROADMAP.md).
+
+**Do I have to fill in all 86 layers?**
+No. Start small and declare the rest as explicit *empty layers* so gaps are
+visible and intentional. Conformance levels (L1–L5) let you adopt incrementally.
+
+**Does AISMM replace Jira / Confluence / Figma / Git?**
+No — it connects them. Each remains the system of record for its slice; AISMM
+references them and maintains the traceability graph across them.
+
+**How is this different from just running RAG over our docs?**
+RAG over flat chunks loses identity and provenance. AISMM keeps stable IDs,
+source references, confidence and traceability, and produces *context packages*
+that stay connected to the semantic graph. See [AISMM and RAG](#aismm-and-rag).
+
+**What changed in v3?**
+Content classification (`kind_class`), the `00-policies` operating model, a
+governed ingestion + owner-validation pipeline, four new layers, and an outcome/
+retrospective feedback loop. See [What's new in v3](#aismm-v3-additions) and
+[`CHANGELOG.md`](./CHANGELOG.md).
+
+**Where did the v2 specification go?**
+`main` carries v3. The complete v2 snapshot is preserved in the
+[`v2.0.0` branch](https://github.com/orkestron-ai/software-meta-model/tree/v2.0.0).
+
+**What license is AISMM under — can I use it commercially?**
+Apache-2.0. Yes, including commercially, with attribution (see [`NOTICE`](./NOTICE)).
+
+**How do I propose a change?**
+Open a change-request issue, then a PR once it's accepted in principle. See
+[`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`GOVERNANCE.md`](./GOVERNANCE.md).
 
 ---
 
@@ -996,26 +1120,31 @@ Its goal is to make software systems understandable, traceable, evolvable and re
 
 ---
 
-# License
+## Contributing & community
 
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+AISMM is developed in the open and welcomes well-reasoned change.
 
-Copyright (c) 2026 Victor Bolshakov
+- **Contributing:** [`CONTRIBUTING.md`](./CONTRIBUTING.md) — how to propose spec
+  bugs, change requests, and pull requests.
+- **Governance:** [`GOVERNANCE.md`](./GOVERNANCE.md) (how decisions are made) and
+  [`MAINTAINERS.md`](./MAINTAINERS.md) (who maintains AISMM).
+- **Roadmap:** [`ROADMAP.md`](./ROADMAP.md) — direction and priorities.
+- **Releases:** [`RELEASING.md`](./RELEASING.md) and [`CHANGELOG.md`](./CHANGELOG.md).
+- **Code of Conduct:** [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
+- **Security:** report privately per [`SECURITY.md`](./SECURITY.md).
+- **Questions & ideas:** open a
+  [discussion](https://github.com/orkestron-ai/software-meta-model/discussions).
 
-You are free to:
+If you cite AISMM in research or documentation, see [`CITATION.cff`](./CITATION.cff).
 
-- Share — copy and redistribute the material in any medium or format
+---
 
-- Adapt — remix, transform, and build upon the material
+## License
 
-Under the following terms:
+AISMM is distributed under the [Apache License 2.0](./LICENSE).
 
-- Attribution — You must give appropriate credit and provide a link to the original repository.
+Copyright 2026 Victor Bolshakov and AISMM contributors.
 
-- NonCommercial — You may not use the material for commercial purposes without explicit permission from the author.
-
-- ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license.
-
-Full license text:
-
-https://creativecommons.org/licenses/by-nc-sa/4.0/
+See [`NOTICE`](./NOTICE) for attribution and [`LICENSE`](./LICENSE) for the full
+license text. By contributing to AISMM you agree that your contributions will
+be licensed under Apache-2.0 — see [`CONTRIBUTING.md`](./CONTRIBUTING.md).

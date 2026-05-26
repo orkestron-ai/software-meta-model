@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or design discussion
+    url: https://github.com/orkestron-ai/software-meta-model/discussions
+    about: "Ask questions or float ideas before they become a concrete change request."
+  - name: Report a security concern (private)
+    url: https://github.com/orkestron-ai/software-meta-model/security/advisories/new
+    about: "Use private vulnerability reporting for security-relevant issues — do not open a public issue."
