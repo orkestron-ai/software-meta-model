@@ -1,0 +1,62 @@
+name: "Change request"
+description: "Propose adding, modifying, or removing layers, rules, schemas, or governance content."
+title: "[change] <short description>"
+labels: ["change-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Substantive changes go through triage before a PR is opened — see
+        [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md). Please describe the
+        problem and the proposed direction; a maintainer will respond with
+        *Accepted in principle*, *Needs discussion*, or *Out of scope*.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: "What problem does this change solve? Why is the current spec insufficient?"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: "Describe the change at a high level. Which bundles/layers/rules/schemas are affected?"
+    validations:
+      required: true
+  - type: dropdown
+    id: classification
+    attributes:
+      label: Expected change classification
+      description: "Per aismm-versioning-and-conformance.md."
+      options:
+        - "Editorial (no version impact)"
+        - "Additive (MINOR bump)"
+        - "Breaking (MAJOR bump)"
+        - "Not sure"
+    validations:
+      required: true
+  - type: input
+    id: affected
+    attributes:
+      label: Affected layers / files
+      description: "Use full layer IDs, e.g. b4.405, b10.1004."
+      placeholder: "b8.810, aismm-feedback-loops.md"
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: "Other approaches you weighed and why you discarded them."
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: "I searched existing issues and discussions for duplicates."
+          required: true
+        - label: "I understand a PR should wait until this is accepted in principle (editorial fixes excepted)."
+          required: true

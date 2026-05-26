@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use AISMM, please cite it using the metadata below."
+title: "AISMM — AI-driven Software Meta-Model"
+abstract: >-
+  AISMM (AI-driven Software Meta-Model) is a structured, machine-readable and
+  human-readable meta-model for describing a software product as a complete
+  system — connecting business value, system design, behavior, implementation,
+  runtime operations, quality/risk/compliance, change execution and knowledge
+  traceability for full-context, AI-driven software engineering.
+type: software
+authors:
+  - family-names: Bolshakov
+    given-names: Victor
+    affiliation: "orkestron.ai"
+version: "3.0.0"
+date-released: "2026-05-26"
+license: Apache-2.0
+repository-code: "https://github.com/orkestron-ai/software-meta-model"
+url: "https://orkestron.ai"
+keywords:
+  - software-meta-model
+  - meta-model
+  - software-architecture
+  - knowledge-graph
+  - traceability
+  - retrieval-augmented-generation
+  - ai-agents
+  - full-context-development

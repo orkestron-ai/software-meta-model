@@ -1,0 +1,54 @@
+name: "Bug in spec"
+description: "Report a typo, broken cross-reference, contradiction, or other defect in the AISMM specification."
+title: "[spec bug] <short description>"
+labels: ["bug", "spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep AISMM consistent. Use this for **defects in the
+        spec text or artifacts** — typos, broken links, contradictions between
+        documents, schema/spec drift. For proposing new or changed behavior,
+        use the **Change request** template instead.
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: "Which file(s), section(s), or layer ID(s)? e.g. README.md §Bundles, or b4.405"
+      placeholder: "aismm-feedback-loops.md / b4.405"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: "Describe the defect. Quote the exact text if helpful."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What it should say instead
+      description: "Suggested correction, if you have one."
+    validations:
+      required: false
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of defect
+      options:
+        - "Typo / formatting"
+        - "Broken cross-reference / dead link"
+        - "Contradiction between documents"
+        - "Schema/spec drift"
+        - "Other"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: AISMM version
+      description: "Which version/branch? e.g. 3.0.0, main"
+      placeholder: "3.0.0"
+    validations:
+      required: false
