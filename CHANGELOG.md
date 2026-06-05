@@ -7,6 +7,27 @@ AISMM uses [Semantic Versioning](./aismm-versioning-and-conformance.md).
 
 ---
 
+## Unreleased
+
+### Added
+
+- `Bootstraps/README.md` — canonical bootstrap family overview and operating discipline
+- `Bootstraps/reference_aismm_bootstrap_layer_write_map_2026-05-19.md` — canonical write map for upstream/downstream bootstrap steps
+- `Bootstraps/reference_aismm_upstream_bootstrap_2026-05-19.md` — deterministic upstream bootstrap pass
+- `Bootstraps/reference_aismm_downstream_bootstrap_2026-05-19.md` — deterministic downstream bootstrap pass
+- `Bootstraps/reference_aismm_agent_bootstrap_prompts_2026-05-19.md` — short canonical prompts for bootstrap execution
+- `aismm-repository-workflow.md` — repository discipline for canon, template, product-model, and bootstrap work
+- `operational-guides/reference_aismm_upstream_techprocess_2026-05-19.md` — human-readable upstream execution guide
+- `operational-guides/reference_aismm_downstream_techprocess_2026-05-19.md` — human-readable downstream execution guide
+- `operational-guides/reference_aismm_process_regulations_product_model_2026-05-19.md` — operator-facing process regulations for product-model work
+- `operational-guides/reference_aismm_operational_rules_fill_change_analysis_2026-05-19.md` — operating rules for structured change analysis and fill discipline
+- `operational-guides/reference_aismm_rulebook_2026-05-19.md` — consolidated operator rulebook for AISMM execution
+
+### Changed
+
+- Canon governance now includes explicit bootstrap execution surfaces and repository workflow rules, rather than leaving agent/human execution discipline implicit.
+- Product-repository guidance now formalizes stage-oriented Git/PR discipline, source-of-truth routing, canon/template sync expectations, and bootstrap-aware validation hooks.
+
 ## AISMM 3.0.0 — Content Classification, Outcomes, Domain Knowledge, Governed Ingestion and Owner Validation
 
 MAJOR release. Driven by product-model field experience (DatsTech.TV) and six analyst conclusions.
