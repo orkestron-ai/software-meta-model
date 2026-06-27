@@ -4,9 +4,17 @@ This roadmap describes **direction**, not commitments or dates. Priorities shift
 with feedback and field experience. Items move forward through the process in
 [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`GOVERNANCE.md`](./GOVERNANCE.md).
 
-The current released version is **AISMM 3.0.0**. See [`CHANGELOG.md`](./CHANGELOG.md)
+The current released version is **AISMM 3.1.0**. See [`CHANGELOG.md`](./CHANGELOG.md)
 for what shipped and [`MIGRATION-v2-to-v3.md`](./MIGRATION-v2-to-v3.md) for the
 upgrade path.
+
+**v3.1 shipped** the external-model binding layer
+([`aismm-external-model-binding.md`](./aismm-external-model-binding.md),
+[`aismm-connector-bindings.md`](./aismm-connector-bindings.md)) and Meta-Universe
+stack alignment ([`aismm-meta-universe-alignment.md`](./aismm-meta-universe-alignment.md)).
+Near-term follow-on: a reference resolver for `external_binding` (validate
+`namespace`/`version`, detect drift) and tooling to emit MUIF projections of bound
+entities.
 
 ## Near term (v3.x)
 

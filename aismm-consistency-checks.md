@@ -98,6 +98,19 @@ See also:
 | `check_spec_version_present` | Every block must declare a `spec_version` | error |
 | `check_status_value` | Status must be one of the canonical lifecycle values | warning |
 
+### 6. External Binding Checks
+
+Validate bindings to external standards (see [`aismm-external-model-binding.md`](./aismm-external-model-binding.md)). These apply only where an `external_binding` is present; binding is optional at L1–L3 and recommended at L4+.
+
+| Check | Description | Severity |
+|-------|-------------|----------|
+| `check_binding_link_type` | `external_binding.link_type` ∈ {embed, reference, mixin, extend, align, annotate} and is consistent with `composition_kind` | error |
+| `check_binding_version_pinned` | Every `external_binding` declares a pinned `version` | error |
+| `check_code_binding_namespace` | A `code` binding declares a `namespace` (scheme URI) so drift is detectable | error |
+| `check_no_value_object_fork` | A flat-field cluster reproducing a known value-object connector (address parts, amount+currency, value+unit) should bind instead of flattening | warning |
+| `check_entity_snapshot_marked` | An embedded copy of an `entity` is marked as a snapshot with its source identifier | warning |
+| `check_binding_drift` | An `external_binding.version` older than the upstream standard is reported | info |
+
 ---
 
 ## Pseudo-Code for Key Checks

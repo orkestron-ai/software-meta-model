@@ -1,0 +1,32 @@
+{
+  "migration_id": "migration.aismm_v3_0_to_v3_1.external_model_binding",
+  "from_version": "3.0.0",
+  "to_version": "3.1.0",
+  "change_type": "schema_additive",
+  "affected_layers": ["*"],
+  "description": "Adds optional external-model binding: the `external_binding` block and `composition_kind` field on any entity or field, the connector bindings catalogue, and Meta-Universe stack alignment. Fully additive.",
+  "migration_steps": [
+    {
+      "step": 1,
+      "action": "No action required. Existing 3.0.0 documents remain valid at every conformance level.",
+      "required": false
+    },
+    {
+      "step": 2,
+      "action": "For value-objects, code lists and identifiers that recur in your model (address, money, units, currency, country, organization, provenance), add an `external_binding` block per aismm-external-model-binding.md and aismm-connector-bindings.md instead of flat fields.",
+      "required": false
+    },
+    {
+      "step": 3,
+      "action": "At L4+, ensure bound fields declare `composition_kind`, `link_type`, a pinned `version`, and (for code/reference bindings) a `namespace`.",
+      "required": false
+    },
+    {
+      "step": 4,
+      "action": "At L5 with federation in scope, attach a `semantic_package`, optionally a Semantic Fingerprint, and publish Semantic Mappings for key shared entities in b9.906.",
+      "required": false
+    }
+  ],
+  "backward_compatible": true,
+  "notes": "external_binding and composition_kind are optional. Binding is recommended at L4+ but never mandatory. No fields renamed or removed."
+}

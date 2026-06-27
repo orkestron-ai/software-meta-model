@@ -7,6 +7,33 @@ AISMM uses [Semantic Versioning](./aismm-versioning-and-conformance.md).
 
 ---
 
+## AISMM 3.1.0 — External Model Binding and Meta-Universe Stack Alignment
+
+*Released 2026-06-27.* MINOR release. Fully additive — every 3.0.0 document remains valid and unchanged in meaning. Driven by the Meta-Universe v2 composition layer (External Models Registry + Connector Catalogue), so AISMM binds to external standards instead of re-inventing their fields.
+
+### Added
+
+- `aismm-external-model-binding.md` — first-class external-standard binding: the concept-kind rubric (`attribute`/`value_object`/`entity`/`code`/`facet`), six link types (`embed`/`reference`/`mixin`/`extend`/`align`/`annotate`), the `external_binding` block, Semantic Package imports, optional Semantic Fingerprint, and validation/conformance rules (optional L1–L3, recommended L4+)
+- `aismm-connector-bindings.md` — recommended AISMM-field → external-standard bindings per bundle (Address→xAL, currency→ISO 4217, units→UCUM, org→LEI, provenance→PROV, …)
+- `aismm-external-bindings.json` — machine-readable connector bindings catalogue
+- `aismm-external-binding.schema.json` — JSON Schema for the `external_binding` object
+- `aismm-meta-universe-alignment.md` — positions AISMM in the Meta-Universe stack (under PLMM/ELMM), maps home-grown mechanisms (identity, temporal validity, provenance, security, registry) to their Meta-Universe v2 equivalents, adopts the Semantic Fingerprint alongside semantic diff, and defines federation projections
+- `migrations/migration.aismm_v3_0_to_v3_1.external_model_binding.json` — migration record
+
+### Changed
+
+- `aismm-structure.md` — new optional block fields `composition_kind` and `external_binding`; new §1.2a positioning in the Meta-Universe stack; AIPLMM↔PLMM naming note; corrected stale "Current version" (was 2.0.0) to 3.1.0
+- `aismm-consistency-checks.md` — new check category 6, External Binding Checks
+- `aismm-standards-and-inheritance.md` — scope note distinguishing internal policy baselines from external semantic-standard binding
+- `aismm-versioning-and-conformance.md` — version 3.1.0; corrected stale 2.0.0 stamps; 3.x compatibility statement
+- `README.md`, `ROADMAP.md`, `CITATION.cff` — version bump and v3.1 additions
+
+### Compatibility
+
+Fully additive. `external_binding` and `composition_kind` are optional metadata; existing blocks without them remain valid at every conformance level. Binding is recommended at L4+ but never mandatory.
+
+---
+
 ## AISMM 3.0.0 — Content Classification, Outcomes, Domain Knowledge, Governed Ingestion and Owner Validation
 
 MAJOR release. Driven by product-model field experience (DatsTech.TV) and six analyst conclusions.

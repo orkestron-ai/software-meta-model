@@ -12,8 +12,8 @@ authors:
   - family-names: Bolshakov
     given-names: Victor
     affiliation: "orkestron.ai"
-version: "3.0.0"
-date-released: "2026-05-26"
+version: "3.1.0"
+date-released: "2026-06-27"
 license: Apache-2.0
 repository-code: "https://github.com/orkestron-ai/software-meta-model"
 url: "https://orkestron.ai"

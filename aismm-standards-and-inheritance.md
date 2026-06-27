@@ -16,6 +16,8 @@ aismm_meta:
 
 The `00-policies` content of many products is **largely the same** (Definition of Done, branching policy, validation gates, ingestion policy, security baselines). V3 formalizes a **shared standards baseline** that products **inherit and specialize**, so each product's `00-policies` stays small and only records its *deviations*.
 
+> **Scope.** This document governs **internal policy/operating-model baselines** (how the team works). Binding AISMM data to **external semantic and data standards** (ISO 4217, OASIS xAL, UCUM, W3C PROV, LEI, …) is a separate, complementary mechanism — see [`aismm-external-model-binding.md`](./aismm-external-model-binding.md) and the recommended bindings in [`aismm-connector-bindings.md`](./aismm-connector-bindings.md) *(v3.1)*.
+
 This answers the analyst conclusion *"a separate layer will propose standards for filling layer 00, because it will be similar across products."*
 
 ---

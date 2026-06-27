@@ -57,6 +57,19 @@ AIPLMM may describe:
 
 AISMM remains the product-level source of structured context. AIPLMM connects multiple AISMMs into a product landscape graph.
 
+> **Naming:** the landscape layer is published as **PLMM (Product Landscape Meta-Model)**; **AIPLMM** and **PLMM** denote the same layer.
+
+### 1.2a AISMM in the Meta-Universe stack
+
+AISMM is one meta-model in a federation. Above it sit **PLMM** (product landscape)
+and **ELMM** (enterprise landscape); beneath it sits the **Meta-Universe** standard
+family (MUC · MMAS · MUFP) and its **External Models Registry**, from which AISMM
+binds external standards (ISO codes, addresses, units, identifiers, provenance)
+instead of re-inventing them. AISMM stays a standalone specification; the alignment
+is what makes an AISMM model federatable. See
+[`aismm-meta-universe-alignment.md`](./aismm-meta-universe-alignment.md) and
+[`aismm-external-model-binding.md`](./aismm-external-model-binding.md).
+
 ---
 
 ### 1.3 AISMM Block
@@ -197,6 +210,8 @@ Optional fields MAY include:
 - `confidence`
 - `source`
 - `security_classification`
+- `composition_kind` *(v3.1 — `attribute`/`value_object`/`entity`/`code`/`facet`; see [`aismm-external-model-binding.md`](./aismm-external-model-binding.md))*
+- `external_binding` *(v3.1 — binding to an external standard; see [`aismm-external-model-binding.md`](./aismm-external-model-binding.md))*
 
 ---
 
@@ -1044,7 +1059,7 @@ The graph enables:
 
 AISMM is versioned using **semantic versioning** (`MAJOR.MINOR.PATCH`).
 
-Current version: **AISMM 2.0.0**
+Current version: **AISMM 3.1.0**
 
 ### Layer Lifecycle
 

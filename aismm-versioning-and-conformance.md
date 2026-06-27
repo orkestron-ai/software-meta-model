@@ -4,10 +4,10 @@
 aismm_meta:
   document_type: governance
   document_id: aismm.versioning-and-conformance
-  spec_version: 2.0.0
+  spec_version: 3.1.0
   status: accepted
   created: "2025-01-01"
-  updated: "2025-01-01"
+  updated: "2026-06-27"
   authors: ["AISMM Governance"]
 ```
 
@@ -29,9 +29,9 @@ AISMM uses **semantic versioning**:
 MAJOR.MINOR.PATCH
 ```
 
-Current version: **AISMM 3.0.0**
+Current version: **AISMM 3.1.0**
 
-> **3.0.0 is a MAJOR release.** It adds new mandatory metadata (`kind_class`), a mandatory owner-validation gate for derived records, four new layers (`b0.007`, `b1.104`, `b8.810`, `b9.907`), and a new product-level normative surface (`00-policies`) plus a shared standards baseline (`software-meta-model-standards-main`). See `CHANGELOG.md` and `migrations/migration.aismm_v2_to_v3.json`.
+> **3.1.0 is a MINOR (additive) release.** It adds external-model binding (`external_binding`, `composition_kind`), a connector bindings catalogue, and Meta-Universe stack alignment — all **optional** (recommended at L4+). No existing document changes meaning. The prior **3.0.0** MAJOR release added `kind_class`, the mandatory owner-validation gate, four layers (`b0.007`, `b1.104`, `b8.810`, `b9.907`) and the `00-policies` surface. See `CHANGELOG.md` and `migrations/`.
 
 ### Version Change Rules
 
@@ -46,12 +46,12 @@ Current version: **AISMM 3.0.0**
 Every AISMM-compliant repository should declare the AISMM version it targets in a root-level file or README:
 
 ```yaml
-aismm_version: "2.0.0"
+aismm_version: "3.1.0"
 ```
 
 ### Version Compatibility
 
-- Consumers targeting AISMM `2.x.x` must accept all `2.MINOR.x` documents.
+- Consumers targeting AISMM `3.x.x` must accept all `3.MINOR.x` documents.
 - Breaking changes only occur on MAJOR increments.
 - Tooling must ignore unknown optional fields to remain forward-compatible.
 
@@ -264,7 +264,7 @@ AISMM defines five conformance levels. Each level builds on the previous one.
 A repository may declare its conformance level in its root README or in a `aismm-manifest.yaml`:
 
 ```yaml
-aismm_version: "2.0.0"
+aismm_version: "3.1.0"
 conformance_level: L3
 bundles:
   - b0-product-core
@@ -286,7 +286,7 @@ bundles:
 | Topic | Definition |
 |-------|-----------|
 | Versioning | Semantic versioning (MAJOR.MINOR.PATCH) |
-| Current AISMM version | 2.0.0 |
+| Current AISMM version | 3.1.0 |
 | Layer statuses | draft → proposed → accepted → stable → deprecated → superseded → archived |
 | Migration records | JSON documents in `migrations/` directory |
 | Extension namespace | `x-<org>.<domain>.<entity>` |

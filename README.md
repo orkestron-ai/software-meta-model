@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/License-Apache_2.0-blue.svg"></a>
-  <img alt="AISMM version 3.0.0" src="https://img.shields.io/badge/AISMM-v3.0.0-1f6feb.svg">
+  <img alt="AISMM version 3.1.0" src="https://img.shields.io/badge/AISMM-v3.1.0-1f6feb.svg">
   <img alt="Spec status: stable" src="https://img.shields.io/badge/status-stable-brightgreen.svg">
   <a href="./CONTRIBUTING.md"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
   <a href="./CODE_OF_CONDUCT.md"><img alt="Contributor Covenant 2.1" src="https://img.shields.io/badge/Contributor%20Covenant-2.1-blueviolet.svg"></a>
@@ -22,7 +22,7 @@
 - [Canonical product model layout](#canonical-product-model-layout) · [Document model](#document-model)
 - [Repository-native by design](#repository-native-by-design) · [Machine-readable schemas](#machine-readable-schemas)
 - [AISMM and AI agents](#aismm-and-ai-agents) · [AISMM and RAG](#aismm-and-rag)
-- [What's new in v3](#aismm-v3-additions) · [v2 additions](#aismm-v2-additions)
+- [What's new in v3.1](#aismm-v31-additions) · [v3 additions](#aismm-v3-additions) · [v2 additions](#aismm-v2-additions)
 - [How AISMM relates to other approaches](#how-aismm-relates-to-other-approaches)
 - [What AISMM is not](#what-aismm-is-not) · [Versioning and conformance](#versioning-and-conformance)
 - [FAQ](#faq)
@@ -815,6 +815,38 @@ Retrieve structured context, reason over graph relationships and perform safer c
 
 ---
 
+## AISMM v3.1 Additions
+
+AISMM v3.1 connects the model to the **Meta-Universe** federation stack and lets
+AISMM **bind to external standards instead of re-inventing them**. It is fully
+additive — no existing document changes meaning. Key additions:
+
+- **External model binding** — a first-class `external_binding` mechanism (embed /
+  reference / mixin / extend / align / annotate) with a concept-kind rubric
+  (`attribute` / `value_object` / `entity` / `code` / `facet`), so AISMM stops
+  forking addresses, money, units, codes and identifiers. See
+  [`aismm-external-model-binding.md`](./aismm-external-model-binding.md).
+- **Connector bindings catalogue** — recommended AISMM-field → external-standard
+  bindings per bundle, with machine-readable
+  [`aismm-external-bindings.json`](./aismm-external-bindings.json) and
+  [`aismm-external-binding.schema.json`](./aismm-external-binding.schema.json). See
+  [`aismm-connector-bindings.md`](./aismm-connector-bindings.md).
+- **Meta-Universe stack alignment** — AISMM positioned under PLMM/ELMM on the
+  Meta-Universe substrate; home-grown mechanisms (identity, temporal validity,
+  provenance, security, registry) mapped to their Meta-Universe equivalents; the
+  **Semantic Fingerprint** adopted alongside semantic diff. See
+  [`aismm-meta-universe-alignment.md`](./aismm-meta-universe-alignment.md).
+- **External-binding consistency checks** in
+  [`aismm-consistency-checks.md`](./aismm-consistency-checks.md); two new optional
+  block fields `composition_kind` and `external_binding`.
+
+All v3.1 additions are **optional at L1–L3 and recommended at L4+** — binding never
+becomes mandatory.
+
+See [`CHANGELOG.md`](./CHANGELOG.md) for the full list.
+
+---
+
 ## AISMM v3 Additions
 
 AISMM v3 makes the model **self-governing about how it is filled and trusted**. It formalizes the rules-vs-data split, closes the value/process feedback loop, grounds the product in real-world domains, and turns agent-driven ingestion into a governed, owner-validated pipeline. Key additions:
@@ -1038,7 +1070,7 @@ answers *"how does every slice connect, and why?"*.
 
 AISMM uses **semantic versioning** (`MAJOR.MINOR.PATCH`).
 
-Current version: **AISMM 3.0.0**
+Current version: **AISMM 3.1.0**
 
 Repositories may declare a **conformance level** to indicate how fully they implement the meta-model:
 

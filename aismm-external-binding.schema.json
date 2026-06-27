@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/orkestron-ai/software-meta-model/aismm-external-binding.schema.json",
+  "title": "AISMM External Binding",
+  "description": "Optional metadata object declaring that an AISMM entity or field binds to an external standard from the Meta-Universe External Models Registry. See aismm-external-model-binding.md.",
+  "type": "object",
+  "required": ["target", "composition_kind", "link_type", "standard_id", "version"],
+  "additionalProperties": true,
+  "properties": {
+    "target": {
+      "type": "string",
+      "description": "What is bound: an AISMM entity ID or a field path (e.g. b2.202.data_entity.customer.address)."
+    },
+    "composition_kind": {
+      "type": "string",
+      "enum": ["attribute", "value_object", "entity", "code", "facet"],
+      "description": "The concept-kind from the rubric (aismm-external-model-binding.md §2)."
+    },
+    "link_type": {
+      "type": "string",
+      "enum": ["embed", "reference", "mixin", "extend", "align", "annotate"],
+      "description": "The composition mechanism (§3)."
+    },
+    "standard_id": {
+      "type": "string",
+      "description": "The external standard name or acronym as catalogued in the registry."
+    },
+    "connector": {
+      "type": "string",
+      "description": "Optional curated connector name from the Meta-Universe Connector Catalogue (MU-V2-ECO-009)."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Canonical URI prefix or identifier scheme. Required for `reference` bindings to code/identifier schemes so drift is detectable."
+    },
+    "version": {
+      "type": "string",
+      "description": "Pinned version of the external standard."
+    },
+    "semantic_package": {
+      "type": "string",
+      "pattern": "^.+@.+$",
+      "description": "The Semantic Package <name>@<version> this import belongs to (Extension-Model)."
+    },
+    "fingerprint": {
+      "type": "string",
+      "description": "Optional Meta-Universe Semantic Fingerprint of the imported shape (e.g. sha256:...)."
+    },
+    "registry_ref": {
+      "type": "string",
+      "description": "Optional pointer into the registry (e.g. ECO-008 row / external-models.csv name)."
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "composition_kind": { "const": "value_object" } } },
+      "then": { "properties": { "link_type": { "const": "embed" } } }
+    },
+    {
+      "if": { "properties": { "composition_kind": { "const": "facet" } } },
+      "then": { "properties": { "link_type": { "const": "mixin" } } }
+    },
+    {
+      "if": { "properties": { "composition_kind": { "const": "code" } } },
+      "then": { "required": ["namespace"] }
+    }
+  ]
+}

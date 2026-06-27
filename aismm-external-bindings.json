@@ -1,0 +1,51 @@
+{
+  "schema": "aismm-external-binding.schema.json",
+  "document_id": "aismm.external-bindings",
+  "spec_version": "3.1.0",
+  "description": "Recommended AISMM concept -> external standard bindings (Meta-Universe Connector Catalogue MU-V2-ECO-009). Recommendations, not requirements; link_type is the default and may differ in justified contexts. See aismm-connector-bindings.md.",
+  "source_registry": "Meta-Universe External Models Registry (MU-V2-ECO-008)",
+  "bindings": [
+    { "concept": "Postal address", "connector": "Postal Address", "standard_id": "OASIS CIQ xAL; schema:PostalAddress", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b2.202", "b0.003", "b11.1105"] },
+    { "concept": "Person name", "connector": "Personal Name", "standard_id": "OASIS CIQ xNL; schema name parts", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b0.003", "b11.1101"] },
+    { "concept": "Monetary amount", "connector": "Monetary Amount", "standard_id": "schema:MonetaryAmount; ISO 20022 amount", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b0.006", "b12.1201", "b12.1205"] },
+    { "concept": "Quantity / measure", "connector": "Quantity / Measure", "standard_id": "QUDT QuantityValue; schema:QuantitativeValue", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b6.602", "b10.1008", "b12.1203"] },
+    { "concept": "Geographic point / geometry", "connector": "Geographic Point", "standard_id": "GeoJSON; ISO 6709", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b6.601", "b0.003"] },
+    { "concept": "Temporal interval", "connector": "Temporal Interval / Instant", "standard_id": "OWL-Time; ISO 8601 interval", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b4.405", "b8.804"] },
+    { "concept": "Contact point", "connector": "Contact Point", "standard_id": "vCard; schema:ContactPoint", "composition_kind": "value_object", "link_type": "embed", "aismm_home": ["b0.003", "b11.1105"] },
+
+    { "concept": "Currency", "connector": "Currency", "standard_id": "ISO 4217", "composition_kind": "code", "link_type": "reference", "namespace": "iso4217", "aismm_home": ["b0.006", "b12"] },
+    { "concept": "Country / region", "connector": "Country", "standard_id": "ISO 3166", "composition_kind": "code", "link_type": "reference", "namespace": "iso3166", "aismm_home": ["b0.003", "b7.704", "b12"] },
+    { "concept": "Language", "connector": "Language", "standard_id": "ISO 639; BCP 47", "composition_kind": "code", "link_type": "reference", "namespace": "bcp47", "aismm_home": ["b5.505"] },
+    { "concept": "Unit of measure", "connector": "Units of Measure", "standard_id": "UCUM; UN/CEFACT Rec 20; QUDT unit", "composition_kind": "code", "link_type": "reference", "namespace": "http://unitsofmeasure.org", "aismm_home": ["b6.602", "b12.1203", "b10.1008"] },
+    { "concept": "Industry / activity", "connector": "Industry / Activity", "standard_id": "NACE; ISIC; NAICS", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b0.003", "b11.1105"] },
+    { "concept": "Occupation / skill", "connector": "Occupation / Skill", "standard_id": "ESCO; O*NET", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b11.1104"] },
+    { "concept": "Security classification", "connector": "Security / Classification Marking", "standard_id": "CVSS; data-classification labels", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b7.703", "b7.705", "b7.706"] },
+    { "concept": "Compliance control", "connector": null, "standard_id": "ISO 27001; NIST CSF; SOC 2", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b7.703", "b7.704"] },
+    { "concept": "Relationship taxonomy", "connector": "Meaning Annotation", "standard_id": "SKOS", "composition_kind": "code", "link_type": "align", "aismm_home": ["b9.906"] },
+
+    { "concept": "Legal entity", "connector": "Legal Entity", "standard_id": "ISO 17442 LEI", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b11.1102", "b11.1105", "b0.003"] },
+    { "concept": "Organization (DUNS)", "connector": "Legal Entity", "standard_id": "D-U-N-S", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b11.1105"] },
+    { "concept": "Software package / dependency", "connector": "Trade Item", "standard_id": "SPDX; CycloneDX; purl", "composition_kind": "code", "link_type": "extend", "aismm_home": ["b3.304"] },
+    { "concept": "Vulnerability", "connector": null, "standard_id": "CVE; CVSS", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b7.706"] },
+    { "concept": "Researcher / author", "connector": "Researcher / Person ID", "standard_id": "ORCID; ISO 27729 ISNI", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b9.903"] },
+    { "concept": "Digital identity", "connector": "Digital Identity", "standard_id": "W3C DID", "composition_kind": "code", "link_type": "reference", "aismm_home": ["b7.703"] },
+
+    { "concept": "Organization (entity)", "connector": "Organization", "standard_id": "schema:Organization; W3C ORG", "composition_kind": "entity", "link_type": "reference", "aismm_home": ["b11.1102", "b11.1105"] },
+    { "concept": "Person (entity)", "connector": "Person / Patient", "standard_id": "schema:Person; FOAF", "composition_kind": "entity", "link_type": "reference", "aismm_home": ["b0.003", "b11.1101"] },
+    { "concept": "Place / facility (entity)", "connector": "Place / Facility", "standard_id": "schema:Place; GeoSPARQL Feature", "composition_kind": "entity", "link_type": "reference", "aismm_home": ["b6.601"] },
+    { "concept": "Dataset / data product", "connector": null, "standard_id": "DCAT Dataset; ODCS", "composition_kind": "entity", "link_type": "reference", "aismm_home": ["b10.1001"] },
+
+    { "concept": "Provenance", "connector": "Provenance", "standard_id": "W3C PROV-O", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["b9.903"] },
+    { "concept": "Data lineage", "connector": "Provenance", "standard_id": "PROV-O; OpenLineage", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["b10.1002"] },
+    { "concept": "Valid-time", "connector": "Valid-time / Temporal validity", "standard_id": "OWL-Time; MU Lifecycle", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["*"] },
+    { "concept": "Usage / access policy", "connector": "Usage / Access Policy", "standard_id": "W3C ODRL", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["b4.403", "00-policies"] },
+    { "concept": "Security / classification marking", "connector": "Security / Classification Marking", "standard_id": "data-classification labels", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["*"] },
+    { "concept": "Multilingual labels", "connector": "Multilingual Labels", "standard_id": "SKOS-XL; RDF langString", "composition_kind": "facet", "link_type": "mixin", "aismm_home": ["b5.505", "b9.906"] },
+
+    { "concept": "REST API contract", "connector": null, "standard_id": "OpenAPI", "composition_kind": "code", "link_type": "extend", "aismm_home": ["b2.203"] },
+    { "concept": "Event/API contract", "connector": null, "standard_id": "AsyncAPI", "composition_kind": "code", "link_type": "extend", "aismm_home": ["b2.206"] },
+    { "concept": "Data schema", "connector": null, "standard_id": "JSON Schema; XSD; SHACL", "composition_kind": "code", "link_type": "extend", "aismm_home": ["b2.202"] },
+    { "concept": "Business process", "connector": null, "standard_id": "BPMN", "composition_kind": "code", "link_type": "extend", "aismm_home": ["b1.103"] },
+    { "concept": "Upper ontology", "connector": "Top-Level Ontology", "standard_id": "BFO; Common Logic", "composition_kind": "code", "link_type": "align", "aismm_home": ["b9.906"] }
+  ]
+}
