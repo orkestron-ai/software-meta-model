@@ -1,5 +1,17 @@
 # AISMM Security Specification
 
+```yaml
+aismm_meta:
+  document_type: governance
+  document_id: aismm.security
+  spec_version: 2.0.0
+  status: accepted
+  created: "2025-01-01"
+  updated: "2026-07-01"
+```
+
+---
+
 ## 1. Overview
 
 This document defines the **security model for AISMM (AI-driven Software Meta-Model)**.

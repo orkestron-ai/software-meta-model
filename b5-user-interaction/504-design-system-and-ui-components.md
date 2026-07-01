@@ -63,3 +63,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 504 (Design System and UI Components) extends the AISMM model with design system and ui components, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

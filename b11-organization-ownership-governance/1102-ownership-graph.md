@@ -52,3 +52,5 @@ team → owns → agent_contract_reference (b11 reference)
 - b2.201 — components
 - b10.1001 — data products
 - b6.603 — incident accountability
+
+<!-- AISMM:END -->

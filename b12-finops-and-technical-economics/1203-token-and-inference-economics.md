@@ -38,3 +38,5 @@ agent_execution_cost.*
 ## 4. Summary
 
 Layer 1203 provides structured modeling of token and inference economics for AI-native systems in AISMM.
+
+<!-- AISMM:END -->

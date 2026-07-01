@@ -38,3 +38,5 @@ margin_signal.*
 ## 4. Summary
 
 Layer 1205 provides structured modeling of unit economics by service, tenant and request for AI-native systems in AISMM.
+
+<!-- AISMM:END -->

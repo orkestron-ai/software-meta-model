@@ -42,3 +42,5 @@ skill_gap:
   skill: skill entity_id
   severity: critical | high | medium | low
   resolution_plan: string or null
+
+<!-- AISMM:END -->

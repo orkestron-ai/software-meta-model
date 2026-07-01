@@ -64,3 +64,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 606 (Disaster Recovery, Backup and Continuity) extends the AISMM model with disaster recovery, backup and continuity, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

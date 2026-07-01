@@ -185,3 +185,5 @@ A minimal pipeline record must include:
 ## 12. Summary
 
 Layer 808 makes CI/CD pipelines part of the AISMM product model. Pipelines are not external tooling — they are SDLC entities with explicit relationships to work items, artifacts, tests, and releases.
+
+<!-- AISMM:END -->

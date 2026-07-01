@@ -67,3 +67,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 206 (Event Catalog and Event Mesh) extends the AISMM model with event catalog and event mesh, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

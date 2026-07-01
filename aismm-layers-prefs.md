@@ -1,5 +1,17 @@
 # AISMM Layers Preferred Formats Specification
 
+```yaml
+aismm_meta:
+  document_type: governance
+  document_id: aismm.layers-prefs
+  spec_version: 2.0.0
+  status: accepted
+  created: "2025-01-01"
+  updated: "2026-07-01"
+```
+
+---
+
 ## Overview
 
 This document defines **preferred representation formats for AISMM layers**.

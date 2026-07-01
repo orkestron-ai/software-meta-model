@@ -65,3 +65,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 207 (Bounded Contexts and Domain Architecture) extends the AISMM model with bounded contexts and domain architecture, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

@@ -62,3 +62,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 406 (Behavioral Contracts and Invariants) extends the AISMM model with behavioral contracts and invariants, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

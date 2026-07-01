@@ -64,3 +64,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 305 (Configuration, Feature Flags and Environment Variants) extends the AISMM model with configuration, feature flags and environment variants, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

@@ -37,3 +37,5 @@ chargeback_rule.*
 ## 4. Summary
 
 Layer 1201 provides structured modeling of cost allocation and showback for AI-native systems in AISMM.
+
+<!-- AISMM:END -->
