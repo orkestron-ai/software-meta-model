@@ -42,3 +42,5 @@ allocation:
   initiative: entity_id  # b8 work item, project, or stream
   allocated_capacity: float
   period: string
+
+<!-- AISMM:END -->

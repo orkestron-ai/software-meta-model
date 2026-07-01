@@ -1,5 +1,17 @@
 # AISMM Structure Specification
 
+```yaml
+aismm_meta:
+  document_type: governance
+  document_id: aismm.structure
+  spec_version: 2.0.0
+  status: accepted
+  created: "2025-01-01"
+  updated: "2026-07-01"
+```
+
+---
+
 ## Overview
 
 AISMM (AI-driven Software Meta-Model) is a **layer-aware, bundle-organized, directory-structured, machine-readable meta-model embedded in human-readable project materials**.

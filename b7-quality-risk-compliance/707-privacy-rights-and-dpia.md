@@ -63,3 +63,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 707 (Privacy Rights and DPIA) extends the AISMM model with privacy rights and dpia, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

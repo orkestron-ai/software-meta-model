@@ -63,3 +63,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 605 (Capacity, Scaling and Performance Engineering) extends the AISMM model with capacity, scaling and performance engineering, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

@@ -37,3 +37,5 @@ capacity_forecast.*
 ## 4. Summary
 
 Layer 1202 provides structured modeling of capacity and commitment management for AI-native systems in AISMM.
+
+<!-- AISMM:END -->

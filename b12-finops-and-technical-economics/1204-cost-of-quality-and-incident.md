@@ -38,3 +38,5 @@ rework_cost.*
 ## 4. Summary
 
 Layer 1204 provides structured modeling of cost of quality and incident for AI-native systems in AISMM.
+
+<!-- AISMM:END -->

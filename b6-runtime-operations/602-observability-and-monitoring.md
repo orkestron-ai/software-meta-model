@@ -269,3 +269,5 @@ runtime anomaly → may trigger feedback loop in b8.807
 ```
 
 <!-- AISMM:END has been removed to append boundary note -->
+
+<!-- AISMM:END -->

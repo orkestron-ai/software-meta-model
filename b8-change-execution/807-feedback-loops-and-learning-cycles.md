@@ -187,3 +187,5 @@ A complete feedback loop record includes:
 ## 13. Summary
 
 Layer 807 closes the SDLC loop by making feedback and learning **first-class AISMM entities**. It enables AI agents and humans to understand not just what the system is, but how it improves over time in response to operational reality.
+
+<!-- AISMM:END -->

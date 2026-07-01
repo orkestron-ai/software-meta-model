@@ -184,3 +184,5 @@ A minimal migration plan must include:
 ## 12. Summary
 
 Layer 809 provides AISMM with first-class modeling for structural system changes that span multiple releases and require careful compatibility and cutover management. This is essential for AI-assisted impact analysis of large-scale migrations.
+
+<!-- AISMM:END -->

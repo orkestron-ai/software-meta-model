@@ -215,3 +215,5 @@ These relationships are projection edges in `902` like all others; `derived_from
 ## 11. Summary
 
 Layer 906 is the semantic backbone of the AISMM knowledge graph. By defining typed relationships and a shared vocabulary, it enables precise impact analysis, conflict detection, and reliable AI agent reasoning over the full product model.
+
+<!-- AISMM:END -->

@@ -63,3 +63,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 705 (Threat Modeling and Attack Surface) extends the AISMM model with threat modeling and attack surface, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

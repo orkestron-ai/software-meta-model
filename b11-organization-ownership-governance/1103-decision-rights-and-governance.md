@@ -48,3 +48,5 @@ approval_policy:
 - b7.704 — compliance decisions
 - b8.805 — architecture decisions
 - b9.902 — traceability of decisions
+
+<!-- AISMM:END -->

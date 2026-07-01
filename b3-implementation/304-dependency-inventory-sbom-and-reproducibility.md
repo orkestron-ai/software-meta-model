@@ -65,3 +65,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 304 (Dependency Inventory, SBOM and Reproducibility) extends the AISMM model with dependency inventory, sbom and reproducibility, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

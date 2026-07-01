@@ -63,3 +63,5 @@ Entities in this layer link to other AISMM bundles as appropriate. See the bundl
 ## 7. Summary
 
 Layer 607 (Operational Readiness and Drills) extends the AISMM model with operational readiness and drills, enabling full product knowledge coverage for AI-native systems.
+
+<!-- AISMM:END -->

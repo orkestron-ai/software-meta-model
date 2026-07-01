@@ -37,3 +37,5 @@ sustainability_policy.*
 ## 4. Summary
 
 Layer 1206 provides structured modeling of carbon and sustainability accounting for AI-native systems in AISMM.
+
+<!-- AISMM:END -->
